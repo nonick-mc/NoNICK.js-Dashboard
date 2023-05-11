@@ -1,9 +1,10 @@
 import '@/index.css';
-import { SessionProvider, useSession } from 'next-auth/react'
 
 import { M_PLUS_1p, Noto_Sans_JP } from 'next/font/google';
-import { MuiStyledEngineProvider, MuiThemeProvider, NextAuthSessionProvider } from './Provider';
-import { Session, getServerSession } from 'next-auth';
+import { HomeAppBar } from './Appbar';
+import { Suspense } from 'react';
+import Provider from './Provider';
+import Loading from './dashboard/loading';
 
 export const metadata = {
   title: "Create Next App",
@@ -18,13 +19,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="ja">
       <head/>
       <body>
-        <NextAuthSessionProvider>
-          <MuiStyledEngineProvider>
-            <MuiThemeProvider>
-              {children}
-            </MuiThemeProvider>
-          </MuiStyledEngineProvider>
-        </NextAuthSessionProvider>
+        <Provider>
+          <HomeAppBar />
+          {children}
+        </Provider>
       </body>
     </html>
   );

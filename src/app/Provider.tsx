@@ -14,19 +14,15 @@ const darkTheme = createTheme({
   },
 });
 
-export function MuiThemeProvider({ children }: Props) {
+export default function Provider({ children }: Props) {
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
+    <SessionProvider>
+      <StyledEngineProvider injectFirst>
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
+      </StyledEngineProvider>
+    </SessionProvider>
   )
-}
-
-export function MuiStyledEngineProvider({ children }: Props) {
-  return <StyledEngineProvider injectFirst>{children}</StyledEngineProvider>
-}
-
-export function NextAuthSessionProvider({ children }: Props) {
-  return <SessionProvider>{children}</SessionProvider>
 }
