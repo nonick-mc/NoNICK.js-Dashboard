@@ -2,27 +2,31 @@
 
 import { AppBar, Avatar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { signIn, signOut, useSession } from 'next-auth/react';
-import { BsDiscord } from 'react-icons/bs'
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 export function HomeAppBar() {
   const { data: session } = useSession();
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color='transparent' elevation={0}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            NoNICK.js
-          </Typography>
+    <AppBar position="sticky" color='inherit' elevation={0}>
+      <Toolbar className='px-16 py-5'>
+        <Avatar className='pointer-events-none' sx={{ width: 56, height: 56 }} src='/nonickjs.png'/>
+        <Typography
+          className='pl-3 font-mplus1p font-extrabold
+                     select-none text-inherit no-underline'
+          variant="h5"
+          noWrap
+          component="a"
+          href='/'
+          sx={{ flexGrow: 1 }}
+        >
+          NoNICK.js
+        </Typography>
 
-          {
-            !session
-              ? <Button variant='contained' startIcon={<BsDiscord/>} onClick={() => signIn('discord')}>ログイン</Button>
-              : <Avatar src={session?.user?.image || undefined}/>
-          }
-
-        </Toolbar>
-      </AppBar>
-    </Box>
+        <Button variant='outlined' startIcon={<AccountCircleRoundedIcon />} onClick={() => signIn('discord')}>
+          ログイン
+        </Button>
+      </Toolbar>
+    </AppBar>
   )
 }

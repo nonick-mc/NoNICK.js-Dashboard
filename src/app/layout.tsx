@@ -2,9 +2,7 @@ import '@/index.css';
 
 import { M_PLUS_1p, Noto_Sans_JP } from 'next/font/google';
 import { HomeAppBar } from './Appbar';
-import { Suspense } from 'react';
 import Provider from './Provider';
-import Loading from './dashboard/loading';
 
 export const metadata = {
   title: "Create Next App",

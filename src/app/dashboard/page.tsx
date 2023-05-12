@@ -22,6 +22,11 @@ export default function GuildSelect() {
         </p>
       </div>
 
+      <Loading/>
+      <Loading/>
+      <Loading/>
+      <Loading/>
+
       <Suspense fallback={<Loading/>}>
         {/* @ts-expect-error Server Component */}
         <GuildCards/>

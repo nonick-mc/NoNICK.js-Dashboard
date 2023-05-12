@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function Page() {
   return (
-    <div className='px-7'>
+    <div className='px-16'>
       <h1 className='font-mplus1p font-black'>Product Page</h1>
       <Stack direction='row' spacing={2}>
         <Link href='/dashboard' passHref>
