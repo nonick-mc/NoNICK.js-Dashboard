@@ -1,15 +1,17 @@
 import NextAuth from 'next-auth';
+import { DiscordProfile } from 'next-auth/providers/discord';
+import { Connection } from '.';
 
-declare module 'next-auth' {
+declare module "next-auth" {
   interface Session {
-    id: string,
     accessToken: string,
+    user: DiscordProfile,
   }
 }
 
-declare module 'next-auth/jwt' {
+declare module "next-auth/jwt" {
   interface JWT {
-    id: string,
     accessToken: string,
+    user: DiscordProfile,
   }
 }

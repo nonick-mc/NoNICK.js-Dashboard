@@ -1,5 +1,3 @@
-'use client';
-
 import { Card, CardContent, Grid, Skeleton, Typography } from '@mui/material';
 
 export default function Loading() {

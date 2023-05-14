@@ -6,3 +6,7 @@ export interface PartialGuild {
   permissions: string;
   features: string[];
 }
+
+export interface GuildOptions {
+  botJoined: boolean,
+}
