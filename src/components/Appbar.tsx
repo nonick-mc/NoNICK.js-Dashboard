@@ -31,12 +31,12 @@ export function HomeAppBar() {
             {(popupState) => (
               <React.Fragment>
                 <Tooltip title={`${session.user.username}#${session.user.discriminator}でログイン中`}>
-                  <IconButton {...bindTrigger(popupState)}>
+                  <IconButton {...bindTrigger(popupState)} sx={{ p: 0 }}>
                     <Avatar src={session.user.image_url}/>
                   </IconButton>
                 </Tooltip>
                 <Menu {...bindMenu(popupState)}>
-                  <MenuItem onClick={() => signOut()}>
+                  <MenuItem onClick={() => signOut({ callbackUrl: '/' })}>
                     <ListItemIcon><LogoutRoundedIcon className='fill-red-500'/></ListItemIcon>
                     <span className='text-red-500'>ログアウト</span>
                   </MenuItem>

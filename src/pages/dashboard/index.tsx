@@ -1,9 +1,20 @@
+import { GetServerSidePropsContext } from 'next';
+import { getServerSession } from 'next-auth';
+import { useState } from 'react';
+
 import { HomeAppBar } from '@/components/Appbar';
-import { useSession } from 'next-auth/react';
+import { fetchGuilds } from '@/utils/api/guild';
+import { hasPermission } from '@/utils/functions';
+import { authOptions } from '../api/auth/[...nextauth]';
+import { Discord } from '@/utils/contants';
+import { PartialGuild } from '@/types';
+import GuildCards from '@/components/dashboard/GuildCards';
 
-export default function GuildSelect() {
-  const { data: session } = useSession();
+type Props = {
+  guilds: PartialGuild[],
+}
 
+export default function GuildSelect({ guilds }: Props) {
   return (
     <>
       <HomeAppBar/>
@@ -23,6 +34,24 @@ export default function GuildSelect() {
           </p>
         </div>
       </div>
+      <GuildCards guilds={guilds}/>
     </>
   )
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const session = await getServerSession(context.req, context.res, authOptions);
+
+  if (session) {
+    const userGuilds = await fetchGuilds(session?.accessToken, 'Bearer');
+    const botGuilds = await fetchGuilds(process.env.DISCORD_CLIENT_TOKEN, 'Bot');
+
+    const adminGuilds = userGuilds
+      ?.filter(v => hasPermission(v.permissions, Discord.Permissions.ManageGuild))
+      ?.filter(userGuild => botGuilds?.some(botGuild => botGuild.id === userGuild.id))
+
+    return { props: { guilds: adminGuilds } }
+  }
+
+  return { props: { guilds: [] } }
 }

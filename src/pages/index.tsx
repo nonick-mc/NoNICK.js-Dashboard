@@ -1,11 +1,8 @@
 import { HomeAppBar } from '@/components/Appbar';
 import { Button, Stack } from '@mui/material';
-import { signIn, signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 
 export default function Page() {
-  const { data: session, status } = useSession();
-
   return (
     <>
       <HomeAppBar/>
