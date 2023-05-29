@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.markdown img {
+  @apply rounded-lg my-5
+}
+
+.markdown h1 {
+  @apply font-extrabold
+}
+
+.markdown h2 {
+  @apply font-extrabold
+}
+
+.markdown h3 {
+  @apply font-extrabold
+}

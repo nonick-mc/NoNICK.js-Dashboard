@@ -1,12 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
-  experimental: {
-    appDir: true
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.md$/,
+      use: 'raw-loader',
+    });
+    return config;
   },
-  images: {
-    domains: ['cdn.discordapp.com']
-  }
 }
 
-module.exports = nextConfig
+module.exports = nextConfig;

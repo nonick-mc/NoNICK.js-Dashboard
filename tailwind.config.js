@@ -1,24 +1,19 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  corePlugins: {
-    preflight: false,
-  },
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  // important: '#__next',
   theme: {
+    container: {
+      center: true
+    },
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-      },
       fontFamily: {
-        mplus1p: ['var(--font-mplus1p)'],
+        montserrat: ['var(--font-montserrat)'],
         notoSansJp: ['var(--font-notoSansJp)'],
+        mplus2: ['var(--font-mPlus2)'],
       }
     },
   },
