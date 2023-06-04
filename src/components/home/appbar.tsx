@@ -1,20 +1,22 @@
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from '@nextui-org/navbar';
 import { Button } from '@nextui-org/button';
-import { Tooltip } from '@nextui-org/tooltip';
+import { Popover, PopoverContent, PopoverTrigger } from '@nextui-org/popover';
 import Logo from '../logo';
 import Link from 'next/link';
 import AppBarConfig from '@/config/appbar';
+import ToggleDarkMode from '../toggleDarkMode';
+import React from 'react';
 
 export default function Appbar() {
   const isExternalLink = (href: string) => !href.startsWith('/');
 
   return (
-    <Navbar className='py-2' maxWidth='2xl' position='sticky' isBlurred>
+    <Navbar className='py-2' maxWidth='xl' position='sticky' isBlurred>
       <NavbarBrand>
         <Logo width={150} height={50}/>
       </NavbarBrand>
       <NavbarContent justify='center'>
-        {AppBarConfig.map(({ name, href }, index) => (
+        {AppBarConfig.links.map(({ name, href }, index) => (
           <NavbarItem
             className='hidden md:flex justify-start'
             as={Link}
@@ -27,14 +29,40 @@ export default function Appbar() {
           </NavbarItem>
         ))}
       </NavbarContent>
-      <NavbarContent justify='end'>
-        <Tooltip content='🔧開発中!'>
+      <NavbarContent className='gap-2' justify='end'>
+        <div className='flex items-center gap-1'>
+          {AppBarConfig.linkButtons.map(({ href, icon }, index) => (
+            <NavbarItem key={index}>
+              <Button
+                className='max-md:hidden'
+                isIconOnly
+                as={Link}
+                href={href}
+                variant='light'
+                target='_blank'
+                rel='noreferrer noopener'
+              >
+                {React.createElement(icon, { size: 20 })}
+              </Button>
+            </NavbarItem>
+          ))}
           <NavbarItem>
-            <Button as={Link} href='/dashboard' color='primary' variant='flat' isDisabled>
-              ダッシュボード
-            </Button>
+            <ToggleDarkMode />
           </NavbarItem>
-        </Tooltip>
+        </div>
+        <NavbarItem className='max-md:hidden'>
+          <Popover>
+            <PopoverTrigger>
+              <Button color='primary' variant='flat'>
+                ダッシュボード
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              現在開発中です！<br/>
+              公開までお待ち下さい🙏
+            </PopoverContent>
+          </Popover>
+        </NavbarItem>
       </NavbarContent>
     </Navbar>
   )
