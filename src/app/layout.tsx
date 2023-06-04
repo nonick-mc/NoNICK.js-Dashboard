@@ -8,22 +8,34 @@ const notoSansJp = Noto_Sans_JP({
   variable: '--font-notosansjp',
 });
 
+const siteName = 'NoNICK.js';
+const description = 'Discordサーバーの管理をサポートする多機能BOT';
+const url = 'https://nonick-js.com';
+
 export const metadata: Metadata = {
-  title: 'NoNICK.js',
-  description: 'Discordサーバーの管理をサポートする多機能BOT',
+  title: {
+    default: siteName,
+    template: `%s - ${siteName}`,
+  },
+  description,
   themeColor: '#007af8',
   openGraph: {
-    title: 'NoNICK.js',
-    description: 'Discordサーバーの管理をサポートする多機能BOT',
-    url: 'https://nonick-js.com',
-    siteName: 'NoNICK.js',
-    images: [{
-      url: '/thumbnail.png',
-      width: 1600,
-      height: 900,
-    }],
+    title: siteName,
+    description,
+    url,
+    siteName,
     locale: 'ja-JP',
     type: 'website'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteName,
+    description,
+    site: '@nonick_js',
+    creator: '@nonick_mc',
+  },
+  alternates: {
+    canonical: url,
   }
 }
 
