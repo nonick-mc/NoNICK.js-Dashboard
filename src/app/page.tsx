@@ -100,7 +100,7 @@ export default function Page() {
             ))}
           </div>
           <div className='flex flex-col lg:flex-row gap-2 my-4 p-4 md:p-8 items-center rounded-lg bg-gradient-to-r from-violet-600 to-indigo-600'>
-            <div className='flex flex-col mx-4 w-[500px] text-center'>
+            <div className='flex flex-col mx-4 lg:w-[500px] text-center'>
               <h1 className='my-5 font-extrabold text-4xl text-white'>
                 ユーザーの声
               </h1>
