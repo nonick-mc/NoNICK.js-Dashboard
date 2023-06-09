@@ -118,7 +118,7 @@ export default function Page() {
                   <p>
                     かなひろ
                     <span className='text-gray-500'>
-                      #1904
+                      @kanahiro
                     </span>
                   </p>
                 </CardHeader>
