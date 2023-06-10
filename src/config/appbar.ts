@@ -19,7 +19,7 @@ interface LinkButton {
 const AppBarConfig: AppBarConfigType = {
   links: [
     { name: 'Home', href: '/' },
-    { name: 'Docs', href: 'https://nonick-js.com' }
+    { name: 'Docs', href: 'https://docs.nonick-js.com' }
   ],
   linkButtons: [
     { label: 'Twitter', href: 'https://twitter.com/nonick_js', icon: Twitter },
