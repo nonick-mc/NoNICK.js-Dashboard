@@ -1,10 +1,10 @@
 import "@/src/styles/globals.css"
 import { Metadata } from "next"
+import { Analytics } from "@vercel/analytics/react"
 
 import { siteConfig } from "@/src/config/site"
 import { fontSans } from "@/src/lib/fonts"
 import { cn } from "@/src/lib/utils"
-import { SiteHeader } from "@/src/components/site-header"
 import { TailwindIndicator } from "@/src/components/tailwind-indicator"
 import { ThemeProvider } from "@/src/components/theme-provider"
 
@@ -20,9 +20,25 @@ export const metadata: Metadata = {
   ],
   icons: {
     icon: "/favicon.ico",
-    shortcut: "/favicon-16x16.png",
-    apple: "/apple-touch-icon.png",
   },
+  openGraph: {
+    title: siteConfig.name,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    locale: 'ja-JP',
+    type: 'website'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteConfig.name,
+    description: siteConfig.description,
+    site: '@nonick_js',
+    creator: '@nonick_mc',
+  },
+  alternates: {
+    canonical: siteConfig.url,
+  }
 }
 
 interface RootLayoutProps {
@@ -32,7 +48,7 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
-      <html lang="en" suppressHydrationWarning>
+      <html lang="ja" suppressHydrationWarning>
         <head />
         <body
           className={cn(
@@ -41,12 +57,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
           )}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <div className="relative flex min-h-screen flex-col">
-              <SiteHeader />
-              <div className="flex-1">{children}</div>
-            </div>
+            {children}
             <TailwindIndicator />
           </ThemeProvider>
+          <Analytics />
         </body>
       </html>
     </>

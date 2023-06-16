@@ -1,18 +1,22 @@
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Next.js",
-  description:
-    "Beautifully designed components built with Radix UI and Tailwind CSS.",
+  name: "NoNICK.js",
+  description: "Discordサーバーの管理をサポートする多機能BOT",
+  url: "https://nonick-js.com",
   mainNav: [
     {
       title: "Home",
       href: "/",
     },
+    {
+      title: "Docs",
+      href: "https://docs.nonick-js.com",
+    }
   ],
   links: {
-    twitter: "https://twitter.com/shadcn",
-    github: "https://github.com/shadcn/ui",
-    docs: "https://ui.shadcn.com",
+    twitter: "https://twitter.com/nonick_js",
+    github: "https://github.com/nonick-js",
+    docs: "https://docs.nonick-js.com",
   },
 }

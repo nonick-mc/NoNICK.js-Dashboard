@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 import { siteConfig } from "@/src/config/site"
-import { buttonVariants } from "@/src/components/ui/button"
+import { Button, buttonVariants } from "@/src/components/ui/button"
 import { Icons } from "@/src/components/icons"
 import { MainNav } from "@/src/components/main-nav"
 import { ThemeToggle } from "@/src/components/theme-toggle"
@@ -12,7 +12,7 @@ export function SiteHeader() {
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
         <MainNav items={siteConfig.mainNav} />
         <div className="flex flex-1 items-center justify-end space-x-4">
-          <nav className="flex items-center space-x-1">
+          <nav className="flex items-center">
             <Link
               href={siteConfig.links.github}
               target="_blank"
@@ -45,6 +45,9 @@ export function SiteHeader() {
             </Link>
             <ThemeToggle />
           </nav>
+          <Button>
+            ダッシュボード
+          </Button>
         </div>
       </div>
     </header>
