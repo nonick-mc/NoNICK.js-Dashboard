@@ -22,7 +22,7 @@ export interface homePageConfigType {
 
 const homePageConfig: homePageConfigType = {
   botInvite: 'https://discord.com/oauth2/authorize?client_id=970849754298863706&permissions=1186216467632&scope=bot%20applications.commands',
-  guildInvite: 'https://discord.gg/fVcjCNn733',
+  guildInvite: 'https://discord.gg/6YJFzppp3x',
   appeal: [
     {
       title: '無料で使用可能',
