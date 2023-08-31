@@ -6,7 +6,7 @@ import { PlusIcon } from 'lucide-react';
 
 export default function Loading() {
   return (
-    <div className='container space-y-8'>
+    <div className='container space-y-8 py-3'>
       <div className='flex items-end justify-between'>
         <div className='flex flex-col gap-1'>
           <h1 className='text-4xl font-black'>サーバー選択</h1>

@@ -19,7 +19,7 @@ export default async function Page() {
   const guilds = await getMutualGuilds();
 
   return (
-    <main className='container space-y-8'>
+    <main className='container space-y-8 py-3'>
       <GuildTable guilds={guilds}/>
     </main>
   )

@@ -12,7 +12,9 @@ export default function Nav() {
     <div className='w-full bg-background'>
       <div className='container flex h-20 items-center gap-4 sm:justify-between sm:gap-0'>
         <div className='flex items-center gap-3'>
-          <Logo width={120}/>
+          <Link href='/dashboard'>
+            <Logo width={120}/>
+          </Link>
           <Badge>Beta</Badge>
         </div>
         <div className='flex gap-3'>

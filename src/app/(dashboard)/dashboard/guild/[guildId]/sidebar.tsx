@@ -23,7 +23,7 @@ export async function Sidebar({ guildId }: { guildId: string }) {
   return (
     <ScrollArea className='w-[280px]'>
       <div className='flex flex-col gap-6 pr-4'>
-        <div className='flex gap-3 items-center'>
+        <div className='flex gap-4 items-center'>
           <Image
             className='rounded-lg'
             src={
@@ -35,7 +35,7 @@ export async function Sidebar({ guildId }: { guildId: string }) {
             height={55}
             alt={`${guild.name}'s icon`}
           />
-          <div className='flex-1 flex flex-col gap-1'>
+          <div className='flex-1'>
             <p className='font-black text-lg'>{guild.name}</p>
             <Link href='/dashboard' className='flex items-center gap-1 text-blue-500'>
               <RefreshCcw size={15}/>
@@ -64,7 +64,7 @@ export async function Sidebar({ guildId }: { guildId: string }) {
 export function SidebarSkeleton() {
   return (
     <div className='w-[280px] flex flex-col gap-6 pr-4'>
-      <div className='flex gap-3 items-center'>
+      <div className='flex gap-4 items-center'>
         <Skeleton className='w-[55px] h-[55px] rounded-lg'/>
         <div className='flex-1 flex flex-col gap-1'>
           <Skeleton className='w-full h-7'/>
