@@ -1,5 +1,5 @@
 import { Alert, AlertTitle } from '@/components/ui/alert';
-import { Header, Shell } from '../formats';
+import { Header, Shell } from '../../formats';
 import { InfoIcon } from 'lucide-react';
 import { getChannels } from '@/lib/discord';
 import { SettingForm } from './form';
