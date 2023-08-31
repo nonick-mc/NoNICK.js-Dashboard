@@ -18,9 +18,9 @@ export async function getBotGuilds() {
   return await res.json<APIGuild[]>();
 }
 
-export async function getGuild(guildId: string) {
+export async function getGuild(guildId: string, withCounts?: boolean) {
   const res = await fetch(
-    `${Discord.Endpoints.API}/guilds/${guildId}`,
+    `${Discord.Endpoints.API}/guilds/${guildId}?with_counts=${!!withCounts}`,
     { headers: { Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}` }, next: { revalidate: 5 } },
   );
   return await res.json<APIGuild>();

@@ -16,3 +16,13 @@ export async function wait(ms: number) {
 export function zeroPadding(number: number, length: number) {
 	return (Array(length).join('0') + number).slice(-length);
 }
+
+export function formatNumber(num: number): string {
+  if (num >= 1000 && num < 10000) {
+    return (num / 1000).toFixed(1) + 'k';
+  } else if (num >= 10000) {
+    return (num / 1000).toFixed(0) + 'k';
+  } else {
+    return num.toString();
+  }
+}
