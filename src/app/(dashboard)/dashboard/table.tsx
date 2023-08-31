@@ -52,7 +52,11 @@ export const GuildTable: FC<Props> = ({ guilds }) => {
                 <div className='bg-secondary flex items-center justify-center py-6'>
                   <Image
                     className='pointer-events-none rounded-full'
-                    src={`${Discord.Endpoints.CDN}/icons/${guild.id}/${guild.icon}.webp`}
+                    src={
+                      guild.icon
+                        ? `${Discord.Endpoints.CDN}/icons/${guild.id}/${guild.icon}.webp`
+                        : `${Discord.Endpoints.CDN}/embed/avatars/0.png`
+                    }
                     width={70}
                     height={70}
                     alt={`${guild.name}のサーバーアイコン`}

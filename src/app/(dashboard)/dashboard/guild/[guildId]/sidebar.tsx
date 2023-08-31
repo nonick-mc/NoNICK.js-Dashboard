@@ -26,7 +26,11 @@ export async function Sidebar({ guildId }: { guildId: string }) {
         <div className='flex gap-3 items-center'>
           <Image
             className='rounded-lg'
-            src={`${Discord.Endpoints.CDN}/icons/${guild.id}/${guild.icon}.webp`}
+            src={
+              guild.icon
+                ? `${Discord.Endpoints.CDN}/icons/${guild.id}/${guild.icon}.webp`
+                : `${Discord.Endpoints.CDN}/embed/avatars/0.png`
+            }
             width={55}
             height={55}
             alt={`${guild.name}'s icon`}
