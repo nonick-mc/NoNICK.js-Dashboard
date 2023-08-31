@@ -1,6 +1,6 @@
-import { Alert } from '@/components/marketing/alert'
+import { Alert } from '@/app/(marketing)/alert'
+import { LucideIcon } from 'lucide-react'
 import { ComponentProps } from 'react'
-import { IconType } from 'react-icons'
 
 export type NavItem = {
   title: string,
@@ -10,7 +10,7 @@ export type NavItem = {
 
 export type Link = {
   href: string,
-  icon: IconType
+  icon: LucideIcon
 }
 
 export type SiteConfig = {
@@ -26,4 +26,8 @@ export type MarketingConfig = {
   mainNav: NavItem[],
   links: Link[],
   invite: string,
+}
+
+export type DashboardConfig = {
+  sidebar: { label?: string, items: (Link & { label: string, badge?: string })[] }[]
 }

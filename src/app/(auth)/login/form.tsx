@@ -2,14 +2,14 @@
 
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Button, buttonVariants } from '../ui/button';
+import { Button, buttonVariants } from '../../../components/ui/button';
 import { BsDiscord } from 'react-icons/bs';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
 
 export default function UserAuth() {
-  const [ isDiscordLoading, setIsDiscordLoading ] = useState<boolean>(false);
+  const [isDiscordLoading, setIsDiscordLoading] = useState<boolean>(false);
   const searchParams = useSearchParams();
 
   return (

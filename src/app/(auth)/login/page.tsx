@@ -1,11 +1,8 @@
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
-import { ThemeToggle } from '@/components/theme-toggle';
-import { buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { FiArrowLeft } from 'react-icons/fi';
 import { Metadata } from 'next';
-import UserAuth from '@/components/auth/user-auth-form';
+import UserAuth from '@/app/(auth)/login/form';
 
 export const metadata: Metadata = {
   title: 'ログイン'

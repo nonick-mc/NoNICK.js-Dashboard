@@ -1,12 +1,11 @@
 import Link from 'next/link'
 import { buttonVariants } from '@/components/ui/button'
 import { marketingConfig } from '@/config/merketing'
-import { Alert } from '@/components/marketing/alert'
-import { AppealPoint } from '@/components/marketing/appeal-point'
-import { ReviewCard } from '@/components/marketing/review-card'
-import { FeatureCard } from '@/components/marketing/feature-card'
+import { Alert } from '@/app/(marketing)/alert'
 import { File, Flag, Link2, Shield, Terminal, Users } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { AppealPoint } from './appeal-point'
+import { FeatureCard, ReviewCard } from './cards'
 
 export default function Home() {
   return (
@@ -26,6 +25,8 @@ export default function Home() {
         <div className='flex gap-2 justify-center'>
           <Link
             href={marketingConfig.invite}
+            target='_blank'
+            rel='noreferrer'
             className={buttonVariants({ size: 'lg' })}
           >
             サーバーに導入する
@@ -39,16 +40,16 @@ export default function Home() {
         </div>
       </section>
       <section className='py-24 container grid grid-cols-2 gap-6'>
-        <div className='col-span-2 flex flex-col gap-3'>
-          <h1 className='text-4xl font-black'>
-            ユーザーに寄り添ったDiscordBOT。
-          </h1>
-          <h2 className='text-xl text-muted-foreground'>
-            NoNICK.jsは「ユーザーに最大限寄り添う」をコンセプトに
-            <span className='block'>開発されており、誰でもBOTを活用できることを目指しています。</span>
-          </h2>
-        </div>
-        <div className='grid gap-6'>
+        <div className='flex flex-col gap-6'>
+          <div className='col-span-2 flex flex-col gap-3'>
+            <h1 className='text-4xl font-black'>
+              ユーザーに寄り添ったDiscordBOT。
+            </h1>
+            <h2 className='text-xl text-muted-foreground'>
+              NoNICK.jsは「ユーザーに最大限寄り添う」をコンセプトに
+              <span className='block'>開発されており、誰でもBOTを活用できることを目指しています。</span>
+            </h2>
+          </div>
           <div className='grid py-6 gap-10'>
             <AppealPoint>
               <span className='font-bold text-foreground'>利用料金ゼロ。</span>
@@ -65,13 +66,13 @@ export default function Home() {
           </div>
         </div>
         <div className='grid gap-6 my-auto'>
-          <ReviewCard avatar='/avatar/kanahiro.png' name='かなひろ' id='kanahiro'>
+          <ReviewCard avatar='/avatar/kanahiro.png' name='かなひろ' username='kanahiro'>
             ここぞという機能を取り揃えていて大変ありがたいです。特に認証機能や自動アナウンス機能は大変助かっています。
           </ReviewCard>
-          <ReviewCard avatar='/avatar/issyoniasobo.png' name='issyoniasobo336' id='issyoni_0801'>
+          <ReviewCard avatar='/avatar/issyoniasobo.png' name='issyoniasobo336' username='issyoni_0801'>
             使いにくいところやバグを報告すると、すぐに修正パッチが入るのが良いです。開発者がすぐに返答してくれるところも◎。
           </ReviewCard>
-          <ReviewCard avatar='/avatar/dokuhuyu.png' name='独冬' id='dokufuyu0918'>
+          <ReviewCard avatar='/avatar/dokuhuyu.png' name='独冬' username='dokufuyu0918'>
             かなり使いやすく、初心者でも扱いやすいと思いました。サーバー内通報などの機能が便利で、処罰などの対応の効率化が図れそうです。
           </ReviewCard>
         </div>

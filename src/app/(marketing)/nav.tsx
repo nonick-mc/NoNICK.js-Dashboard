@@ -3,13 +3,13 @@
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import { marketingConfig } from '@/config/merketing';
-import { Logo } from '../logo';
+import { Logo } from '../../components/logo';
 import { cn } from '@/lib/utils';
-import { ThemeToggle } from '../theme-toggle';
-import { buttonVariants } from '../ui/button';
+import { ThemeToggle } from '../../components/theme-toggle';
+import { buttonVariants } from '../../components/ui/button';
 import React from 'react';
 
-export function MainNav() {
+export default function Nav() {
   const segment = useSelectedLayoutSegment();
 
   return (
@@ -22,11 +22,10 @@ export function MainNav() {
               <Link
                 key={index}
                 href={v.disabled ? '#' : v.href}
-                className={cn(
-                  'flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm',
-                  v.href.startsWith(`/${segment}`) ? 'text-foreground' : 'text-foreground/60',
-                  v.disabled && 'cursor-not-allowed opacity-80'
-                )}
+                className={cn('flex items-center text-lg font-medium transition-colors text-foreground/60 hover:text-foreground/80 sm:text-sm', {
+                  'text-foreground': v.href.startsWith(`/${segment}`),
+                  'cursor-not-allowed opacity-80': v.disabled,
+                })}
               >
                 {v.title}
               </Link>

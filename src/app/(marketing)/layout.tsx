@@ -1,10 +1,10 @@
-import { MainNav } from '@/components/marketing/main-nav';
 import React from 'react';
+import Nav from './nav';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <MainNav/>
+      <Nav/>
       {children}
     </>
   )

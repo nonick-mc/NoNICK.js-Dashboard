@@ -1,8 +1,10 @@
-import './globals.css'
-import { Noto_Sans_JP } from 'next/font/google'
+import './globals.css';
+import NextTopLoader from 'nextjs-toploader';
+import { Noto_Sans_JP } from 'next/font/google';
 import { siteConfig } from '@/config/site';
-import type { Metadata } from 'next'
+import type { Metadata } from 'next';
 import { Provider } from '@/components/provider';
+import { Toaster } from '@/components/ui/toaster';
 
 const notoSansJp = Noto_Sans_JP({ subsets: ['latin'] });
 
@@ -38,8 +40,14 @@ export default function RootLayout({
     <html lang="ja">
       <body className={notoSansJp.className}>
         <Provider>
+          <NextTopLoader
+            color='#3b82f6'
+            showSpinner={false}
+            shadow={false}
+          />
           {children}
         </Provider>
+        <Toaster/>
       </body>
     </html>
   )
