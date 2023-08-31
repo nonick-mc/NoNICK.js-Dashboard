@@ -1,6 +1,6 @@
 import { getServerSetting } from '@/lib/mongoose';
 import { Header, Shell } from '../../formats';
-import { SettingForm } from './form';
+// import { SettingForm } from './form';
 import { getChannels } from '@/lib/discord';
 import { Metadata } from 'next';
 
