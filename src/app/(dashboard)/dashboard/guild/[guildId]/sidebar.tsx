@@ -59,7 +59,7 @@ export async function Sidebar({ guildId }: { guildId: string }) {
 
 export function SidebarSkeleton() {
   return (
-    <div className='w-[270px] flex flex-col gap-6 pr-4'>
+    <div className='w-[280px] flex flex-col gap-6 pr-4'>
       <div className='flex gap-3 items-center'>
         <Skeleton className='w-[55px] h-[55px] rounded-lg'/>
         <div className='flex-1 flex flex-col gap-1'>
