@@ -13,7 +13,7 @@ import { Switch } from '@/components/ui/switch';
 import { ChannelSelect, HourSelect } from '../../selects';
 import { APIChannel, ChannelType, GuildVerificationLevel } from 'discord-api-types/v10';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { cn } from '@/lib/utils';
+import { cn, nullToUndefinedOrValue } from '@/lib/utils';
 import { patchServerSetting } from '@/lib/mongoose';
 import { useParams } from 'next/navigation';
 
@@ -75,16 +75,16 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
     defaultValues: {
       enable: !!setting?.enable,
       time: {
-        start: setting?.time.start,
-        end: setting?.time.end,
+        start: nullToUndefinedOrValue(setting?.time.start),
+        end: nullToUndefinedOrValue(setting?.time.end),
       },
       level: {
         old: setting?.level.old,
-        new: setting?.level.new || GuildVerificationLevel.Low,
+        new: nullToUndefinedOrValue(setting?.level.new) || GuildVerificationLevel.Low,
       },
       log: {
         enable: !!setting?.log.enable,
-        channel: setting?.log.channel,
+        channel: nullToUndefinedOrValue(setting?.log.channel),
       },
     },
   });

@@ -26,3 +26,7 @@ export function formatNumber(num: number): string {
     return num.toString();
   }
 }
+
+export function nullToUndefinedOrValue<T>(value: T | null): T | undefined {
+  return value === null ? undefined : value;
+}

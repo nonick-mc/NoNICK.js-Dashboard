@@ -14,6 +14,7 @@ import { patchServerSetting } from '@/lib/mongoose';
 import { useParams } from 'next/navigation';
 import { FormItemLayout, SubmitButton } from '../../form-items';
 import { IServerSettings } from '@/schemas/ServerSettings';
+import { nullToUndefinedOrValue } from '@/lib/utils';
 
 type Props = {
   channels: APIChannel[],
@@ -46,7 +47,7 @@ export const SettingForm: FC<Props> = ({ channels, roles, setting }) => {
       channel: setting?.channel,
       mention: {
         enable: !!setting?.mention.enable,
-        role: setting?.mention?.role,
+        role: nullToUndefinedOrValue(setting?.mention?.role),
       }
     },
   });

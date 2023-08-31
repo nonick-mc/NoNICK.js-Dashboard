@@ -16,6 +16,7 @@ import { InfoIcon } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { patchServerSetting } from '@/lib/mongoose';
 import { useParams } from 'next/navigation';
+import { nullToUndefinedOrValue } from '@/lib/utils';
 
 const logSettingsSchema = z.discriminatedUnion('enable', [
   z.object({
@@ -51,23 +52,23 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
     defaultValues: {
       timeout: {
         enable: !!setting?.timeout.enable,
-        channel: setting?.timeout.channel,
+        channel: nullToUndefinedOrValue(setting?.timeout.channel),
       },
       kick: {
         enable: !!setting?.kick.enable,
-        channel: setting?.kick.channel,
+        channel: nullToUndefinedOrValue(setting?.timeout.channel),
       },
       ban: {
         enable: !!setting?.ban.enable,
-        channel: setting?.ban.channel,
+        channel: nullToUndefinedOrValue(setting?.timeout.channel),
       },
       voice: {
         enable: !!setting?.voice.enable,
-        channel: setting?.voice.channel,
+        channel: nullToUndefinedOrValue(setting?.timeout.channel),
       },
       delete: {
         enable: !!setting?.delete.enable,
-        channel: setting?.delete.channel,
+        channel: nullToUndefinedOrValue(setting?.timeout.channel),
       },
     },
   })
