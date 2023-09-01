@@ -14,6 +14,7 @@ export async function GET() {
   const mutualGuilds = userGuilds
     ?.filter((userGuild) => botGuilds.some((botGuild) => botGuild.id === userGuild.id))
     ?.filter((userGuild) => (
+      userGuild.owner ||
       hasPermission(userGuild.permissions, Discord.Permissions.Administrator) ||
       hasPermission(userGuild.permissions, Discord.Permissions.ManageGuild)
     ));
