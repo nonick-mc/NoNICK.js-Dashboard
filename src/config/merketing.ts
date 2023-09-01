@@ -34,7 +34,7 @@ export const marketingConfig: MarketingConfig = {
       icon: BsTwitter,
     },
     {
-      href: 'https://discord.gg/fVcjCNn733',
+      href: 'https://discord.gg/6YJFzppp3x',
       icon: BsDiscord,
     },
   ],
