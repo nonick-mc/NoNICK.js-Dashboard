@@ -15,14 +15,17 @@ export const marketingConfig: MarketingConfig = {
     {
       title: 'Blog',
       href: '/blog',
+      disabled: true,
     },
     {
       title: 'Support',
       href: '/support',
+      disabled: true,
     },
     {
       title: 'Beta',
       href: '/beta',
+      disabled: true,
     }
   ],
   links: [
