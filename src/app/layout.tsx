@@ -22,13 +22,13 @@ export const metadata: Metadata = {
     locale: 'ja-JP',
     type: 'website'
   },
-  // twitter: {
-  //   card: 'summary_large_image',
-  //   title: siteConfig.metadata.name,
-  //   description: siteConfig.metadata.description,
-  //   site: '@nonick_js',
-  //   creator: '@nonick_mc',
-  // },
+  twitter: {
+    card: 'summary_large_image',
+    title: siteConfig.metadata.name,
+    description: siteConfig.metadata.description,
+    site: '@nonick_js',
+    creator: '@nonick_mc',
+  },
 }
 
 export default function RootLayout({

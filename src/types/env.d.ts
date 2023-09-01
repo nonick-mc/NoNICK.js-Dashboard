@@ -6,6 +6,7 @@ declare namespace NodeJS {
     readonly DISCORD_CLIENT_SCOPE: string;
 
     readonly NEXT_PUBLIC_BOT_INVITE_URL: string,
+    readonly NEXT_PUBLIC_VERCEL_URL: string,
 
     readonly NEXTAUTH_URL: string,
     readonly NEXTAUTH_SECRET: string,
