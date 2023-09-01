@@ -38,5 +38,5 @@ export const marketingConfig: MarketingConfig = {
       icon: BsDiscord,
     },
   ],
-  invite: 'https://discord.com/api/oauth2/authorize?client_id=956688181787512833&permissions=0&scope=bot%20applications.commands',
+  invite: process.env.NEXT_PUBLIC_BOT_INVITE_URL,
 }
