@@ -6,6 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { signOut, useSession } from 'next-auth/react';
 import { Avatar, AvatarFallback, AvatarImage } from '../../../components/ui/avatar';
 import { LogOut, Server } from 'lucide-react';
+import { Discord } from '@/lib/constants';
 
 export function UserDropDown() {
   const { data: session } = useSession();
@@ -14,7 +15,7 @@ export function UserDropDown() {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar className='w-8 h-8'>
-          <AvatarImage src={session?.user?.image || '/discord.png'} />
+          <AvatarImage src={session?.user?.image || `${Discord.Endpoints.CDN}/embed/avatars/0.png`} />
           <AvatarFallback>{session?.user?.name}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
