@@ -1,24 +1,22 @@
 import { Metadata } from 'next';
 import { PartialGuild } from '@/types/discord';
 import { GuildTable } from './table';
-import { headers } from 'next/headers';
-import { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers';
+import { cookies } from 'next/headers';
 
 export const metadata: Metadata = {
   title: 'サーバー選択'
 }
 
-async function getMutualGuilds(header: ReadonlyHeaders) {
+async function getMutualGuilds() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/guilds`,
-    { headers: header }
+    { headers: { Cookie: cookies().getAll().map(({ name, value }) => `${name}=${value}`).join(";") } }
   );
   return await res.json<PartialGuild[]>();
 }
 
 export default async function Page() {
-  const headerList = headers();
-  const guilds = await getMutualGuilds(headerList);
+  const guilds = await getMutualGuilds();
 
   return (
     <main className='container space-y-8 py-3'>
