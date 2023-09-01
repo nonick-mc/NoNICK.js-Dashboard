@@ -33,7 +33,7 @@ export default function Nav() {
           </div>
         </div>
         <div className='flex gap-3'>
-          <div className='flex gap-1'>
+          <div className='flex'>
             {marketingConfig.links.map((v, index) => (
               <Link
                 className={buttonVariants({ variant: 'ghost', size: 'icon' })}
