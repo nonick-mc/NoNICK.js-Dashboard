@@ -12,7 +12,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 async function getGuild(guildId: string) {
   return await fetch(
     `${Discord.Endpoints.API}/guilds/${guildId}`,
-    { headers: { Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}` }, next: { revalidate: 120 } }
+    { headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` }, next: { revalidate: 120 } }
   ).then((res) => res.json<APIGuild>());
 }
 

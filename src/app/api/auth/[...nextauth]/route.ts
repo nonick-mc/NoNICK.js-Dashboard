@@ -4,9 +4,9 @@ import DiscordProvider from 'next-auth/providers/discord';
 export const authOption: NextAuthOptions = {
   providers: [
     DiscordProvider({
-      clientId: process.env.DISCORD_CLIENT_ID,
-      clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      authorization: { params: { scope: process.env.DISCORD_CLIENT_SCOPE } },
+      clientId: process.env.DISCORD_ID,
+      clientSecret: process.env.DISCORD_OAUTH_SECRET,
+      authorization: { params: { scope: process.env.DISCORD_OAUTH_SCOPE } },
     }), 
   ],
   pages: {

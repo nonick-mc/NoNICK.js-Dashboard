@@ -13,7 +13,7 @@ export async function getUserGuilds(token: string) {
 export async function getBotGuilds() {
   const res = await fetch(
     `${Discord.Endpoints.API}/users/@me/guilds`,
-    { headers: { Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}` }, next: { revalidate: 5 }},
+    { headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` }, next: { revalidate: 5 }},
   );
   return await res.json<APIGuild[]>();
 }
@@ -21,7 +21,7 @@ export async function getBotGuilds() {
 export async function getGuild(guildId: string, withCounts?: boolean) {
   const res = await fetch(
     `${Discord.Endpoints.API}/guilds/${guildId}?with_counts=${!!withCounts}`,
-    { headers: { Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}` }, next: { revalidate: 5 } },
+    { headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` }, next: { revalidate: 5 } },
   );
   return await res.json<APIGuild>();
 }
@@ -29,7 +29,7 @@ export async function getGuild(guildId: string, withCounts?: boolean) {
 export async function getChannels(guildId: string) {
   const res = await fetch(
     `${Discord.Endpoints.API}/guilds/${guildId}/channels`,
-    { headers: { Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}` }, next: { revalidate: 5 } },
+    { headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` }, next: { revalidate: 5 } },
   );
   return await res.json<APIChannel[]>();
 }
@@ -37,7 +37,7 @@ export async function getChannels(guildId: string) {
 export async function getRoles(guildId: string) {
   const res = await fetch(
     `${Discord.Endpoints.API}/guilds/${guildId}/roles`,
-    { headers: { Authorization: `Bot ${process.env.DISCORD_CLIENT_TOKEN}` }, next: { revalidate: 5 } },
+    { headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` }, next: { revalidate: 5 } },
   );
   return await res.json<APIRole[]>();
 }
