@@ -38,5 +38,5 @@ export const marketingConfig: MarketingConfig = {
       icon: BsDiscord,
     },
   ],
-  invite: process.env.NEXT_PUBLIC_BOT_INVITE_URL,
+  invite: process.env.NEXT_PUBLIC_BOT_INVITE_URL || '#',
 }

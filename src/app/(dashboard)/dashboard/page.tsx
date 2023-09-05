@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { PartialGuild } from '@/types/discord';
 import { GuildTable } from './table';
 import { cookies } from 'next/headers';
+import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = {
   title: 'サーバー選択'
@@ -9,7 +10,7 @@ export const metadata: Metadata = {
 
 async function getMutualGuilds() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/guilds`,
+    `${siteConfig.metadata.url}/api/guilds`,
     { headers: { Cookie: cookies().getAll().map(({ name, value }) => `${name}=${value}`).join(";") } }
   );
   return await res.json<PartialGuild[]>();
