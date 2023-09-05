@@ -9,6 +9,7 @@ import { Toaster } from '@/components/ui/toaster';
 const notoSansJp = Noto_Sans_JP({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
+  metadataBase: siteConfig.metadata.url,
   title: {
     default: siteConfig.metadata.name,
     template: `%s - ${siteConfig.metadata.name}`,

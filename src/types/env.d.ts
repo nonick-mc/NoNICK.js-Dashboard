@@ -11,6 +11,6 @@ declare namespace NodeJS {
     readonly DB_NAME: string,
 
     readonly NEXT_PUBLIC_BOT_INVITE_URL: string,
-    readonly NEXT_PUBLIC_VERCEL_URL: string,
+    readonly NEXT_PUBLIC_VERCEL_URL?: string,
   }
 }
