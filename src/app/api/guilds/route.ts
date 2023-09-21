@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server';
 import { getBotGuilds, getUserGuilds, hasPermission } from '@/lib/discord';
 import { Discord } from '@/lib/constants';
 import { getServerSession } from 'next-auth';
@@ -13,11 +13,12 @@ export async function GET() {
 
   const mutualGuilds = userGuilds
     ?.filter((userGuild) => botGuilds.some((botGuild) => botGuild.id === userGuild.id))
-    ?.filter((userGuild) => (
-      userGuild.owner ||
-      hasPermission(userGuild.permissions, Discord.Permissions.Administrator) ||
-      hasPermission(userGuild.permissions, Discord.Permissions.ManageGuild)
-    ));
+    ?.filter(
+      (userGuild) =>
+        userGuild.owner ||
+        hasPermission(userGuild.permissions, Discord.Permissions.Administrator) ||
+        hasPermission(userGuild.permissions, Discord.Permissions.ManageGuild),
+    );
 
   return NextResponse.json(mutualGuilds);
 }

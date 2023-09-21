@@ -2,7 +2,7 @@
 
 import { formatNumber } from '@/lib/utils';
 import { FC } from 'react';
-import { Area, AreaChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const sampleData = [
   // { date: '6/5', messages: 6504, newbie: 20 },
@@ -22,20 +22,19 @@ const sampleData = [
 export const MessageActivityGraph: FC = () => {
   return (
     <ResponsiveContainer width='100%' height={250}>
-      <AreaChart width={730} height={250} data={sampleData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
+      <AreaChart
+        width={730}
+        height={250}
+        data={sampleData}
+        margin={{ top: 0, right: 0, left: 0, bottom: 0 }}
+      >
         <defs>
           <linearGradient id='colorMessages' x1='0' y1='0' x2='0' y2='1'>
-            <stop offset='5%' stopColor='#82ca9d' stopOpacity={0.8}/>
-            <stop offset='95%' stopColor='#82ca9d' stopOpacity={0}/>
+            <stop offset='5%' stopColor='#82ca9d' stopOpacity={0.8} />
+            <stop offset='95%' stopColor='#82ca9d' stopOpacity={0} />
           </linearGradient>
         </defs>
-        <XAxis
-          height={20}
-          dataKey='date'
-          fontSize={12}
-          tickLine={false}
-          axisLine={false}
-        />
+        <XAxis height={20} dataKey='date' fontSize={12} tickLine={false} axisLine={false} />
         <YAxis
           width={30}
           fontSize={12}
@@ -48,24 +47,28 @@ export const MessageActivityGraph: FC = () => {
           content={({ active, payload }) => {
             if (active && payload && payload.length) {
               return (
-                <div className="rounded-lg border bg-background px-4 py-2 shadow-sm">
-                  <div className="flex flex-col">
-                    <span className="text-[0.70rem] uppercase text-muted-foreground">
+                <div className='rounded-lg border bg-background px-4 py-2 shadow-sm'>
+                  <div className='flex flex-col'>
+                    <span className='text-[0.70rem] uppercase text-muted-foreground'>
                       メッセージ数
                     </span>
-                    <span className="font-bold">
-                      {payload[0].value}
-                    </span>
+                    <span className='font-bold'>{payload[0].value}</span>
                   </div>
                 </div>
-              )
+              );
             }
 
-            return null
+            return null;
           }}
         />
-        <Area type='monotone' dataKey='messages' stroke='#82ca9d' fillOpacity={1} fill='url(#colorMessages)' />
+        <Area
+          type='monotone'
+          dataKey='messages'
+          stroke='#82ca9d'
+          fillOpacity={1}
+          fill='url(#colorMessages)'
+        />
       </AreaChart>
     </ResponsiveContainer>
-  )
-}
+  );
+};

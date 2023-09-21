@@ -1,52 +1,52 @@
 import { Model, model, models, Schema, SchemaTypes } from 'mongoose';
 
-type LogCategoryOptions = { enable: boolean, channel: string }
+type LogCategoryOptions = { enable: boolean; channel: string };
 
 export interface IServerSettings {
-  serverId: string,
+  serverId: string;
   message: {
-    join: { enable: boolean, channel: string, messageOptions: any },
-    leave: { enable: boolean, channel: string, messageOptions: any },
+    join: { enable: boolean; channel: string; messageOptions: any };
+    leave: { enable: boolean; channel: string; messageOptions: any };
     expansion: {
-      enable: boolean,
+      enable: boolean;
       ignore: {
-        types: (number[]),
-        channels: (string[]),
-      },
-    },
-  },
+        types: number[];
+        channels: string[];
+      };
+    };
+  };
   report: {
-    channel: string,
-    mention: { enable: boolean; role: string },
-  },
+    channel: string;
+    mention: { enable: boolean; role: string };
+  };
   log: {
     timeout: LogCategoryOptions;
     kick: LogCategoryOptions;
     ban: LogCategoryOptions;
     voice: LogCategoryOptions;
     delete: LogCategoryOptions;
-  },
+  };
   changeVerificationLevel: {
-    enable: boolean,
-    log: { enable: boolean, channel: string },
-    level: { old: number, new: number },
-    time: { start: number, end: number },
-  },
-  autoPublic: { enable: boolean, channels: string[] },
+    enable: boolean;
+    log: { enable: boolean; channel: string };
+    level: { old: number; new: number };
+    time: { start: number; end: number };
+  };
+  autoPublic: { enable: boolean; channels: string[] };
   autoMod: {
-    enable: boolean,
-    log: { enable: boolean, channel: string },
+    enable: boolean;
+    log: { enable: boolean; channel: string };
     filter: {
-      inviteUrl: boolean,
-      token: boolean,
-      shortUrl: boolean,
-    },
+      inviteUrl: boolean;
+      token: boolean;
+      shortUrl: boolean;
+    };
     ignore: {
-      channels: string[],
-      roles: string[],
-    },
-  },
-  autoCreateThread: { enable: boolean, channels: string[] },
+      channels: string[];
+      roles: string[];
+    };
+  };
+  autoCreateThread: { enable: boolean; channels: string[] };
 }
 
 const ServerSettings = new Schema<IServerSettings>({
@@ -58,11 +58,13 @@ const ServerSettings = new Schema<IServerSettings>({
       messageOptions: {
         type: SchemaTypes.Mixed,
         default: {
-          embeds: [{
-            title: 'WELCOME',
-            description: '![user] **(![userTag])** さん、**![serverName]**へようこそ！',
-            color: 0x57f287,
-          }],
+          embeds: [
+            {
+              title: 'WELCOME',
+              description: '![user] **(![userTag])** さん、**![serverName]**へようこそ！',
+              color: 0x57f287,
+            },
+          ],
         },
       },
     },

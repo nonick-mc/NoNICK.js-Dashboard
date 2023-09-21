@@ -5,8 +5,8 @@ import { getServerSetting } from '@/lib/mongoose';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'サーバー内通報'
-}
+  title: 'サーバー内通報',
+};
 
 export default async function Page({ params: { guildId } }: { params: { guildId: string } }) {
   const setting = await getServerSetting(guildId, 'report');
@@ -15,7 +15,10 @@ export default async function Page({ params: { guildId } }: { params: { guildId:
 
   return (
     <Shell>
-      <Header title='サーバー内通報' description='不適切なメッセージ・ユーザーをメンバーが通報できるようにします。'/>
+      <Header
+        title='サーバー内通報'
+        description='不適切なメッセージ・ユーザーをメンバーが通報できるようにします。'
+      />
       <SettingForm
         channels={channels}
         roles={roles}

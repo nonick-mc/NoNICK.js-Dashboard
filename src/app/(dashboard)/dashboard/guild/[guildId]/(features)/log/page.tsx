@@ -6,7 +6,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'イベントログ',
-}
+};
 
 export default async function Page({ params: { guildId } }: { params: { guildId: string } }) {
   const channels = await getChannels(guildId);
@@ -14,7 +14,7 @@ export default async function Page({ params: { guildId } }: { params: { guildId:
 
   return (
     <Shell>
-      <Header title='イベントログ' description='サーバー内で起こったイベントのログを送信します。'/>
+      <Header title='イベントログ' description='サーバー内で起こったイベントのログを送信します。' />
       <SettingForm
         channels={channels}
         setting={setting ? JSON.parse(JSON.stringify(setting)) : undefined}

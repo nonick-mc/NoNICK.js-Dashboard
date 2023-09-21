@@ -13,8 +13,8 @@ import Link from 'next/link';
 import { FC, useState } from 'react';
 
 type Props = {
-  guilds: PartialGuild[]
-}
+  guilds: PartialGuild[];
+};
 
 export const GuildTable: FC<Props> = ({ guilds }) => {
   const [searchKey, setSearchKey] = useState('');
@@ -36,20 +36,23 @@ export const GuildTable: FC<Props> = ({ guilds }) => {
             href={marketingConfig.invite}
             target='_blank'
             rel='noreferrer'
-            className={cn(buttonVariants(), 'gap-2 items-center')}
+            className={cn(buttonVariants(), 'items-center gap-2')}
           >
-            <PlusIcon size={16}/>
+            <PlusIcon size={16} />
             <span>BOTを導入</span>
           </Link>
         </div>
       </div>
       <div className='grid grid-cols-10 gap-6'>
         {guilds
-          ?.filter((guild) => !searchKey || (guild.name.toLowerCase().includes(searchKey) || guild.id === searchKey))
+          ?.filter(
+            (guild) =>
+              !searchKey || guild.name.toLowerCase().includes(searchKey) || guild.id === searchKey,
+          )
           ?.map((guild) => (
             <Link className='col-span-2' key={guild.id} href={`/dashboard/guild/${guild.id}`}>
               <Card className='overflow-hidden'>
-                <div className='bg-secondary flex items-center justify-center py-6'>
+                <div className='flex items-center justify-center bg-secondary py-6'>
                   <Image
                     className='pointer-events-none rounded-full'
                     src={
@@ -62,11 +65,11 @@ export const GuildTable: FC<Props> = ({ guilds }) => {
                     alt={`${guild.name}のサーバーアイコン`}
                   />
                 </div>
-                <div className='text-base text-center p-3'>{guild.name}</div>
+                <div className='p-3 text-center text-base'>{guild.name}</div>
               </Card>
             </Link>
           ))}
       </div>
     </>
-  )
-}
+  );
+};

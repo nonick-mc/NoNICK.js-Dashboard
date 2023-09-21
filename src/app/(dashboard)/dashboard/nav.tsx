@@ -13,7 +13,7 @@ export default function Nav() {
       <div className='container flex h-20 items-center gap-4 sm:justify-between sm:gap-0'>
         <div className='flex items-center gap-3'>
           <Link href='/dashboard'>
-            <Logo width={120}/>
+            <Logo width={120} />
           </Link>
           <Badge>Beta</Badge>
         </div>
@@ -30,11 +30,11 @@ export default function Nav() {
                 {React.createElement(v.icon, { size: 19 })}
               </Link>
             ))}
-            <ThemeToggle/>
+            <ThemeToggle />
           </div>
-          <UserDropDown/>
+          <UserDropDown />
         </div>
       </div>
     </div>
-  )
+  );
 }

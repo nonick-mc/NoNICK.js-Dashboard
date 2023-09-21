@@ -1,13 +1,13 @@
 export type PartialGuild = {
-  id: string,
-  name: string,
-  icon: string,
-  owner: boolean,
-  permissions: string,
-  features: string[],
-}
+  id: string;
+  name: string;
+  icon: string;
+  owner: boolean;
+  permissions: string;
+  features: string[];
+};
 
 export type APIError = {
-  message: string,
-  code: number,
-}
+  message: string;
+  code: number;
+};

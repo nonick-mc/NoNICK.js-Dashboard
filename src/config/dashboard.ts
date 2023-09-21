@@ -1,5 +1,15 @@
 import { DashboardConfig } from '@/types';
-import { CheckSquare, File, Flag, LayoutGrid, Link, Link2, Megaphone, Settings, Shield, Users } from 'lucide-react';
+import {
+  CheckSquare,
+  File,
+  Flag,
+  LayoutGrid,
+  Link,
+  Megaphone,
+  Settings,
+  Shield,
+  Users,
+} from 'lucide-react';
 
 export const dashboardConfig: DashboardConfig = {
   sidebar: [
@@ -14,7 +24,7 @@ export const dashboardConfig: DashboardConfig = {
           label: '設定',
           icon: Settings,
           href: '/setting',
-        }
+        },
       ],
     },
     {
@@ -24,7 +34,7 @@ export const dashboardConfig: DashboardConfig = {
           label: '入退室メッセージ',
           icon: Users,
           href: '/join-and-leave-message',
-          badge: '🚧'
+          badge: '🚧',
         },
         {
           label: 'サーバー内通報',
@@ -40,7 +50,7 @@ export const dashboardConfig: DashboardConfig = {
           label: 'メッセージURL展開',
           icon: Link,
           href: '/message-expansion',
-          badge: '🚧'
+          badge: '🚧',
         },
         {
           label: '自動認証レベル変更',
@@ -51,15 +61,15 @@ export const dashboardConfig: DashboardConfig = {
           label: '自動アナウンス公開',
           icon: Megaphone,
           href: '/auto-public',
-          badge: '🚧'
+          badge: '🚧',
         },
         {
           label: 'AutoMod Plus',
           icon: Shield,
           href: '/automod-plus',
-          badge: '🚧'
+          badge: '🚧',
         },
       ],
-    }
-  ]
+    },
+  ],
 };

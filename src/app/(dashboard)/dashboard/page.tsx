@@ -5,14 +5,18 @@ import { cookies } from 'next/headers';
 import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = {
-  title: 'サーバー選択'
-}
+  title: 'サーバー選択',
+};
 
 async function getMutualGuilds() {
-  const res = await fetch(
-    `${siteConfig.metadata.url}/api/guilds`,
-    { headers: { Cookie: cookies().getAll().map(({ name, value }) => `${name}=${value}`).join(";") } }
-  );
+  const res = await fetch(`${siteConfig.metadata.url}/api/guilds`, {
+    headers: {
+      Cookie: cookies()
+        .getAll()
+        .map(({ name, value }) => `${name}=${value}`)
+        .join(';'),
+    },
+  });
   return await res.json<PartialGuild[]>();
 }
 
@@ -21,7 +25,7 @@ export default async function Page() {
 
   return (
     <main className='container space-y-8 py-3'>
-      <GuildTable guilds={guilds}/>
+      <GuildTable guilds={guilds} />
     </main>
-  )
+  );
 }

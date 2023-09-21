@@ -1,13 +1,13 @@
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField } from '@/components/ui/form';
 import { IServerSettings } from '@/schemas/ServerSettings';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { FormItemLayout, RequiredAsterisk, SubmitButton } from '../../form-items';
+import { FormItemLayout, SubmitButton } from '../../form-items';
 import { Switch } from '@/components/ui/switch';
 import { ChannelSelect } from '../../selects';
 import { APIChannel, ChannelType } from 'discord-api-types/v10';
@@ -35,18 +35,18 @@ const formSchema = z.object({
   ban: logSettingsSchema,
   voice: logSettingsSchema,
   delete: logSettingsSchema,
-})
+});
 
 type Props = {
-  channels: APIChannel[]
-  setting: IServerSettings['log'] | undefined,
-}
+  channels: APIChannel[];
+  setting: IServerSettings['log'] | undefined;
+};
 
 export const SettingForm: FC<Props> = ({ channels, setting }) => {
-  const [ loading, setLoading ] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const { guildId } = useParams();
-  
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -71,13 +71,19 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
         channel: nullToUndefinedOrValue(setting?.timeout.channel),
       },
     },
-  })
+  });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     await patchServerSetting(guildId, 'log', values)
       .then(() => toast({ title: '設定を保存しました！' }))
-      .catch(() => toast({ title: '設定の保存に失敗しました。', description: '時間をおいて再試行してください。', variant: 'destructive' }))
+      .catch(() =>
+        toast({
+          title: '設定の保存に失敗しました。',
+          description: '時間をおいて再試行してください。',
+          variant: 'destructive',
+        }),
+      )
       .finally(() => setLoading(false));
   }
 
@@ -98,10 +104,7 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
                   description='メンバーをタイムアウトしたり、タイムアウトを手動で解除したりした際にログを送信します。'
                 >
                   <FormControl>
-                    <Switch
-                      onCheckedChange={field.onChange}
-                      checked={field.value}
-                    />
+                    <Switch onCheckedChange={field.onChange} checked={field.value} />
                   </FormControl>
                 </FormItemLayout>
               )}
@@ -143,10 +146,7 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
                   description='メンバーをキックした際にログを送信します。'
                 >
                   <FormControl>
-                    <Switch
-                      onCheckedChange={field.onChange}
-                      checked={field.value}
-                    />
+                    <Switch onCheckedChange={field.onChange} checked={field.value} />
                   </FormControl>
                 </FormItemLayout>
               )}
@@ -188,10 +188,7 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
                   description='メンバーをBANしたり、BANを解除した際にログを送信します。'
                 >
                   <FormControl>
-                    <Switch
-                      onCheckedChange={field.onChange}
-                      checked={field.value}
-                    />
+                    <Switch onCheckedChange={field.onChange} checked={field.value} />
                   </FormControl>
                 </FormItemLayout>
               )}
@@ -233,10 +230,7 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
                   description='ボイスチャットの入室や退室、移動があった際にログを送信します。'
                 >
                   <FormControl>
-                    <Switch
-                      onCheckedChange={field.onChange}
-                      checked={field.value}
-                    />
+                    <Switch onCheckedChange={field.onChange} checked={field.value} />
                   </FormControl>
                 </FormItemLayout>
               )}
@@ -278,10 +272,7 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
                   description='メッセージが削除された際にログを送信します。'
                 >
                   <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
                   </FormControl>
                 </FormItemLayout>
               )}
@@ -309,15 +300,17 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
             />
             {form.watch('delete.enable') && (
               <Alert className='items-center' variant='primary'>
-                <InfoIcon size={18}/>
+                <InfoIcon size={18} />
                 <AlertTitle>一部のメッセージは削除してもログが送信されません</AlertTitle>
-                <AlertDescription>仕様上、BOTが送信したメッセージやNoNICK.jsを導入する前に送信されたメッセージには、削除ログは送信されません。</AlertDescription>
+                <AlertDescription>
+                  仕様上、BOTが送信したメッセージやNoNICK.jsを導入する前に送信されたメッセージには、削除ログは送信されません。
+                </AlertDescription>
               </Alert>
             )}
           </CardContent>
         </Card>
-        <SubmitButton disabled={loading}/>
+        <SubmitButton disabled={loading} />
       </form>
     </Form>
-  )
+  );
 };

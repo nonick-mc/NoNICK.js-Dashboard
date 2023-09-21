@@ -4,19 +4,25 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { APIChannel, ChannelType } from 'discord-api-types/v10';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { FormItemLayout } from '../../form-items';
 import { Switch } from '@/components/ui/switch';
 import { ChannelSelect } from '../../selects';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 
 type Props = {
-  channels: APIChannel[],
-}
+  channels: APIChannel[];
+};
 
 const schema = z.object({
   announce: z.discriminatedUnion('enable', [
@@ -40,8 +46,8 @@ export const SettingForm: FC<Props> = ({ channels }) => {
         enable: false,
         channel: undefined,
       },
-      lang: 'ja'
-    }
+      lang: 'ja',
+    },
   });
 
   return (
@@ -62,11 +68,7 @@ export const SettingForm: FC<Props> = ({ channels }) => {
                   disabled
                 >
                   <FormControl>
-                    <Switch
-                      onCheckedChange={field.onChange}
-                      checked={field.value}
-                      disabled
-                    />
+                    <Switch onCheckedChange={field.onChange} checked={field.value} disabled />
                   </FormControl>
                 </FormItemLayout>
               )}
@@ -111,16 +113,12 @@ export const SettingForm: FC<Props> = ({ channels }) => {
                   description='このサーバーでの使用言語を設定します。'
                   disabled
                 >
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    disabled
-                  >
+                  <Select onValueChange={field.onChange} defaultValue={field.value} disabled>
                     <SelectTrigger className='w-[300px]'>
-                      <SelectValue placeholder='言語を選択'/>
+                      <SelectValue placeholder='言語を選択' />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value='ja'>日本語 (Japanese)</SelectItem> 
+                      <SelectItem value='ja'>日本語 (Japanese)</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormItemLayout>
@@ -131,5 +129,5 @@ export const SettingForm: FC<Props> = ({ channels }) => {
         <Button disabled>変更を保存</Button>
       </form>
     </Form>
-  )
-}
+  );
+};
