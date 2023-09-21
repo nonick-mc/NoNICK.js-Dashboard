@@ -4,16 +4,16 @@ import Image from 'next/image';
 import React, { FC } from 'react';
 
 type ReviewCardProps = {
-  avatar: string,
-  name: string,
-  username: string,
-  children: React.ReactNode
+  avatar: string;
+  name: string;
+  username: string;
+  children: React.ReactNode;
 };
 
 export const ReviewCard: FC<ReviewCardProps> = ({ avatar, name, username, children }) => {
   return (
-    <Card className='px-6 py-5 flex flex-col gap-3'>
-      <div className='flex gap-3 items-center text-lg'>
+    <Card className='flex flex-col gap-3 px-6 py-5'>
+      <div className='flex items-center gap-3 text-lg'>
         <Image
           className='rounded-full'
           src={avatar}
@@ -26,25 +26,23 @@ export const ReviewCard: FC<ReviewCardProps> = ({ avatar, name, username, childr
       </div>
       {children}
     </Card>
-  )
-}
+  );
+};
 
 type FeatureCardProps = {
-  title: string,
-  icon: LucideIcon,
-  children: React.ReactNode,
-}
+  title: string;
+  icon: LucideIcon;
+  children: React.ReactNode;
+};
 
 export const FeatureCard: FC<FeatureCardProps> = ({ title, icon, children }) => {
   return (
-    <Card className='p-5 flex flex-col gap-2'>
-      <div className='w-[50px] h-[50px] rounded-full bg-foreground text-background flex items-center justify-center'>
+    <Card className='flex flex-col gap-2 p-5'>
+      <div className='flex h-[50px] w-[50px] items-center justify-center rounded-full bg-foreground text-background'>
         {React.createElement(icon, { size: 25 })}
       </div>
       <p className='text-xl font-bold'>{title}</p>
-      <p className='text-muted-foreground text-sm'>
-        {children}
-      </p>
+      <p className='text-sm text-muted-foreground'>{children}</p>
     </Card>
-  )
-}
+  );
+};

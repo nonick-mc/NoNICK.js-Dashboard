@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     description: siteConfig.metadata.description,
     siteName: siteConfig.metadata.name,
     locale: 'ja-JP',
-    type: 'website'
+    type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
@@ -30,26 +30,18 @@ export const metadata: Metadata = {
     site: '@nonick_js',
     creator: '@nonick_mc',
   },
-}
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ja">
+    <html lang='ja'>
       <body className={notoSansJp.className}>
         <Provider>
-          <NextTopLoader
-            color='#3b82f6'
-            showSpinner={false}
-            shadow={false}
-          />
+          <NextTopLoader color='#3b82f6' showSpinner={false} shadow={false} />
           {children}
         </Provider>
-        <Toaster/>
+        <Toaster />
       </body>
     </html>
-  )
+  );
 }

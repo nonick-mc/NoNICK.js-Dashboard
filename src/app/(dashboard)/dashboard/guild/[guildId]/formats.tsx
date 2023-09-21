@@ -1,9 +1,9 @@
-import React, { FC } from 'react'
+import React, { FC } from 'react';
 
 type HeaderProps = {
-  title: string,
-  description: string,
-}
+  title: string;
+  description: string;
+};
 
 export const Header: FC<HeaderProps> = ({ title, description }) => {
   return (
@@ -11,17 +11,13 @@ export const Header: FC<HeaderProps> = ({ title, description }) => {
       <h1 className='text-3xl font-black'>{title}</h1>
       <h2 className='text-muted-foreground'>{description}</h2>
     </div>
-  )
-}
+  );
+};
 
 type ShellProps = {
-  children: React.ReactNode,
-}
+  children: React.ReactNode;
+};
 
 export const Shell: FC<ShellProps> = ({ children }) => {
-  return (
-    <main className='flex flex-col gap-6 pr-4'>
-      {children}
-    </main>
-  )
-}
+  return <main className='flex flex-col gap-6 pr-4'>{children}</main>;
+};

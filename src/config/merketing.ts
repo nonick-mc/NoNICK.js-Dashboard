@@ -26,7 +26,7 @@ export const marketingConfig: MarketingConfig = {
       title: 'Beta',
       href: '/beta',
       disabled: true,
-    }
+    },
   ],
   links: [
     {
@@ -39,4 +39,4 @@ export const marketingConfig: MarketingConfig = {
     },
   ],
   invite: process.env.NEXT_PUBLIC_BOT_INVITE_URL || '#',
-}
+};

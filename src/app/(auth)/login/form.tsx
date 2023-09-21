@@ -15,25 +15,28 @@ export default function UserAuth() {
   return (
     <div className='grid grid-rows-1 gap-3'>
       <Button
-        className='flex gap-2 items-center'
+        className='flex items-center gap-2'
         disabled={isDiscordLoading}
         onClick={() => {
           setIsDiscordLoading(true);
           signIn('discord', {
-            callbackUrl: searchParams?.get('from') || '/dashboard'
+            callbackUrl: searchParams?.get('from') || '/dashboard',
           });
         }}
       >
         {isDiscordLoading ? (
-          <AiOutlineLoading3Quarters className='animate-spin' size={20}/>
+          <AiOutlineLoading3Quarters className='animate-spin' size={20} />
         ) : (
-          <BsDiscord size={20}/>
+          <BsDiscord size={20} />
         )}
         <span>Discordでログイン</span>
       </Button>
-      <Link href='https://docs.nonick-js.com/nonick-js/how-to-login' className={buttonVariants({ variant: 'outline' })}>
+      <Link
+        href='https://docs.nonick-js.com/nonick-js/how-to-login'
+        className={buttonVariants({ variant: 'outline' })}
+      >
         ログインについて
       </Link>
     </div>
-  )
+  );
 }

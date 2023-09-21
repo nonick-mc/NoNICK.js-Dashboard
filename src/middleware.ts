@@ -3,7 +3,9 @@ import { withAuth } from 'next-auth/middleware';
 import { NextResponse, URLPattern } from 'next/server';
 import { PartialGuild } from './types/discord';
 
-const dashboardUrlPattern = new URLPattern({ pathname: '/dashboard/guild{/:guildId}?{/:category}?' });
+const dashboardUrlPattern = new URLPattern({
+  pathname: '/dashboard/guild{/:guildId}?{/:category}?',
+});
 
 export default withAuth(
   async function middleware(req) {
@@ -23,14 +25,12 @@ export default withAuth(
         from += req.nextUrl.search;
       }
 
-      return NextResponse.redirect(
-        new URL(`/login?from=${encodeURIComponent(from)}`, req.url)
-      )
+      return NextResponse.redirect(new URL(`/login?from=${encodeURIComponent(from)}`, req.url));
     }
 
     if (req.nextUrl.pathname.startsWith('/dashboard/guild')) {
       const result = dashboardUrlPattern.exec(req.nextUrl)?.pathname.groups;
-      
+
       if (!result?.guildId || !/^\d{16,19}$/.test(result.guildId)) {
         return NextResponse.redirect(new URL('/dashboard', req.url));
       }
@@ -45,17 +45,14 @@ export default withAuth(
     callbacks: {
       async authorized() {
         return true;
-      }
-    }
+      },
+    },
   },
-)
+);
 
 async function getMutualGuild(req: Request) {
-  const res = await fetch(
-    new URL('/api/guilds', req.url),
-    { headers: req.headers },
-  );
+  const res = await fetch(new URL('/api/guilds', req.url), { headers: req.headers });
   return await res.json<PartialGuild[]>();
 }
 
-export const config = { matcher: ['/dashboard/:path*', '/login'] }
+export const config = { matcher: ['/dashboard/:path*', '/login'] };

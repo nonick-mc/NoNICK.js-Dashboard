@@ -17,10 +17,10 @@ import { IServerSettings } from '@/schemas/ServerSettings';
 import { nullToUndefinedOrValue } from '@/lib/utils';
 
 type Props = {
-  channels: APIChannel[],
-  roles: APIRole[],
-  setting: IServerSettings['report'] | undefined,
-}
+  channels: APIChannel[];
+  roles: APIRole[];
+  setting: IServerSettings['report'] | undefined;
+};
 
 const schema = z.object({
   channel: z.string({ required_error: '選択してください' }),
@@ -39,7 +39,7 @@ const schema = z.object({
 export const SettingForm: FC<Props> = ({ channels, roles, setting }) => {
   const { toast } = useToast();
   const { guildId } = useParams();
-  const [ loading, setLoading ] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -48,7 +48,7 @@ export const SettingForm: FC<Props> = ({ channels, roles, setting }) => {
       mention: {
         enable: !!setting?.mention.enable,
         role: nullToUndefinedOrValue(setting?.mention?.role),
-      }
+      },
     },
   });
 
@@ -56,7 +56,13 @@ export const SettingForm: FC<Props> = ({ channels, roles, setting }) => {
     setLoading(true);
     await patchServerSetting(guildId, 'report', values)
       .then(() => toast({ title: '設定を保存しました！' }))
-      .catch(() => toast({ title: '設定の保存に失敗しました。', description: '時間をおいて再試行してください。', variant: 'destructive' }))
+      .catch(() =>
+        toast({
+          title: '設定の保存に失敗しました。',
+          description: '時間をおいて再試行してください。',
+          variant: 'destructive',
+        }),
+      )
       .finally(() => setLoading(false));
   }
 
@@ -103,10 +109,7 @@ export const SettingForm: FC<Props> = ({ channels, roles, setting }) => {
                   description='通報が送られた際に特定のロールをメンションします。'
                 >
                   <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
                   </FormControl>
                 </FormItemLayout>
               )}
@@ -132,8 +135,8 @@ export const SettingForm: FC<Props> = ({ channels, roles, setting }) => {
             />
           </CardContent>
         </Card>
-        <SubmitButton disabled={loading}/>
+        <SubmitButton disabled={loading} />
       </form>
     </Form>
-  )
-}
+  );
+};

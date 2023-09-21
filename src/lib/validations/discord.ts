@@ -7,14 +7,14 @@ export namespace Embed {
     icon_url: urlSchema.optional(),
     proxy_icon_url: urlSchema.optional(),
   });
-  
+
   export const imageSchema = z.object({
     url: urlSchema,
     proxy_url: urlSchema.optional(),
     height: z.number().optional(),
     width: z.number().optional(),
   });
-  
+
   export const thumbnailSchema = z.object({
     url: urlSchema,
     proxy_url: urlSchema.optional(),
@@ -41,20 +41,28 @@ export namespace Embed {
     value: z.string().max(1024, '256文字以下である必要があります'),
     inline: z.boolean().optional(),
   });
-  
-  export const schema = z.object({
-    title: z.string().max(256, '256文字以下である必要があります'),
-    description: z.string().max(4096, '4096文字以下である必要があります'),
-    url: urlSchema,
-    timestamp: z.string().regex(/^\d{4}-?\d\d-?\d\d(?:T\d\d(?::?\d\d(?::?\d\d(?:\.\d+)?)?)?(?:Z|[+-]\d\d:?\d\d)?)?$/, '有効なタイムスタンプを入力してください').optional(),
-    color: z.number(),
-    footer: footerSchema,
-    image: imageSchema,
-    thumbnail: thumbnailSchema,
-    video: videoSchema,
-    author: authorSchema,
-    fields: z.array(fieldSchema).max(25, '25個以下にする必要があります'),
-  }).partial();
+
+  export const schema = z
+    .object({
+      title: z.string().max(256, '256文字以下である必要があります'),
+      description: z.string().max(4096, '4096文字以下である必要があります'),
+      url: urlSchema,
+      timestamp: z
+        .string()
+        .regex(
+          /^\d{4}-?\d\d-?\d\d(?:T\d\d(?::?\d\d(?::?\d\d(?:\.\d+)?)?)?(?:Z|[+-]\d\d:?\d\d)?)?$/,
+          '有効なタイムスタンプを入力してください',
+        )
+        .optional(),
+      color: z.number(),
+      footer: footerSchema,
+      image: imageSchema,
+      thumbnail: thumbnailSchema,
+      video: videoSchema,
+      author: authorSchema,
+      fields: z.array(fieldSchema).max(25, '25個以下にする必要があります'),
+    })
+    .partial();
 }
 
 export const messageOptionSchema = z.object({

@@ -16,16 +16,19 @@ export default function Nav() {
     <div className='w-full bg-background'>
       <div className='container flex h-20 items-center gap-4 sm:justify-between sm:gap-0'>
         <div className='flex items-center gap-6'>
-          <Logo width={120}/>
+          <Logo width={120} />
           <div className='flex items-center gap-4'>
             {marketingConfig.mainNav.map((v, index) => (
               <Link
                 key={index}
                 href={v.disabled ? '#' : v.href}
-                className={cn('flex items-center text-lg font-medium transition-colors text-foreground/60 hover:text-foreground/80 sm:text-sm', {
-                  'text-foreground': v.href.startsWith(`/${segment}`),
-                  'cursor-not-allowed opacity-80': v.disabled,
-                })}
+                className={cn(
+                  'flex items-center text-lg font-medium text-foreground/60 transition-colors hover:text-foreground/80 sm:text-sm',
+                  {
+                    'text-foreground': v.href.startsWith(`/${segment}`),
+                    'cursor-not-allowed opacity-80': v.disabled,
+                  },
+                )}
               >
                 {v.title}
               </Link>
@@ -45,16 +48,13 @@ export default function Nav() {
                 {React.createElement(v.icon, { size: 19 })}
               </Link>
             ))}
-            <ThemeToggle/>
+            <ThemeToggle />
           </div>
-          <Link
-            href='/dashboard'
-            className={buttonVariants({ variant: 'secondary' })}
-          >
+          <Link href='/dashboard' className={buttonVariants({ variant: 'secondary' })}>
             ダッシュボード
           </Link>
         </div>
       </div>
     </div>
-  )
+  );
 }

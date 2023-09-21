@@ -1,3 +1,3 @@
 declare interface Body {
-  json<T = any>(): Promise<T>
+  json<T = any>(): Promise<T>;
 }

@@ -7,10 +7,10 @@ export const authOption: NextAuthOptions = {
       clientId: process.env.DISCORD_ID,
       clientSecret: process.env.DISCORD_OAUTH_SECRET,
       authorization: { params: { scope: process.env.DISCORD_OAUTH_SCOPE } },
-    }), 
+    }),
   ],
   pages: {
-    signIn: '/login'
+    signIn: '/login',
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
