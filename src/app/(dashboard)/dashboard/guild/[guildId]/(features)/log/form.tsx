@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Form, FormControl, FormField } from '@/components/ui/form';
-import { IServerSettings } from '@/schemas/ServerSettings';
+import { IServerSettings } from '@/models/settingModel';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -14,7 +14,7 @@ import { APIChannel, ChannelType } from 'discord-api-types/v10';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { InfoIcon } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
-import { patchServerSetting } from '@/lib/mongoose';
+import { patchServerSetting } from '@/lib/middleware';
 import { useParams } from 'next/navigation';
 import { nullToUndefinedOrValue } from '@/lib/utils';
 

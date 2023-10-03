@@ -1,8 +1,8 @@
 'use server';
 
-import ServerSettings, { IServerSettings } from '@/schemas/ServerSettings';
-import dbConnect from './dbConnect';
-import { wait } from './utils';
+import ServerSettings, { IServerSettings } from '@/models/settingModel';
+import dbConnect from './connect';
+import { wait } from '../utils';
 
 export async function getServerSetting<T extends keyof IServerSettings>(guildId: string, path: T) {
   await dbConnect();

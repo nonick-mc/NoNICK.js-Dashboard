@@ -10,10 +10,10 @@ import { ChannelSelect, RoleSelect } from '../../selects';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/components/ui/use-toast';
-import { patchServerSetting } from '@/lib/mongoose';
+import { patchServerSetting } from '@/lib/middleware';
 import { useParams } from 'next/navigation';
 import { FormItemLayout, SubmitButton } from '../../form-items';
-import { IServerSettings } from '@/schemas/ServerSettings';
+import { IServerSettings } from '@/models/settingModel';
 import { nullToUndefinedOrValue } from '@/lib/utils';
 
 type Props = {

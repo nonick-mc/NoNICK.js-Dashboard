@@ -10,7 +10,7 @@ import {
   FormLabel,
 } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
-import { IServerSettings } from '@/schemas/ServerSettings';
+import { IServerSettings } from '@/models/settingModel';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -21,7 +21,7 @@ import { ChannelSelect, HourSelect } from '../../selects';
 import { APIChannel, ChannelType, GuildVerificationLevel } from 'discord-api-types/v10';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { cn, nullToUndefinedOrValue } from '@/lib/utils';
-import { patchServerSetting } from '@/lib/mongoose';
+import { patchServerSetting } from '@/lib/middleware';
 import { useParams } from 'next/navigation';
 
 const schema = z.discriminatedUnion('enable', [
