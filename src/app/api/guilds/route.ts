@@ -8,7 +8,7 @@ export async function GET() {
   const session = await getServerSession(authOption);
   if (!session?.accessToken) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
 
-  const userGuilds = await getUserGuilds(session.accessToken);
+  const userGuilds = await getUserGuilds();
   const botGuilds = await getBotGuilds();
 
   const mutualGuilds = userGuilds

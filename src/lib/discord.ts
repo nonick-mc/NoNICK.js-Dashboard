@@ -1,12 +1,18 @@
 import { APIChannel, APIGuild, APIRole } from 'discord-api-types/v10';
 import { Discord } from './constants';
 import { PartialGuild } from '@/types/discord';
+import { getServerSession } from 'next-auth';
+import { authOption } from '@/app/api/auth/[...nextauth]/route';
 
-export async function getUserGuilds(token: string) {
+export async function getUserGuilds() {
+  const session = await getServerSession(authOption);
+  if (!session?.accessToken) throw new Error('Unauthorized');
+
   const res = await fetch(`${Discord.Endpoints.API}/users/@me/guilds`, {
-    headers: { Authorization: `Bearer ${token}` },
-    next: { revalidate: 5 },
+    headers: { Authorization: `Bearer ${session.accessToken}` },
+    cache: 'no-store',
   });
+  if (!res.ok) throw new Error(res.statusText);
   return await res.json<PartialGuild[]>();
 }
 
@@ -15,6 +21,7 @@ export async function getBotGuilds() {
     headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` },
     next: { revalidate: 5 },
   });
+  if (!res.ok) throw new Error(res.statusText);
   return await res.json<APIGuild[]>();
 }
 
@@ -23,6 +30,7 @@ export async function getGuild(guildId: string, withCounts?: boolean) {
     `${Discord.Endpoints.API}/guilds/${guildId}?with_counts=${!!withCounts}`,
     { headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` }, next: { revalidate: 5 } },
   );
+  if (!res.ok) throw new Error(res.statusText);
   return await res.json<APIGuild>();
 }
 
@@ -31,6 +39,7 @@ export async function getChannels(guildId: string) {
     headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` },
     next: { revalidate: 5 },
   });
+  if (!res.ok) throw new Error(res.statusText);
   return await res.json<APIChannel[]>();
 }
 
@@ -39,6 +48,7 @@ export async function getRoles(guildId: string) {
     headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` },
     next: { revalidate: 5 },
   });
+  if (!res.ok) throw new Error(res.statusText);
   return await res.json<APIRole[]>();
 }
 
