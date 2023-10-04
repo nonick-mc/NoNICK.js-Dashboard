@@ -1,4 +1,4 @@
-import { getServerSetting } from '@/lib/middleware';
+import { getServerSetting } from '@/lib/mongoose/middleware';
 import { Header, Shell } from '../../formats';
 import { SettingForm } from './form';
 import { getChannels } from '@/lib/discord';

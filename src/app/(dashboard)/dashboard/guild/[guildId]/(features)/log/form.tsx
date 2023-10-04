@@ -14,7 +14,7 @@ import { APIChannel, ChannelType } from 'discord-api-types/v10';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { InfoIcon } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
-import { patchServerSetting } from '@/lib/middleware';
+import { patchServerSetting } from '@/lib/mongoose/middleware';
 import { useParams } from 'next/navigation';
 import { nullToUndefinedOrValue } from '@/lib/utils';
 
@@ -45,7 +45,7 @@ type Props = {
 export const SettingForm: FC<Props> = ({ channels, setting }) => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const { guildId } = useParams();
+  const { guildId }: { guildId: string } = useParams();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

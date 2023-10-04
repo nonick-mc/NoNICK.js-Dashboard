@@ -1,7 +1,7 @@
 import { getChannels, getRoles } from '@/lib/discord';
 import { Header, Shell } from '../../formats';
 import { SettingForm } from './form';
-import { getServerSetting } from '@/lib/middleware';
+import { getServerSetting } from '@/lib/mongoose/middleware';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {

@@ -10,7 +10,7 @@ import { ChannelSelect, RoleSelect } from '../../selects';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/components/ui/use-toast';
-import { patchServerSetting } from '@/lib/middleware';
+import { patchServerSetting } from '@/lib/mongoose/middleware';
 import { useParams } from 'next/navigation';
 import { FormItemLayout, SubmitButton } from '../../form-items';
 import { IServerSettings } from '@/models/settingModel';
@@ -38,7 +38,7 @@ const schema = z.object({
 
 export const SettingForm: FC<Props> = ({ channels, roles, setting }) => {
   const { toast } = useToast();
-  const { guildId } = useParams();
+  const { guildId }: { guildId: string } = useParams();
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof schema>>({

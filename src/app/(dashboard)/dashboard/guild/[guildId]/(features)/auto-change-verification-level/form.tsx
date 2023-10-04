@@ -21,7 +21,7 @@ import { ChannelSelect, HourSelect } from '../../selects';
 import { APIChannel, ChannelType, GuildVerificationLevel } from 'discord-api-types/v10';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { cn, nullToUndefinedOrValue } from '@/lib/utils';
-import { patchServerSetting } from '@/lib/middleware';
+import { patchServerSetting } from '@/lib/mongoose/middleware';
 import { useParams } from 'next/navigation';
 
 const schema = z.discriminatedUnion('enable', [
@@ -81,7 +81,7 @@ type Props = {
 
 export const SettingForm: FC<Props> = ({ channels, setting }) => {
   const [loading, setLoading] = useState(false);
-  const { guildId } = useParams();
+  const { guildId }: { guildId: string } = useParams();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof schema>>({

@@ -1,24 +1,22 @@
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import { PlusIcon } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { GridIcon, ListIcon } from 'lucide-react';
 
 export default function Loading() {
   return (
-    <div className='container space-y-8 py-3'>
-      <div className='flex items-end justify-between'>
-        <div className='flex flex-col gap-1'>
-          <h1 className='text-4xl font-black'>サーバー選択</h1>
-          <p className='text-muted-foreground'>BOTの設定を行うサーバーを選択して下さい。</p>
-        </div>
-        <div className='flex gap-3'>
-          <Input disabled={true} placeholder='名前またはIDで検索' className='w-[300px]' />
-          <Button disabled={true} className='items-center gap-2'>
-            <PlusIcon size={16} />
-            <span>BOTを導入</span>
-          </Button>
-        </div>
+    <Tabs defaultValue='grid' className='space-y-6'>
+      <div className='flex gap-3'>
+        <Input disabled={true} placeholder='名前またはIDで検索' className='w-[300px] flex-1' />
+        <TabsList>
+          <TabsTrigger disabled={true} value='grid'>
+            <GridIcon size={18} />
+          </TabsTrigger>
+          <TabsTrigger disabled={true} value='list'>
+            <ListIcon size={18} />
+          </TabsTrigger>
+        </TabsList>
       </div>
       <div className='grid grid-cols-10 gap-6'>
         {Array(5)
@@ -34,6 +32,6 @@ export default function Loading() {
             </Card>
           ))}
       </div>
-    </div>
+    </Tabs>
   );
 }
