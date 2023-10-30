@@ -1,8 +1,9 @@
+import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { GridIcon, ListIcon } from 'lucide-react';
+import { GridIcon, ListIcon, PlusIcon } from 'lucide-react';
 
 export default function Loading() {
   return (
@@ -17,6 +18,10 @@ export default function Loading() {
             <ListIcon size={18} />
           </TabsTrigger>
         </TabsList>
+        <Button className='flex gap-2' disabled>
+          <PlusIcon size={16} />
+          サーバーに導入
+        </Button>
       </div>
       <div className='grid grid-cols-10 gap-6'>
         {Array(5)

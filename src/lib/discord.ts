@@ -1,28 +1,20 @@
-import { APIChannel, APIGuild, APIRole } from 'discord-api-types/v10';
+import {
+  APIChannel,
+  APIGuild,
+  APIRole,
+  RESTAPIPartialCurrentUserGuild,
+} from 'discord-api-types/v10';
 import { Discord } from './constants';
-import { PartialGuild } from '@/types/discord';
-import { getServerSession } from 'next-auth';
-import { authOption } from '@/app/api/auth/[...nextauth]/route';
 
-export async function getUserGuilds() {
-  const session = await getServerSession(authOption);
-  if (!session?.accessToken) throw new Error('Unauthorized');
-
+export async function getUserGuilds(token: string) {
   const res = await fetch(`${Discord.Endpoints.API}/users/@me/guilds`, {
-    headers: { Authorization: `Bearer ${session.accessToken}` },
-    cache: 'no-store',
+    headers: { Authorization: `Bearer ${token}` },
   });
-  if (!res.ok) throw new Error(res.statusText);
-  return await res.json<PartialGuild[]>();
-}
-
-export async function getBotGuilds() {
-  const res = await fetch(`${Discord.Endpoints.API}/users/@me/guilds`, {
-    headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` },
-    next: { revalidate: 5 },
-  });
-  if (!res.ok) throw new Error(res.statusText);
-  return await res.json<APIGuild[]>();
+  if (!res.ok) {
+    console.log(res.statusText);
+    throw new Error(res.statusText);
+  }
+  return await res.json<RESTAPIPartialCurrentUserGuild[]>();
 }
 
 export async function getGuild(guildId: string, withCounts?: boolean) {

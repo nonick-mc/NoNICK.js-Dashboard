@@ -1,44 +1,47 @@
 import './globals.css';
-import NextTopLoader from 'nextjs-toploader';
+import metadataConfig from '@/config/metadata';
 import { Noto_Sans_JP } from 'next/font/google';
-import { siteConfig } from '@/config/site';
-import type { Metadata } from 'next';
-import { Provider } from '@/components/provider';
+import { Metadata } from 'next';
+import { ReactNode } from 'react';
+import { Provider } from './provider';
 import { Toaster } from '@/components/ui/toaster';
 
-const notoSansJp = Noto_Sans_JP({ subsets: ['latin'] });
+const notoSansJP = Noto_Sans_JP({
+  subsets: ['latin'],
+  variable: '--font-notoSansJP',
+});
 
 export const metadata: Metadata = {
-  metadataBase: siteConfig.metadata.url,
+  metadataBase: metadataConfig.url,
   title: {
-    default: siteConfig.metadata.name,
-    template: `%s - ${siteConfig.metadata.name}`,
+    default: metadataConfig.name,
+    template: `%s - ${metadataConfig.name}`,
   },
-  description: siteConfig.metadata.description,
+  description: metadataConfig.description,
   themeColor: '#007af8',
   openGraph: {
-    title: siteConfig.metadata.name,
-    description: siteConfig.metadata.description,
-    siteName: siteConfig.metadata.name,
+    title: metadataConfig.name,
+    description: metadataConfig.description,
+    siteName: metadataConfig.name,
+    url: metadataConfig.url,
     locale: 'ja-JP',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: siteConfig.metadata.name,
-    description: siteConfig.metadata.description,
+    title: metadataConfig.name,
+    description: metadataConfig.description,
     site: '@nonick_js',
     creator: '@nonick_mc',
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang='ja'>
-      <body className={notoSansJp.className}>
+      <body className={notoSansJP.className}>
         <Provider>
-          <NextTopLoader color='#3b82f6' showSpinner={false} shadow={false} />
-          {children}
+          <main>{children}</main>
         </Provider>
         <Toaster />
       </body>

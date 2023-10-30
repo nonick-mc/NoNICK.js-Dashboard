@@ -1,8 +1,8 @@
-import Link from 'next/link';
-import { Logo } from '@/components/logo';
+import Logo from '@/components/logo';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Metadata } from 'next';
-import UserAuth from '@/app/(auth)/login/form';
+import Link from 'next/link';
+import { UserAuthForm } from './form';
 
 export const metadata: Metadata = {
   title: 'ログイン',
@@ -20,7 +20,7 @@ export default function Page() {
           </section>
         </CardHeader>
         <CardContent className='space-y-6'>
-          <UserAuth />
+          <UserAuthForm />
           <div className='text-sm text-muted-foreground'>
             ログインすることで、NoNICK.jsの
             <Link

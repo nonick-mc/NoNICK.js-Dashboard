@@ -1,23 +1,26 @@
 'use client';
 
+import { buttonVariants } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Discord } from '@/lib/constants';
-import { PartialGuild } from '@/types/discord';
-import { ChevronRight, GridIcon, ListIcon, SearchIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { RESTAPIPartialCurrentUserGuild } from 'discord-api-types/v10';
+import { ChevronRight, GridIcon, ListIcon, PlusIcon, SearchIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FC, useState } from 'react';
+import { useState } from 'react';
 
 type Props = {
-  guilds: PartialGuild[];
+  guilds: RESTAPIPartialCurrentUserGuild[];
 };
 
-export const GuildTable: FC<Props> = ({ guilds }) => {
-  const [searchKey, setSearchKey] = useState('');
+export function GuildTable({ guilds }: Props) {
+  const [filterValue, setFilterValue] = useState('');
   const filteredGuilds = guilds.filter(
-    ({ name, id }) => !searchKey || name.toLowerCase().includes(searchKey) || id === searchKey,
+    ({ name, id }) =>
+      name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1 || id.startsWith(filterValue),
   );
 
   return (
@@ -25,7 +28,8 @@ export const GuildTable: FC<Props> = ({ guilds }) => {
       <div className='flex gap-3'>
         <Input
           className='w-[300px] flex-1 focus-visible:ring-transparent'
-          onChange={(event) => setSearchKey(event.target.value.toLowerCase())}
+          value={filterValue}
+          onChange={(e) => setFilterValue(e.target.value.toLowerCase())}
           placeholder='名前またはIDで検索'
         />
         <TabsList>
@@ -36,6 +40,19 @@ export const GuildTable: FC<Props> = ({ guilds }) => {
             <ListIcon size={18} />
           </TabsTrigger>
         </TabsList>
+        <Link
+          className={cn(buttonVariants(), 'flex gap-2')}
+          href={`${Discord.Endpoints.API}/oauth2/authorize?${new URLSearchParams({
+            client_id: process.env.NEXT_PUBLIC_DISCORD_TOKEN,
+            scope: 'bot',
+            permissions: `${process.env.NEXT_PUBLIC_DISCORD_PERMISSION}`,
+            response_type: 'code',
+            redirect_uri: `${process.env.NEXT_PUBLIC_VERCEL_URL}/dashboard`,
+          }).toString()}`}
+        >
+          <PlusIcon size={16} />
+          サーバーに導入
+        </Link>
       </div>
       {!filteredGuilds.length ? (
         <Card className='flex h-[350px] items-center justify-center'>
@@ -54,7 +71,7 @@ export const GuildTable: FC<Props> = ({ guilds }) => {
             </div>
           </TabsContent>
           <TabsContent value='list'>
-            <div className='grid grid-cols-1 gap-3'>
+            <div className='grid grid-cols-1 gap-2'>
               {filteredGuilds.map((g) => (
                 <ListGuildItem key={g.id} guild={g} />
               ))}
@@ -64,12 +81,12 @@ export const GuildTable: FC<Props> = ({ guilds }) => {
       )}
     </Tabs>
   );
-};
+}
 
-export function GridGuildItem({ guild }: { guild: PartialGuild }) {
+export function GridGuildItem({ guild }: { guild: RESTAPIPartialCurrentUserGuild }) {
   return (
     <Link className='col-span-2' key={guild.id} href={`/dashboard/guild/${guild.id}`}>
-      <Card className='overflow-hidden'>
+      <Card className='overflow-hidden transition-all duration-150 hover:opacity-80'>
         <div className='flex items-center justify-center bg-secondary py-6'>
           <Image
             className='pointer-events-none rounded-full'
@@ -89,10 +106,10 @@ export function GridGuildItem({ guild }: { guild: PartialGuild }) {
   );
 }
 
-export function ListGuildItem({ guild }: { guild: PartialGuild }) {
+export function ListGuildItem({ guild }: { guild: RESTAPIPartialCurrentUserGuild }) {
   return (
     <Link className='col-span-2' key={guild.id} href={`/dashboard/guild/${guild.id}`}>
-      <Card className='flex items-center justify-between px-6 py-3'>
+      <Card className='flex items-center justify-between px-6 py-3 transition-all duration-150 hover:opacity-80'>
         <div className='flex items-center gap-3'>
           <Image
             className='pointer-events-none rounded-full'

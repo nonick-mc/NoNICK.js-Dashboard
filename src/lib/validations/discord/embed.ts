@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { urlSchema } from '.';
+import { urlSchema } from '../index';
 
 export namespace Embed {
   export const footerSchema = z.object({

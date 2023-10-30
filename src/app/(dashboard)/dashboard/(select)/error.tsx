@@ -1,9 +1,10 @@
 'use client';
 
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { AlertCircle, GridIcon, ListIcon } from 'lucide-react';
+import { AlertCircle, GridIcon, ListIcon, PlusIcon } from 'lucide-react';
 import { useEffect } from 'react';
 
 export default function Error({ error }: { error: Error }) {
@@ -23,6 +24,10 @@ export default function Error({ error }: { error: Error }) {
             <ListIcon size={18} />
           </TabsTrigger>
         </TabsList>
+        <Button className='flex gap-2' disabled>
+          <PlusIcon size={16} />
+          サーバーに導入
+        </Button>
       </div>
       <Alert className='items-center' variant='danger'>
         <AlertCircle size={18} />

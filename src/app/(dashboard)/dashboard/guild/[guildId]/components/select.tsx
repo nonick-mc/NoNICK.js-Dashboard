@@ -1,4 +1,6 @@
 import * as SelectPrimitive from '@radix-ui/react-select';
+import { FormControl } from '@/components/ui/form';
+import { APIChannel, APIRole, ChannelType } from 'discord-api-types/v10';
 import {
   Select,
   SelectContent,
@@ -6,25 +8,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { APIChannel, APIRole, ChannelType } from 'discord-api-types/v10';
-import { FC } from 'react';
-import { FormControl } from '@/components/ui/form';
-import { zeroPadding } from '@/lib/utils';
 
 type ChannelSelectProps = {
   channels: APIChannel[];
-  types: ChannelType[];
-  isShowCategoryName?: boolean;
+  filter?: (channel: APIChannel) => boolean;
   triggerClassName?: string;
 } & SelectPrimitive.SelectProps;
 
-export const ChannelSelect: FC<ChannelSelectProps> = ({
+export function ChannelSelect({
   channels,
-  types,
-  isShowCategoryName,
-  triggerClassName = 'w-[300px]',
+  filter,
+  triggerClassName,
   ...props
-}) => {
+}: ChannelSelectProps) {
   return (
     <Select {...props}>
       <FormControl>
@@ -34,48 +30,39 @@ export const ChannelSelect: FC<ChannelSelectProps> = ({
       </FormControl>
       <SelectContent className='max-h-[250px]'>
         {channels
-          .filter((ch) => types.includes(ch.type))
+          .filter((channel) => (filter ? filter(channel) : true))
           .map((ch) => (
             <SelectItem key={ch.id} value={ch.id}>
               {ch.name}
-              {isShowCategoryName &&
-                (ch.type == ChannelType.GuildText || ch.type == ChannelType.GuildVoice) && (
-                  <span className='ml-2 text-xs font-bold text-muted-foreground'>
-                    {channels.find((c) => c.id == ch.parent_id)?.name}
-                  </span>
-                )}
+              {(ch.type == ChannelType.GuildText || ch.type == ChannelType.GuildVoice) && (
+                <span className='ml-2 text-xs font-bold text-muted-foreground'>
+                  {channels.find((c) => c.id == ch.parent_id)?.name}
+                </span>
+              )}
             </SelectItem>
           ))}
       </SelectContent>
     </Select>
   );
-};
+}
 
 type RoleSelectProps = {
   roles: APIRole[];
-  isHideLinkedRole?: boolean;
-  isHideEveryoneRole?: boolean;
+  filter?: (role: APIRole) => boolean;
+  triggerClassName?: string;
 } & SelectPrimitive.SelectProps;
 
-export const RoleSelect: FC<RoleSelectProps> = ({
-  roles,
-  isHideLinkedRole,
-  isHideEveryoneRole,
-  ...props
-}) => {
+export function RoleSelect({ roles, filter, triggerClassName, ...props }: RoleSelectProps) {
   return (
     <Select {...props}>
       <FormControl>
-        <SelectTrigger className='w-[300px]'>
+        <SelectTrigger className={triggerClassName}>
           <SelectValue placeholder='ロールを選択' />
         </SelectTrigger>
       </FormControl>
       <SelectContent className='max-h-[250px]'>
         {roles
-          .filter(
-            (role) =>
-              !((isHideLinkedRole && role.managed) || (isHideEveryoneRole && role.position === 0)),
-          )
+          .filter((role) => (filter ? filter(role) : true))
           .sort((a, b) => (a.position < b.position ? 1 : -1))
           .map((role) => (
             <SelectItem key={role.id} value={role.id}>
@@ -85,27 +72,32 @@ export const RoleSelect: FC<RoleSelectProps> = ({
       </SelectContent>
     </Select>
   );
-};
+}
 
-type HourSelectProps = SelectPrimitive.SelectProps;
+type NumberSelectProps = {
+  length: number;
+  filter?: (value: number) => boolean;
+  format?: (value: number) => string;
+  triggerClassName?: string;
+} & SelectPrimitive.SelectProps;
 
-export const HourSelect: FC<HourSelectProps> = ({ ...props }) => {
+export function NumberSelect({ length, format, triggerClassName, ...props }: NumberSelectProps) {
   return (
     <Select {...props}>
       <FormControl>
-        <SelectTrigger className='w-[150px]'>
+        <SelectTrigger className={triggerClassName}>
           <SelectValue placeholder='選択' />
         </SelectTrigger>
       </FormControl>
       <SelectContent className='max-h-[250px]'>
-        {Array(24)
+        {Array(length)
           .fill(0)
           .map((v, index) => (
             <SelectItem key={index} value={String(index)}>
-              {zeroPadding(index, 2)}:00
+              {format ? format(index) : index}
             </SelectItem>
           ))}
       </SelectContent>
     </Select>
   );
-};
+}

@@ -1,7 +1,6 @@
 import { Card } from '@/components/ui/card';
 import { Snowflake, getDate } from 'discord-snowflake';
 import { Metadata } from 'next';
-import { Shell } from '../formats';
 import { StatsCard } from './stats-card';
 import { Calendar, InfoIcon, Rocket, Users } from 'lucide-react';
 import { getGuild } from '@/lib/discord';
@@ -17,7 +16,7 @@ export default async function Page({ params: { guildId } }: { params: { guildId:
   const createAt = getDate(guildId as Snowflake);
 
   return (
-    <Shell>
+    <>
       <Alert className='items-center' variant='primary'>
         <InfoIcon size={18} />
         <AlertTitle>このページはサンプルです。</AlertTitle>
@@ -56,6 +55,6 @@ export default async function Page({ params: { guildId } }: { params: { guildId:
           </Card>
         </div>
       </div>
-    </Shell>
+    </>
   );
 }

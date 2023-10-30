@@ -154,6 +154,6 @@ const ServerSettings = new Schema<IServerSettings>({
   },
 });
 
-export default models?.ServerSettings
+export default models.ServerSettings
   ? (models.ServerSettings as Model<IServerSettings>)
   : model<IServerSettings, Model<IServerSettings>>('ServerSettings', ServerSettings);

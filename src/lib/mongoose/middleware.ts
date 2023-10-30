@@ -16,13 +16,10 @@ export async function patchServerSetting<T extends keyof IServerSettings>(
   disableCooldown?: boolean,
 ) {
   await dbConnect();
-
-  const res = await ServerSettings.findOneAndUpdate(
+  await ServerSettings.findOneAndUpdate(
     { serverId: guildId },
     { $set: { [path]: values } },
     { upsert: true },
-  );
-
-  await res?.save({ wtimeout: 1500 });
+  ).exec();
   if (!disableCooldown) await wait(1000);
 }
