@@ -1,7 +1,7 @@
 import './globals.css';
 import metadataConfig from '@/config/metadata';
 import { Noto_Sans_JP } from 'next/font/google';
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 import { ReactNode } from 'react';
 import { Provider } from './provider';
 import { Toaster } from '@/components/ui/toaster';
@@ -18,7 +18,6 @@ export const metadata: Metadata = {
     template: `%s - ${metadataConfig.name}`,
   },
   description: metadataConfig.description,
-  themeColor: '#007af8',
   openGraph: {
     title: metadataConfig.name,
     description: metadataConfig.description,
@@ -34,6 +33,10 @@ export const metadata: Metadata = {
     site: '@nonick_js',
     creator: '@nonick_mc',
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#007af8',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
