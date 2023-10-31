@@ -1,27 +1,28 @@
 import { Card } from '@/components/ui/card';
 import { Snowflake, getDate } from 'discord-snowflake';
 import { Metadata } from 'next';
-import { Shell } from '../formats';
 import { StatsCard } from './stats-card';
-import { Calendar, InfoIcon, MessagesSquare, Rocket, Users } from 'lucide-react';
+import { Calendar, InfoIcon, Rocket, Users } from 'lucide-react';
 import { getGuild } from '@/lib/discord';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { MessageActivityGraph } from './graphs';
 
 export const metadata: Metadata = {
   title: 'ダッシュボード',
-}
+};
 
 export default async function Page({ params: { guildId } }: { params: { guildId: string } }) {
   const guild = await getGuild(guildId, true);
   const createAt = getDate(guildId as Snowflake);
-    
+
   return (
-    <Shell>
+    <>
       <Alert className='items-center' variant='primary'>
-        <InfoIcon size={18}/>
+        <InfoIcon size={18} />
         <AlertTitle>このページはサンプルです。</AlertTitle>
-        <AlertDescription>v5.0では、運営からのお知らせの確認はもちろん、サーバーの分析に役立つ情報を簡単に閲覧することができます。</AlertDescription>
+        <AlertDescription>
+          v5.0では、運営からのお知らせの確認はもちろん、サーバーの分析に役立つ情報を簡単に閲覧することができます。
+        </AlertDescription>
       </Alert>
       <div className='flex flex-col gap-4'>
         <div className='grid grid-cols-3 gap-4'>
@@ -41,17 +42,19 @@ export default async function Page({ params: { guildId } }: { params: { guildId:
             icon={Calendar}
           />
         </div>
-        <div className='flex-1 grid grid-cols-12 gap-4'>
-          <Card className='col-span-7 p-6 space-y-3'>  
+        <div className='grid flex-1 grid-cols-12 gap-4'>
+          <Card className='col-span-7 space-y-3 p-6'>
             <p>週間メッセージ数</p>
-            <MessageActivityGraph/>
+            <MessageActivityGraph />
           </Card>
-          <Card className='col-span-5 p-6 space-y-3'>
+          <Card className='col-span-5 space-y-3 p-6'>
             <p>運営からのお知らせ</p>
-            <p className='text-muted-foreground text-center text-sm'>現在、お知らせはありません。</p>
+            <p className='text-center text-sm text-muted-foreground'>
+              現在、お知らせはありません。
+            </p>
           </Card>
         </div>
       </div>
-    </Shell>
-  )
+    </>
+  );
 }

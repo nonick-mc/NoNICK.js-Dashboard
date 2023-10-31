@@ -1,24 +1,29 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { IServerSettings } from '@/schemas/ServerSettings';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { FC, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { FormItemLayout, RequiredAsterisk, SubmitButton } from '../../form-items';
-import { Switch } from '@/components/ui/switch';
-import { ChannelSelect } from '../../selects';
-import { APIChannel, ChannelType } from 'discord-api-types/v10';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { InfoIcon } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
-import { patchServerSetting } from '@/lib/mongoose';
+import { IServerSettings } from '@/models/settingModel';
+import { APIChannel, ChannelType } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { nullToUndefinedOrValue } from '@/lib/utils';
+import { patchServerSetting } from '@/lib/mongoose/middleware';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
+import { FormField, FormControl, Form } from '@/components/ui/form';
+import { InfoIcon } from 'lucide-react';
+import { FormItemLayout, SubmitButton } from '../../_components/form';
+import { ChannelSelect } from '../../_components/select';
+import { Switch } from '@/components/ui/switch';
 
-const logSettingsSchema = z.discriminatedUnion('enable', [
+type Props = {
+  channels: APIChannel[];
+  setting: IServerSettings['log'] | undefined;
+};
+
+const logCategoryOptionsSchema = z.discriminatedUnion('enable', [
   z.object({
     enable: z.literal(true),
     channel: z.string({ required_error: '選択してください' }),
@@ -29,26 +34,21 @@ const logSettingsSchema = z.discriminatedUnion('enable', [
   }),
 ]);
 
-const formSchema = z.object({
-  timeout: logSettingsSchema,
-  kick: logSettingsSchema,
-  ban: logSettingsSchema,
-  voice: logSettingsSchema,
-  delete: logSettingsSchema,
-})
+const schema = z.object({
+  timeout: logCategoryOptionsSchema,
+  kick: logCategoryOptionsSchema,
+  ban: logCategoryOptionsSchema,
+  voice: logCategoryOptionsSchema,
+  delete: logCategoryOptionsSchema,
+});
 
-type Props = {
-  channels: APIChannel[]
-  setting: IServerSettings['log'] | undefined,
-}
-
-export const SettingForm: FC<Props> = ({ channels, setting }) => {
-  const [ loading, setLoading ] = useState(false);
+export default function SettingForm({ channels, setting }: Props) {
+  const [loading, setLoading] = useState(false);
+  const { guildId }: { guildId: string } = useParams();
   const { toast } = useToast();
-  const { guildId } = useParams();
-  
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
     defaultValues: {
       timeout: {
         enable: !!setting?.timeout.enable,
@@ -71,13 +71,19 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
         channel: nullToUndefinedOrValue(setting?.timeout.channel),
       },
     },
-  })
+  });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof schema>) {
     setLoading(true);
     await patchServerSetting(guildId, 'log', values)
       .then(() => toast({ title: '設定を保存しました！' }))
-      .catch(() => toast({ title: '設定の保存に失敗しました。', description: '時間をおいて再試行してください。', variant: 'destructive' }))
+      .catch(() =>
+        toast({
+          title: '設定の保存に失敗しました',
+          description: '時間をおいて再試行してください。',
+          variant: 'destructive',
+        }),
+      )
       .finally(() => setLoading(false));
   }
 
@@ -98,10 +104,7 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
                   description='メンバーをタイムアウトしたり、タイムアウトを手動で解除したりした際にログを送信します。'
                 >
                   <FormControl>
-                    <Switch
-                      onCheckedChange={field.onChange}
-                      checked={field.value}
-                    />
+                    <Switch onCheckedChange={field.onChange} checked={field.value} />
                   </FormControl>
                 </FormItemLayout>
               )}
@@ -112,17 +115,15 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
               render={({ field }) => (
                 <FormItemLayout
                   title='チャンネル'
-                  description='このチャンネルにログが送信されます。'
                   disabled={!form.watch('timeout.enable')}
                   required
                 >
                   <ChannelSelect
                     channels={channels}
-                    types={[ChannelType.GuildText]}
+                    filter={(channel) => channel.type === ChannelType.GuildText}
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                     disabled={!form.watch('timeout.enable')}
-                    isShowCategoryName
                   />
                 </FormItemLayout>
               )}
@@ -143,10 +144,7 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
                   description='メンバーをキックした際にログを送信します。'
                 >
                   <FormControl>
-                    <Switch
-                      onCheckedChange={field.onChange}
-                      checked={field.value}
-                    />
+                    <Switch onCheckedChange={field.onChange} checked={field.value} />
                   </FormControl>
                 </FormItemLayout>
               )}
@@ -155,19 +153,13 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
               control={form.control}
               name='kick.channel'
               render={({ field }) => (
-                <FormItemLayout
-                  title='チャンネル'
-                  description='このチャンネルにログが送信されます。'
-                  disabled={!form.watch('kick.enable')}
-                  required
-                >
+                <FormItemLayout title='チャンネル' disabled={!form.watch('kick.enable')} required>
                   <ChannelSelect
                     channels={channels}
-                    types={[ChannelType.GuildText]}
+                    filter={(channel) => channel.type === ChannelType.GuildText}
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                     disabled={!form.watch('kick.enable')}
-                    isShowCategoryName
                   />
                 </FormItemLayout>
               )}
@@ -188,10 +180,7 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
                   description='メンバーをBANしたり、BANを解除した際にログを送信します。'
                 >
                   <FormControl>
-                    <Switch
-                      onCheckedChange={field.onChange}
-                      checked={field.value}
-                    />
+                    <Switch onCheckedChange={field.onChange} checked={field.value} />
                   </FormControl>
                 </FormItemLayout>
               )}
@@ -200,19 +189,13 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
               control={form.control}
               name='ban.channel'
               render={({ field }) => (
-                <FormItemLayout
-                  title='チャンネル'
-                  description='このチャンネルにログが送信されます。'
-                  disabled={!form.watch('ban.enable')}
-                  required
-                >
+                <FormItemLayout title='チャンネル' disabled={!form.watch('ban.enable')} required>
                   <ChannelSelect
                     channels={channels}
-                    types={[ChannelType.GuildText]}
+                    filter={(channel) => channel.type === ChannelType.GuildText}
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                     disabled={!form.watch('ban.enable')}
-                    isShowCategoryName
                   />
                 </FormItemLayout>
               )}
@@ -233,10 +216,7 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
                   description='ボイスチャットの入室や退室、移動があった際にログを送信します。'
                 >
                   <FormControl>
-                    <Switch
-                      onCheckedChange={field.onChange}
-                      checked={field.value}
-                    />
+                    <Switch onCheckedChange={field.onChange} checked={field.value} />
                   </FormControl>
                 </FormItemLayout>
               )}
@@ -245,19 +225,13 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
               control={form.control}
               name='voice.channel'
               render={({ field }) => (
-                <FormItemLayout
-                  title='チャンネル'
-                  description='このチャンネルにログが送信されます。'
-                  disabled={!form.watch('voice.enable')}
-                  required
-                >
+                <FormItemLayout title='チャンネル' disabled={!form.watch('voice.enable')} required>
                   <ChannelSelect
                     channels={channels}
-                    types={[ChannelType.GuildText]}
+                    filter={(channel) => channel.type === ChannelType.GuildText}
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                     disabled={!form.watch('voice.enable')}
-                    isShowCategoryName
                   />
                 </FormItemLayout>
               )}
@@ -278,10 +252,7 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
                   description='メッセージが削除された際にログを送信します。'
                 >
                   <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
+                    <Switch checked={field.value} onCheckedChange={field.onChange} />
                   </FormControl>
                 </FormItemLayout>
               )}
@@ -290,34 +261,30 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
               control={form.control}
               name='delete.channel'
               render={({ field }) => (
-                <FormItemLayout
-                  title='チャンネル'
-                  description='このチャンネルにログが送信されます。'
-                  disabled={!form.watch('delete.enable')}
-                  required
-                >
+                <FormItemLayout title='チャンネル' disabled={!form.watch('delete.enable')} required>
                   <ChannelSelect
                     channels={channels}
-                    types={[ChannelType.GuildText]}
+                    filter={(channel) => channel.type === ChannelType.GuildText}
                     defaultValue={field.value}
                     onValueChange={field.onChange}
                     disabled={!form.watch('delete.enable')}
-                    isShowCategoryName
                   />
                 </FormItemLayout>
               )}
             />
             {form.watch('delete.enable') && (
               <Alert className='items-center' variant='primary'>
-                <InfoIcon size={18}/>
+                <InfoIcon size={18} />
                 <AlertTitle>一部のメッセージは削除してもログが送信されません</AlertTitle>
-                <AlertDescription>仕様上、BOTが送信したメッセージやNoNICK.jsを導入する前に送信されたメッセージには、削除ログは送信されません。</AlertDescription>
+                <AlertDescription>
+                  仕様上、BOTが送信したメッセージやNoNICK.jsを導入する前に送信されたメッセージには、削除ログは送信されません。
+                </AlertDescription>
               </Alert>
             )}
           </CardContent>
         </Card>
-        <SubmitButton disabled={loading}/>
+        <SubmitButton disabled={loading} />
       </form>
     </Form>
-  )
-};
+  );
+}

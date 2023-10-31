@@ -1,44 +1,59 @@
 'use client';
 
-import React from 'react';
-import Link from 'next/link';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { signOut, useSession } from 'next-auth/react';
-import { Avatar, AvatarFallback, AvatarImage } from '../../../components/ui/avatar';
-import { LogOut, Server } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Discord } from '@/lib/constants';
+import { LogOutIcon, ServerIcon } from 'lucide-react';
+import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export function UserDropDown() {
   const { data: session } = useSession();
+  const router = useRouter();
+
+  const userAvatar = session?.user?.image || `${Discord.Endpoints.CDN}/embed/avatars/0.png`;
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Avatar className='w-8 h-8'>
-          <AvatarImage src={session?.user?.image || `${Discord.Endpoints.CDN}/embed/avatars/0.png`} />
+      <DropdownMenuTrigger aria-label='マイアカウント'>
+        <Avatar className='h-8 w-8 transition-all'>
+          <AvatarImage
+            src={userAvatar}
+            alt={`${session?.user?.name || '不明なユーザー'}のアイコン`}
+          />
           <AvatarFallback>{session?.user?.name}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className='w-40'>
-        <DropdownMenuLabel className='space-y-1'>
-          <p>@{session?.user?.name}</p>
-          <p className='text-xs text-muted-foreground'>Discordアカウント</p>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator/>
-        <Link href='/dashboard' passHref>
-          <DropdownMenuItem className='items-center cursor-pointer'>
-            <Server size={15} className='mr-2'/>
-            <span>サーバー選択</span>
-          </DropdownMenuItem>
-        </Link>
+      <DropdownMenuContent align='end' className='w-60'>
+        <div className='flex items-center gap-2 px-2 py-1.5 text-sm font-semibold'>
+          <Avatar className='h-10 w-10'>
+            <AvatarImage src={userAvatar} />
+            <AvatarFallback>{session?.user?.name}</AvatarFallback>
+          </Avatar>
+          <section>
+            <p>@{session?.user?.name}</p>
+            <p className='text-xs text-muted-foreground'>Discordアカウント</p>
+          </section>
+        </div>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className='gap-2' onClick={() => router.push('/dashboard')}>
+          <ServerIcon size={15} />
+          <span>サーバー選択</span>
+        </DropdownMenuItem>
         <DropdownMenuItem
-          className='text-red-500 focus:bg-red-500/10 focus:text-red-500 cursor-pointer'
+          className='gap-2 text-red-500 focus:bg-red-500/10 focus:text-red-500'
           onClick={() => signOut({ callbackUrl: '/' })}
         >
-          <LogOut size={15} className='mr-2'/>
+          <LogOutIcon size={15} />
           <span>ログアウト</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import { siteConfig } from '@/config/site';
+import metadataConfig from '@/config/metadata';
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/dashboard',
     },
-    sitemap: `${siteConfig.metadata.url}/sitemap.xml`
-  }
+    sitemap: `${metadataConfig.url}/sitemap.xml`,
+  };
 }

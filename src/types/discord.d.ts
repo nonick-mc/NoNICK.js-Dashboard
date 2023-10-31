@@ -1,13 +1,5 @@
-export type PartialGuild = {
-  id: string,
-  name: string,
-  icon: string,
-  owner: boolean,
-  permissions: string,
-  features: string[],
-}
+import { RESTAPIPartialCurrentUserGuild } from 'discord-api-types/v10';
 
-export type APIError = {
-  message: string,
-  code: number,
+export interface PartialCurrentUserGuildWithBotJoined extends RESTAPIPartialCurrentUserGuild {
+  isBotJoined: boolean;
 }

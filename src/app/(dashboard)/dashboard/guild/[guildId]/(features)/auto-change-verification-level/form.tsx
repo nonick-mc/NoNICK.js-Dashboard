@@ -1,21 +1,33 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from '@/components/ui/form';
-import { useToast } from '@/components/ui/use-toast';
-import { IServerSettings } from '@/schemas/ServerSettings';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { FC, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { FormItemLayout, SubmitButton } from '../../form-items';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+} from '@/components/ui/form';
+import { useToast } from '@/components/ui/use-toast';
+import { IServerSettings } from '@/models/settingModel';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Switch } from '@/components/ui/switch';
-import { ChannelSelect, HourSelect } from '../../selects';
+import { ChannelSelect, NumberSelect } from '../../_components/select';
 import { APIChannel, ChannelType, GuildVerificationLevel } from 'discord-api-types/v10';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { cn, nullToUndefinedOrValue } from '@/lib/utils';
-import { patchServerSetting } from '@/lib/mongoose';
+import { cn, nullToUndefinedOrValue, zeroPadding } from '@/lib/utils';
+import { patchServerSetting } from '@/lib/mongoose/middleware';
 import { useParams } from 'next/navigation';
+import { FormItemLayout, SubmitButton } from '../../_components/form';
+
+type Props = {
+  channels: APIChannel[];
+  setting: IServerSettings['changeVerificationLevel'] | undefined;
+};
 
 const schema = z.discriminatedUnion('enable', [
   z.object({
@@ -34,40 +46,42 @@ const schema = z.discriminatedUnion('enable', [
         channel: z.string().optional(),
       }),
     ]),
-    time: z.object({
-      start: z.coerce.number({ invalid_type_error: '選択してください' }),
-      end: z.coerce.number({ invalid_type_error: '選択してください' }),
-    })
-    .refine(({ start, end }) => start !== end, {
-      path: ['end'],
-      message: '開始・終了時間を同じ時間に設定することはできません'
-    }),
+    time: z
+      .object({
+        start: z.coerce.number({ invalid_type_error: '選択してください' }),
+        end: z.coerce.number({ invalid_type_error: '選択してください' }),
+      })
+      .refine(({ start, end }) => start !== end, {
+        path: ['end'],
+        message: '開始・終了時間を同じ時間に設定することはできません',
+      }),
   }),
   z.object({
     enable: z.literal(false),
-    level: z.object({
-      old: z.number().min(1).max(4),
-      new: z.coerce.number().min(1).max(4),
-    }).partial(),
-    log: z.object({
-      enable: z.boolean(),
-      channel: z.string(),
-    }).partial(),
-    time: z.object({
-      start: z.coerce.number(),
-      end: z.coerce.number(),
-    }).partial(),
+    level: z
+      .object({
+        old: z.number().min(1).max(4),
+        new: z.coerce.number().min(1).max(4),
+      })
+      .partial(),
+    log: z
+      .object({
+        enable: z.boolean(),
+        channel: z.string(),
+      })
+      .partial(),
+    time: z
+      .object({
+        start: z.coerce.number(),
+        end: z.coerce.number(),
+      })
+      .partial(),
   }),
 ]);
 
-type Props = {
-  channels: APIChannel[],
-  setting: IServerSettings['changeVerificationLevel'] | undefined,
-}
-
-export const SettingForm: FC<Props> = ({ channels, setting }) => {
-  const [ loading, setLoading ] = useState(false);
-  const { guildId } = useParams();
+export default function SettingForm({ channels, setting }: Props) {
+  const [loading, setLoading] = useState(false);
+  const { guildId }: { guildId: string } = useParams();
   const { toast } = useToast();
 
   const form = useForm<z.infer<typeof schema>>({
@@ -93,7 +107,13 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
     setLoading(true);
     await patchServerSetting(guildId, 'changeVerificationLevel', values)
       .then(() => toast({ title: '設定を保存しました！' }))
-      .catch(() => toast({ title: '設定の保存に失敗しました。', description: '時間をおいて再試行してください。', variant: 'destructive' }))
+      .catch(() =>
+        toast({
+          title: '設定の保存に失敗しました。',
+          description: '時間をおいて再試行してください。',
+          variant: 'destructive',
+        }),
+      )
       .finally(() => setLoading(false));
   }
 
@@ -107,10 +127,7 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
             render={({ field }) => (
               <FormItemLayout title='自動認証レベル変更を有効にする'>
                 <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
+                  <Switch checked={field.value} onCheckedChange={field.onChange} />
                 </FormControl>
               </FormItemLayout>
             )}
@@ -127,11 +144,13 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
               render={({ field }) => (
                 <FormItemLayout
                   title='開始時間'
-                  description='自動変更の開始時間を設定します。'
+                  description='この時間に認証レベルを変更します'
                   disabled={!form.watch('enable')}
                   required
                 >
-                  <HourSelect
+                  <NumberSelect
+                    length={24}
+                    format={(value) => `${zeroPadding(value, 2)}:00`}
                     onValueChange={field.onChange}
                     defaultValue={field.value == null ? undefined : String(field.value)}
                     disabled={!form.watch('enable')}
@@ -145,11 +164,13 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
               render={({ field }) => (
                 <FormItemLayout
                   title='終了時間'
-                  description='自動変更の終了時間を設定します。'
+                  description='この時間にもとの認証レベルに戻します'
                   disabled={!form.watch('enable')}
                   required
                 >
-                  <HourSelect
+                  <NumberSelect
+                    length={24}
+                    format={(value) => `${zeroPadding(value, 2)}:00`}
                     onValueChange={field.onChange}
                     defaultValue={field.value == null ? undefined : String(field.value)}
                     disabled={!form.watch('enable')}
@@ -162,7 +183,7 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
               name='level.new'
               render={({ field }) => (
                 <FormItemLayout
-                  title='期間内に変更する認証レベル'
+                  title='期間内に設定する認証レベル'
                   layout='col'
                   disabled={!form.watch('enable')}
                   required
@@ -175,8 +196,8 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
                       disabled={!form.watch('enable')}
                     >
                       <FormControl>
-                        <FormItem className='space-y-0 flex gap-3 items-center'>
-                          <RadioGroupItem value={String(GuildVerificationLevel.Low)}/>
+                        <FormItem className='flex items-center gap-3 space-y-0'>
+                          <RadioGroupItem value={String(GuildVerificationLevel.Low)} />
                           <div className={cn({ 'opacity-50': !form.watch('enable') })}>
                             <FormLabel className='text-green-500'>低</FormLabel>
                             <FormDescription>メール認証がされているアカウントのみ</FormDescription>
@@ -184,26 +205,30 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
                         </FormItem>
                       </FormControl>
                       <FormControl>
-                        <FormItem className='space-y-0 flex gap-3 items-center'>
-                          <RadioGroupItem value={String(GuildVerificationLevel.Medium)}/>
+                        <FormItem className='flex items-center gap-3 space-y-0'>
+                          <RadioGroupItem value={String(GuildVerificationLevel.Medium)} />
                           <div className={cn({ 'opacity-50': !form.watch('enable') })}>
                             <FormLabel className='text-yellow-500'>中</FormLabel>
-                            <FormDescription>Discordに登録してから5分以上経過したアカウントのみ</FormDescription>
+                            <FormDescription>
+                              Discordに登録してから5分以上経過したアカウントのみ
+                            </FormDescription>
                           </div>
                         </FormItem>
                       </FormControl>
                       <FormControl>
-                        <FormItem className='space-y-0 flex gap-3 items-center'>
-                          <RadioGroupItem value={String(GuildVerificationLevel.High)}/>
+                        <FormItem className='flex items-center gap-3 space-y-0'>
+                          <RadioGroupItem value={String(GuildVerificationLevel.High)} />
                           <div className={cn({ 'opacity-50': !form.watch('enable') })}>
                             <FormLabel className='text-orange-500'>高</FormLabel>
-                            <FormDescription>このサーバーのメンバーとなってから10分以上経過したアカウントのみ</FormDescription>
+                            <FormDescription>
+                              このサーバーのメンバーとなってから10分以上経過したアカウントのみ
+                            </FormDescription>
                           </div>
                         </FormItem>
                       </FormControl>
                       <FormControl>
-                        <FormItem className='space-y-0 flex gap-3 items-center'>
-                          <RadioGroupItem value={String(GuildVerificationLevel.VeryHigh)}/>
+                        <FormItem className='flex items-center gap-3 space-y-0'>
+                          <RadioGroupItem value={String(GuildVerificationLevel.VeryHigh)} />
                           <div className={cn({ 'opacity-50': !form.watch('enable') })}>
                             <FormLabel className='text-red-500'>最高</FormLabel>
                             <FormDescription>電話認証がされているアカウントのみ</FormDescription>
@@ -228,7 +253,7 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
               render={({ field }) => (
                 <FormItemLayout
                   title='ログ機能を有効にする'
-                  description='有効にすると、自動変更の開始・終了時にログを送信します。'
+                  description='自動変更の開始・終了時にログを送信する'
                   disabled={!form.watch('enable')}
                 >
                   <FormControl>
@@ -247,24 +272,22 @@ export const SettingForm: FC<Props> = ({ channels, setting }) => {
               render={({ field }) => (
                 <FormItemLayout
                   title='チャンネル'
-                  description='自動変更ログの送信先を設定します。'
                   disabled={!form.watch('enable') || !form.watch('log.enable')}
                   required
                 >
                   <ChannelSelect
                     channels={channels}
-                    types={[ChannelType.GuildText]}
+                    filter={(channel) => channel.type === ChannelType.GuildText}
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                     disabled={!form.watch('enable') || !form.watch('log.enable')}
-                    isShowCategoryName
                   />
                 </FormItemLayout>
               )}
             />
           </CardContent>
         </Card>
-        <SubmitButton disabled={loading}/>
+        <SubmitButton disabled={loading} />
       </form>
     </Form>
   );
