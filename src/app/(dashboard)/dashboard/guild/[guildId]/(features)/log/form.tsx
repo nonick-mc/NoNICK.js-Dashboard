@@ -56,19 +56,19 @@ export default function SettingForm({ channels, setting }: Props) {
       },
       kick: {
         enable: !!setting?.kick.enable,
-        channel: nullToUndefinedOrValue(setting?.timeout.channel),
+        channel: nullToUndefinedOrValue(setting?.kick.channel),
       },
       ban: {
         enable: !!setting?.ban.enable,
-        channel: nullToUndefinedOrValue(setting?.timeout.channel),
+        channel: nullToUndefinedOrValue(setting?.ban.channel),
       },
       voice: {
         enable: !!setting?.voice.enable,
-        channel: nullToUndefinedOrValue(setting?.timeout.channel),
+        channel: nullToUndefinedOrValue(setting?.voice.channel),
       },
       delete: {
         enable: !!setting?.delete.enable,
-        channel: nullToUndefinedOrValue(setting?.timeout.channel),
+        channel: nullToUndefinedOrValue(setting?.delete.channel),
       },
     },
   });
