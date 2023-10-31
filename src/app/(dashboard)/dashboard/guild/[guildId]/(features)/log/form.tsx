@@ -14,8 +14,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
 import { FormField, FormControl, Form } from '@/components/ui/form';
 import { InfoIcon } from 'lucide-react';
-import { FormItemLayout, SubmitButton } from '../../components/form';
-import { ChannelSelect } from '../../components/select';
+import { FormItemLayout, SubmitButton } from '../../_components/form';
+import { ChannelSelect } from '../../_components/select';
 import { Switch } from '@/components/ui/switch';
 
 type Props = {

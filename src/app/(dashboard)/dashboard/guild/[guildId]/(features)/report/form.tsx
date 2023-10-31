@@ -12,8 +12,8 @@ import { APIChannel, APIRole, ChannelType } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FormItemLayout, SubmitButton } from '../../components/form';
-import { ChannelSelect, RoleSelect } from '../../components/select';
+import { FormItemLayout, SubmitButton } from '../../_components/form';
+import { ChannelSelect, RoleSelect } from '../../_components/select';
 import { Switch } from '@/components/ui/switch';
 
 type Props = {

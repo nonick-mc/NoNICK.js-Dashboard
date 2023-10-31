@@ -1,11 +1,7 @@
-import { hasPermission } from '@/lib/discord';
 import { Metadata } from 'next';
 import { GuildTable } from './table';
-import { Discord } from '@/lib/constants';
-import guildCacheModel from '@/models/guildCacheModel';
-import dbConnect from '@/lib/mongoose/connect';
-import { RESTAPIPartialCurrentUserGuild } from 'discord-api-types/v10';
 import { cookies } from 'next/headers';
+import { PartialCurrentUserGuildWithBotJoined } from '@/types/discord';
 
 export const metadata: Metadata = {
   title: 'サーバー選択',
@@ -22,26 +18,10 @@ async function getUserGuilds() {
   });
 
   if (!res.ok) throw new Error(res.statusText);
-  return res.json<RESTAPIPartialCurrentUserGuild[]>();
-}
-
-async function getValidGuilds() {
-  await dbConnect();
-  const guilds = await getUserGuilds();
-
-  const res = await Promise.all(
-    guilds
-      .filter((guild) => hasPermission(guild.permissions, Discord.Permissions.ManageGuild))
-      .map(async (guild) => {
-        const res = await guildCacheModel.findOne({ serverId: guild.id });
-        return res ? guild : false;
-      }),
-  );
-
-  return res.filter((guild): guild is RESTAPIPartialCurrentUserGuild => !!guild);
+  return res.json<PartialCurrentUserGuildWithBotJoined[]>();
 }
 
 export default async function Page() {
-  const guilds = await getValidGuilds();
+  const guilds = (await getUserGuilds()).filter((guild) => guild.isBotJoined);
   return <GuildTable guilds={guilds} />;
 }

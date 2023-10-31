@@ -1,21 +1,5 @@
-import {
-  APIChannel,
-  APIGuild,
-  APIRole,
-  RESTAPIPartialCurrentUserGuild,
-} from 'discord-api-types/v10';
+import { APIChannel, APIGuild, APIRole } from 'discord-api-types/v10';
 import { Discord } from './constants';
-
-export async function getUserGuilds(token: string) {
-  const res = await fetch(`${Discord.Endpoints.API}/users/@me/guilds`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  if (!res.ok) {
-    console.log(res.statusText);
-    throw new Error(res.statusText);
-  }
-  return await res.json<RESTAPIPartialCurrentUserGuild[]>();
-}
 
 export async function getGuild(guildId: string, withCounts?: boolean) {
   const res = await fetch(

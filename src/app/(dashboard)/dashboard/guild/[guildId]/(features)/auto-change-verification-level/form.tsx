@@ -16,13 +16,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Switch } from '@/components/ui/switch';
-import { ChannelSelect, NumberSelect } from '../../components/select';
+import { ChannelSelect, NumberSelect } from '../../_components/select';
 import { APIChannel, ChannelType, GuildVerificationLevel } from 'discord-api-types/v10';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { cn, nullToUndefinedOrValue, zeroPadding } from '@/lib/utils';
 import { patchServerSetting } from '@/lib/mongoose/middleware';
 import { useParams } from 'next/navigation';
-import { FormItemLayout, SubmitButton } from '../../components/form';
+import { FormItemLayout, SubmitButton } from '../../_components/form';
 
 type Props = {
   channels: APIChannel[];

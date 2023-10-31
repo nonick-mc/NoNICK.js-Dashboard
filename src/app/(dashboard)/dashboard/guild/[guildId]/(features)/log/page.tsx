@@ -1,5 +1,5 @@
 import { getChannels } from '@/lib/discord';
-import { Header } from '../../components/header';
+import { Header } from '../../_components/header';
 import { getServerSetting } from '@/lib/mongoose/middleware';
 import SettingForm from './form';
 import { Metadata } from 'next';

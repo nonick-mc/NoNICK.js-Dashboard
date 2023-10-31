@@ -1,6 +1,6 @@
 import { getChannels } from '@/lib/discord';
 import { Metadata } from 'next';
-import { Header } from '../../components/header';
+import { Header } from '../../_components/header';
 import { Alert, AlertTitle } from '@/components/ui/alert';
 import { InfoIcon } from 'lucide-react';
 import SettingForm from './form';
