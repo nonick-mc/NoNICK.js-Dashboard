@@ -1,7 +1,7 @@
-import { getServerSetting } from '@/lib/mongoose';
-import { Header, Shell } from '../../formats';
 import { getChannels } from '@/lib/discord';
-import { SettingForm } from './form';
+import { Header } from '../../_components/header';
+import { getServerSetting } from '@/lib/mongoose/middleware';
+import SettingForm from './form';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -13,12 +13,12 @@ export default async function Page({ params: { guildId } }: { params: { guildId:
   const setting = await getServerSetting(guildId, 'log');
 
   return (
-    <Shell>
-      <Header title='イベントログ' description='サーバー内で起こったイベントのログを送信します。' />
+    <>
+      <Header title='イベントログ' description='サーバー内での特定アクションのログを送信します。' />
       <SettingForm
         channels={channels}
         setting={setting ? JSON.parse(JSON.stringify(setting)) : undefined}
       />
-    </Shell>
+    </>
   );
 }

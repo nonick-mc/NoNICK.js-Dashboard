@@ -1,8 +1,8 @@
 import { getChannels, getRoles } from '@/lib/discord';
-import { Header, Shell } from '../../formats';
-import { SettingForm } from './form';
-import { getServerSetting } from '@/lib/mongoose';
+import { getServerSetting } from '@/lib/mongoose/middleware';
 import { Metadata } from 'next';
+import { Header } from '../../_components/header';
+import SettingForm from './form';
 
 export const metadata: Metadata = {
   title: 'サーバー内通報',
@@ -14,7 +14,7 @@ export default async function Page({ params: { guildId } }: { params: { guildId:
   const roles = await getRoles(guildId);
 
   return (
-    <Shell>
+    <>
       <Header
         title='サーバー内通報'
         description='不適切なメッセージ・ユーザーをメンバーが通報できるようにします。'
@@ -24,6 +24,6 @@ export default async function Page({ params: { guildId } }: { params: { guildId:
         roles={roles}
         setting={setting ? JSON.parse(JSON.stringify(setting)) : undefined}
       />
-    </Shell>
+    </>
   );
 }

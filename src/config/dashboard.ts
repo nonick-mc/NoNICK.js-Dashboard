@@ -1,4 +1,4 @@
-import { DashboardConfig } from '@/types';
+import { DashboardConfig } from '@/types/config';
 import {
   CheckSquare,
   File,
@@ -11,14 +11,14 @@ import {
   Users,
 } from 'lucide-react';
 
-export const dashboardConfig: DashboardConfig = {
+const dashboardConfig: DashboardConfig = {
   sidebar: [
     {
       items: [
         {
           label: 'ダッシュボード',
           icon: LayoutGrid,
-          href: '',
+          href: '/',
         },
         {
           label: '設定',
@@ -73,3 +73,5 @@ export const dashboardConfig: DashboardConfig = {
     },
   ],
 };
+
+export default dashboardConfig;

@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Button, buttonVariants } from '../../../components/ui/button';
+import { Button, buttonVariants } from '../../../../src/components/ui/button';
 import { BsDiscord } from 'react-icons/bs';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
+import { LoaderIcon } from 'lucide-react';
 
-export default function UserAuth() {
+export function UserAuthForm() {
   const [isDiscordLoading, setIsDiscordLoading] = useState<boolean>(false);
   const searchParams = useSearchParams();
 
@@ -25,7 +25,7 @@ export default function UserAuth() {
         }}
       >
         {isDiscordLoading ? (
-          <AiOutlineLoading3Quarters className='animate-spin' size={20} />
+          <LoaderIcon className='animate-spin' size={20} />
         ) : (
           <BsDiscord size={20} />
         )}

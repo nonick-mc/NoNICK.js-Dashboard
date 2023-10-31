@@ -1,20 +1,20 @@
 'use client';
 
-import { FC, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Form, FormControl, FormField } from '@/components/ui/form';
-import { APIChannel, APIRole, ChannelType } from 'discord-api-types/v10';
-import { ChannelSelect, RoleSelect } from '../../selects';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Switch } from '@/components/ui/switch';
+import { Form, FormControl, FormField } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
-import { patchServerSetting } from '@/lib/mongoose';
-import { useParams } from 'next/navigation';
-import { FormItemLayout, SubmitButton } from '../../form-items';
-import { IServerSettings } from '@/schemas/ServerSettings';
+import { patchServerSetting } from '@/lib/mongoose/middleware';
 import { nullToUndefinedOrValue } from '@/lib/utils';
+import { IServerSettings } from '@/models/settingModel';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { APIChannel, APIRole, ChannelType } from 'discord-api-types/v10';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { FormItemLayout, SubmitButton } from '../../_components/form';
+import { ChannelSelect, RoleSelect } from '../../_components/select';
+import { Switch } from '@/components/ui/switch';
 
 type Props = {
   channels: APIChannel[];
@@ -36,9 +36,9 @@ const schema = z.object({
   ]),
 });
 
-export const SettingForm: FC<Props> = ({ channels, roles, setting }) => {
+export default function SettingForm({ channels, roles, setting }: Props) {
   const { toast } = useToast();
-  const { guildId } = useParams();
+  const { guildId }: { guildId: string } = useParams();
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof schema>>({
@@ -52,13 +52,13 @@ export const SettingForm: FC<Props> = ({ channels, roles, setting }) => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof schema>) {
+  function onSubmit(values: z.infer<typeof schema>) {
     setLoading(true);
-    await patchServerSetting(guildId, 'report', values)
+    patchServerSetting(guildId, 'report', values)
       .then(() => toast({ title: '設定を保存しました！' }))
       .catch(() =>
         toast({
-          title: '設定の保存に失敗しました。',
+          title: '設定の保存に失敗しました',
           description: '時間をおいて再試行してください。',
           variant: 'destructive',
         }),
@@ -68,27 +68,19 @@ export const SettingForm: FC<Props> = ({ channels, roles, setting }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6 pb-6'>
         <Card>
-          <CardHeader>
-            <CardTitle>全般設定</CardTitle>
-          </CardHeader>
-          <CardContent>
+          <CardContent className='space-y-4 pt-6'>
             <FormField
               control={form.control}
               name='channel'
               render={({ field }) => (
-                <FormItemLayout
-                  title='通報の送信先'
-                  description='メンバーが送信した通報がこのチャンネルに送られます。'
-                  required
-                >
+                <FormItemLayout title='通報を受け取るチャンネル' required>
                   <ChannelSelect
                     channels={channels}
-                    types={[ChannelType.GuildText]}
+                    filter={(channel) => channel.type === ChannelType.GuildText}
                     onValueChange={field.onChange}
                     defaultValue={field.value ?? undefined}
-                    isShowCategoryName
                   />
                 </FormItemLayout>
               )}
@@ -118,14 +110,10 @@ export const SettingForm: FC<Props> = ({ channels, roles, setting }) => {
               control={form.control}
               name='mention.role'
               render={({ field }) => (
-                <FormItemLayout
-                  title='ロール'
-                  description='通報が送られた際にこのロールをメンションします。'
-                  disabled={!form.watch('mention.enable')}
-                  required
-                >
+                <FormItemLayout title='ロール' disabled={!form.watch('mention.enable')} required>
                   <RoleSelect
                     roles={roles}
+                    filter={(role) => !role.managed}
                     onValueChange={field.onChange}
                     defaultValue={field.value ?? undefined}
                     disabled={!form.watch('mention.enable')}
@@ -139,4 +127,4 @@ export const SettingForm: FC<Props> = ({ channels, roles, setting }) => {
       </form>
     </Form>
   );
-};
+}
