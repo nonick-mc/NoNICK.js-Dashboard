@@ -27,7 +27,7 @@ export default function Page() {
         <div className='flex justify-center gap-2'>
           <Link
             href={`${Discord.Endpoints.API}/oauth2/authorize?${new URLSearchParams({
-              client_id: process.env.NEXT_PUBLIC_DISCORD_TOKEN,
+              client_id: process.env.NEXT_PUBLIC_DISCORD_ID,
               scope: 'bot',
               permissions: `${process.env.NEXT_PUBLIC_DISCORD_PERMISSION}`,
             }).toString()}`}

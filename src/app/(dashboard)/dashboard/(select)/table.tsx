@@ -43,7 +43,7 @@ export function GuildTable({ guilds }: Props) {
         <Link
           className={cn(buttonVariants(), 'flex gap-2')}
           href={`${Discord.Endpoints.API}/oauth2/authorize?${new URLSearchParams({
-            client_id: process.env.NEXT_PUBLIC_DISCORD_TOKEN,
+            client_id: process.env.NEXT_PUBLIC_DISCORD_ID,
             scope: 'bot',
             permissions: `${process.env.NEXT_PUBLIC_DISCORD_PERMISSION}`,
             response_type: 'code',

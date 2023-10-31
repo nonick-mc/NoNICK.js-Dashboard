@@ -4,7 +4,7 @@ declare namespace NodeJS {
     readonly DISCORD_OAUTH_SECRET: string;
     readonly DISCORD_OAUTH_SCOPE: string;
 
-    readonly NEXT_PUBLIC_DISCORD_TOKEN: string;
+    readonly NEXT_PUBLIC_DISCORD_ID: string;
     readonly NEXT_PUBLIC_DISCORD_PERMISSION: number;
 
     readonly NEXTAUTH_URL: string;
@@ -15,6 +15,5 @@ declare namespace NodeJS {
     readonly NEXT_PUBLIC_VERCEL_URL?: string;
 
     readonly PORT?: string;
-    readonly ANALYZE?: string;
   }
 }
