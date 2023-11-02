@@ -118,7 +118,7 @@ export default function SettingForm({ channels, setting }: Props) {
                           <ChannelSelect
                             channels={channels}
                             filter={(channel) =>
-                              channel.type === ChannelType.GuildAnnouncement ||
+                              channel.type === ChannelType.GuildAnnouncement &&
                               !form
                                 .watch('channels')
                                 .filter((value, i) => i !== index)
