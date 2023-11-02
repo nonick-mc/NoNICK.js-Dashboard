@@ -34,7 +34,9 @@ export function ChannelSelect({
           .map((ch) => (
             <SelectItem key={ch.id} value={ch.id}>
               {ch.name}
-              {(ch.type == ChannelType.GuildText || ch.type == ChannelType.GuildVoice) && (
+              {(ch.type === ChannelType.GuildText ||
+                ch.type === ChannelType.GuildVoice ||
+                ch.type === ChannelType.GuildAnnouncement) && (
                 <span className='ml-2 text-xs font-bold text-muted-foreground'>
                   {channels.find((c) => c.id == ch.parent_id)?.name}
                 </span>

@@ -1,5 +1,13 @@
 import { Model, model, models, Schema, SchemaTypes } from 'mongoose';
 
+export interface ISnowFlakeArray {
+  id: String;
+}
+
+const SnowFlakeArray = new Schema<ISnowFlakeArray>({
+  id: String,
+});
+
 type LogCategoryOptions = { enable: boolean; channel: string };
 
 export interface IServerSettings {
@@ -32,7 +40,7 @@ export interface IServerSettings {
     level: { old: number; new: number };
     time: { start: number; end: number };
   };
-  autoPublic: { enable: boolean; channels: string[] };
+  autoPublic: { enable: boolean; channels: { id: string }[] };
   autoMod: {
     enable: boolean;
     log: { enable: boolean; channel: string };
@@ -130,7 +138,7 @@ const ServerSettings = new Schema<IServerSettings>({
   },
   autoPublic: {
     enable: { type: Boolean },
-    channels: { type: [String] },
+    channels: [{ id: String }],
   },
   autoMod: {
     enable: { type: Boolean },
@@ -150,7 +158,7 @@ const ServerSettings = new Schema<IServerSettings>({
   },
   autoCreateThread: {
     enable: { type: Boolean },
-    channels: { type: [String] },
+    channels: { type: [SnowFlakeArray], default: [] },
   },
 });
 
