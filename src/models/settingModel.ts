@@ -4,7 +4,7 @@ export interface ISnowFlakeArray {
   id: String;
 }
 
-const SnowFlakeArray = new Schema<ISnowFlakeArray>({
+const SnowFlakeItem = new Schema<ISnowFlakeArray>({
   id: String,
 });
 
@@ -138,7 +138,7 @@ const ServerSettings = new Schema<IServerSettings>({
   },
   autoPublic: {
     enable: { type: Boolean },
-    channels: [{ id: String }],
+    channels: { type: [SnowFlakeItem], default: [] },
   },
   autoMod: {
     enable: { type: Boolean },
@@ -158,7 +158,7 @@ const ServerSettings = new Schema<IServerSettings>({
   },
   autoCreateThread: {
     enable: { type: Boolean },
-    channels: { type: [SnowFlakeArray], default: [] },
+    channels: { type: [String], default: [] },
   },
 });
 
