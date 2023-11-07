@@ -1,4 +1,8 @@
 {
-  "cSpell.words": ["webp"],
+  "cSpell.words": [
+    "nextui",
+    "tailwindcss",
+    "webp"
+  ],
   "svg.preview.background": "editor"
 }
