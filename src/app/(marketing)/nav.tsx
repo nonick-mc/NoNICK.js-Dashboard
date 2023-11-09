@@ -37,7 +37,7 @@ export function Nav() {
         <div className='flex'>
           {marketingConfig.links.map((v, index) => (
             <Link key={index} href={v.href} target='_blank' rel='noreferrer' passHref>
-              <Button variant='light' isIconOnly disableAnimation>
+              <Button variant='light' isIconOnly disableRipple>
                 {createElement(v.icon, { size: 20 })}
               </Button>
             </Link>
