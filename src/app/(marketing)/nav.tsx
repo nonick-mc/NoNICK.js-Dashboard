@@ -15,7 +15,7 @@ export function Nav() {
   return (
     <div className='container flex h-20 items-center justify-between gap-4 bg-background sm:gap-0'>
       <div className='flex items-center gap-6'>
-        <Link href='/'>
+        <Link href='/' aria-label='nonick.js'>
           <Logo width={120} />
         </Link>
         <div className='flex items-center gap-4'>
