@@ -12,7 +12,7 @@ export default function Page() {
           <Promo label={marketingConfig.promo.label} href={marketingConfig.promo.href} />
         )}
         <h1 className='text-6xl font-black'>
-          Discordサーバーを<span className='inline-block'>簡単・効率的に管理しよう。</span>
+          Discordサーバーを<span className='inline-block'>効率的に管理しよう。</span>
         </h1>
         <h2 className='text-muted-foreground text-lg'>
           NoNICK.jsは、Discordサーバーの管理をサポートする多機能BOTです。
