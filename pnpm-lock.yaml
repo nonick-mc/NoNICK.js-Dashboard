@@ -5,12 +5,21 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@icons-pack/react-simple-icons':
+    specifier: ^9.1.0
+    version: 9.1.0(react@18.2.0)
   '@nextui-org/react':
     specifier: ^2.2.5
     version: 2.2.5(@types/react@18.2.36)(framer-motion@10.16.4)(react-dom@18.2.0)(react@18.2.0)(tailwind-variants@0.1.18)(tailwindcss@3.3.5)
+  clsx:
+    specifier: ^2.0.0
+    version: 2.0.0
   framer-motion:
     specifier: ^10.16.4
     version: 10.16.4(react-dom@18.2.0)(react@18.2.0)
+  lucide-react:
+    specifier: ^0.292.0
+    version: 0.292.0(react@18.2.0)
   next:
     specifier: 14.0.1
     version: 14.0.1(react-dom@18.2.0)(react@18.2.0)
@@ -23,6 +32,9 @@ dependencies:
   react-dom:
     specifier: ^18
     version: 18.2.0(react@18.2.0)
+  tailwind-merge:
+    specifier: ^2.0.0
+    version: 2.0.0
 
 devDependencies:
   '@types/node':
@@ -189,6 +201,14 @@ packages:
   /@humanwhocodes/object-schema@2.0.1:
     resolution: {integrity: sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==}
     dev: true
+
+  /@icons-pack/react-simple-icons@9.1.0(react@18.2.0):
+    resolution: {integrity: sha512-3v6W4SgkYX6bHfKrFvRZrxilv+4wXKYQ2DVRldqaZgcwGK5ajsW4PzLlqF9aw+uT/NeoMklunonoYwZlx9Kbwg==}
+    peerDependencies:
+      react: ^16.13 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /@internationalized/date@3.5.0:
     resolution: {integrity: sha512-nw0Q+oRkizBWMioseI8+2TeUPEyopJVz5YxoYVzR0W1v+2YytiYah7s/ot35F149q/xAg4F1gT/6eTd+tsUpFQ==}
@@ -3012,6 +3032,11 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /clsx@2.0.0:
+    resolution: {integrity: sha512-rQ1+kcj+ttHG0MKVGBUXwayCCF1oh39BF5COIpRzuCEv8Mwjv0XucrI2ExNTOn9IlLifGClWQcU9BrZORvtw6Q==}
+    engines: {node: '>=6'}
+    dev: false
+
   /color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
     engines: {node: '>=7.0.0'}
@@ -4178,6 +4203,14 @@ packages:
       yallist: 4.0.0
     dev: true
 
+  /lucide-react@0.292.0(react@18.2.0):
+    resolution: {integrity: sha512-rRgUkpEHWpa5VCT66YscInCQmQuPCB1RFRzkkxMxg4b+jaL0V12E3riWWR2Sh5OIiUhCwGW/ZExuEO4Az32E6Q==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
     engines: {node: '>= 8'}
@@ -4941,6 +4974,12 @@ packages:
 
   /tailwind-merge@1.14.0:
     resolution: {integrity: sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==}
+    dev: false
+
+  /tailwind-merge@2.0.0:
+    resolution: {integrity: sha512-WO8qghn9yhsldLSg80au+3/gY9E4hFxIvQ3qOmlpXnqpDKoMruKfi/56BbbMg6fHTQJ9QD3cc79PoWqlaQE4rw==}
+    dependencies:
+      '@babel/runtime': 7.23.2
     dev: false
 
   /tailwind-variants@0.1.18(tailwindcss@3.3.5):

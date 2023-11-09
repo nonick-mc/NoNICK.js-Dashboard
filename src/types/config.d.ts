@@ -20,12 +20,10 @@ export type MarketingConfig = {
   nav: {
     title: string;
     href: href;
-    disabled?: boolean;
   }[];
   links: {
     href: string;
     icon: LucideIcon;
-    alt: string;
   }[];
 };
 
