@@ -12,7 +12,7 @@ export default function Page() {
     <div className='container flex h-screen items-center justify-center'>
       <Card className='w-[400px] space-y-6'>
         <CardHeader className='flex flex-col items-start gap-6 p-6 pb-0'>
-          <Logo width={140} />
+          <Logo className='pt-3' width={140} />
           <section>
             <h1 className='text-xl font-medium'>ログインが必要です</h1>
             <p className='text-sm text-foreground-500'>Discordアカウントを使用して続行</p>

@@ -11,7 +11,7 @@ export function ThemeToggle() {
     <Button
       isIconOnly
       variant='light'
-      disableAnimation
+      disableRipple
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
     >
       <SunIcon

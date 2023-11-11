@@ -3,8 +3,7 @@
 import Logo from '@/components/logo';
 import { ThemeToggle } from '@/components/theme-toggle';
 import marketingConfig from '@/config/marketing';
-import { cn } from '@/lib/utils';
-import { Button } from '@nextui-org/react';
+import { Button, cn } from '@nextui-org/react';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 import { createElement } from 'react';

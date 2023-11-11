@@ -6,6 +6,7 @@ import metadataConfig from '@/config/metadata';
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ['latin'],
+  variable: '--font-notoSansJP',
 });
 
 export const metadata: Metadata = {
@@ -36,7 +37,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='ja'>
       <body className={notoSansJP.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          <main className='bg-background text-foreground'>{children}</main>
+        </Providers>
       </body>
     </html>
   );

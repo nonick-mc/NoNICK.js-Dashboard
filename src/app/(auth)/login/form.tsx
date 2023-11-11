@@ -19,7 +19,7 @@ export function UserAuthForm() {
           signIn('discord', { callbackUrl: searchParams?.get('from') || '/dashboard' });
         }}
         color='primary'
-        startContent={<SiDiscord size={20} />}
+        startContent={!isLoading && <SiDiscord size={20} />}
         isLoading={isLoading}
         fullWidth
         disableRipple

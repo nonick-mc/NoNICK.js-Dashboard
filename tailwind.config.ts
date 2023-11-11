@@ -16,8 +16,17 @@ const config: Config = {
         '2xl': '1400px',
       },
     },
+    extend: {
+      fontFamily: {
+        notoSansJP: ['--font-notoSansJP'],
+      },
+    },
   },
   darkMode: 'class',
-  plugins: [nextui()],
+  plugins: [
+    nextui({
+      addCommonColors: true,
+    }),
+  ],
 };
 export default config;
