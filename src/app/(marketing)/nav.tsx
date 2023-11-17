@@ -23,7 +23,7 @@ export function Nav() {
               key={index}
               href={v.href}
               className={cn(
-                'text-sm font-medium text-foreground/60 transition-colors hover:text-foreground/80',
+                'text-sm font-medium text-default-500 transition-colors hover:text-foreground/80',
                 { 'text-primary hover:text-primary': v.href.startsWith(`/${segment}`) },
               )}
             >

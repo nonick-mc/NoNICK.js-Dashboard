@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
 import { Providers } from './provider';
 import metadataConfig from '@/config/metadata';
+import { Toaster } from '@/components/ui/toaster';
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ['latin'],
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={notoSansJP.className}>
         <Providers>
           <main className='bg-background text-foreground'>{children}</main>
+          <Toaster />
         </Providers>
       </body>
     </html>

@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     <CheckSessionProvider>
       <NextTopLoader color='#3b82f6' showSpinner={false} shadow={false} />
       <Nav />
-      <div className='container'>{children}</div>
+      <div className='container h-[calc(100vh_-_80px)]'>{children}</div>
     </CheckSessionProvider>
   );
 }

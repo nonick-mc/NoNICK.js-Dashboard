@@ -11,7 +11,9 @@ export function Nav() {
         <Link href='/dashboard' aria-label='nonick.js'>
           <Logo width={120} />
         </Link>
-        <Chip size='sm'>BETA</Chip>
+        <Chip classNames={{ base: 'px-2 font-bold' }} variant='flat' size='sm'>
+          Beta
+        </Chip>
       </div>
       <div className='flex items-center gap-3'>
         <ThemeToggle />
