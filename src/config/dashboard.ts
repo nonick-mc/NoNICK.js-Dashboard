@@ -67,7 +67,6 @@ const dashboardConfig: DashboardConfig = {
           label: 'AutoMod Plus',
           icon: Shield,
           href: '/automod-plus',
-          badge: '🚧',
         },
       ],
     },
