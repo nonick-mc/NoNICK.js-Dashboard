@@ -210,6 +210,7 @@ export function Form({ channels, roles, setting }: Props) {
                   label='フィルターを適用しないロール'
                   classNames={{ trigger: 'min-h-unit-12' }}
                   roles={roles}
+                  filter={(role) => role.id !== guildId}
                   onSelectionChange={(keys) => field.onChange(Array.from(keys))}
                   defaultSelectedKeys={field.value}
                   errorMessage={error?.message}
