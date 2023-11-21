@@ -15,6 +15,7 @@ import { RoleSelect } from '../../role-select';
 import { SubmitButton } from '../../submit-button';
 import { useState } from 'react';
 import { CardTitle } from '../../header';
+import { selectClassNames, switchClassNames } from '../../classnames';
 
 type Props = {
   channels: APIChannel[];
@@ -23,11 +24,11 @@ type Props = {
 };
 
 const schema = z.object({
-  channel: z.string({ required_error: '選択してください' }),
+  channel: z.string().regex(/^\d{17,20}$/, '無効なSnowFlakeです。'),
   mention: z.discriminatedUnion('enable', [
     z.object({
       enable: z.literal(true),
-      role: z.string({ required_error: '選択してください' }),
+      role: z.string().regex(/^\d{17,20}$/, '無効なSnowFlakeです。'),
     }),
     z.object({
       enable: z.literal(false),
@@ -75,10 +76,7 @@ export function Form({ channels, roles, setting }: Props) {
             name='channel'
             render={({ field, fieldState: { error } }) => (
               <ChannelSelect
-                classNames={{
-                  base: 'items-center justify-between',
-                  mainWrapper: 'max-w-xs',
-                }}
+                classNames={selectClassNames}
                 label='通報を受け取るチャンネル'
                 labelPlacement='outside-left'
                 channels={channels}
@@ -103,10 +101,7 @@ export function Form({ channels, roles, setting }: Props) {
             name='mention.enable'
             render={({ field }) => (
               <Switch
-                classNames={{
-                  base: 'max-w-none flex-row-reverse justify-between gap-3',
-                  label: 'text-sm',
-                }}
+                classNames={switchClassNames}
                 onChange={field.onChange}
                 defaultChecked={field.value}
               >
@@ -124,10 +119,7 @@ export function Form({ channels, roles, setting }: Props) {
             name='mention.role'
             render={({ field, fieldState: { error } }) => (
               <RoleSelect
-                classNames={{
-                  base: 'items-center justify-between',
-                  mainWrapper: 'max-w-xs',
-                }}
+                classNames={selectClassNames}
                 label='メンションするロール'
                 labelPlacement='outside-left'
                 roles={roles}
