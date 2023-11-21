@@ -24,7 +24,7 @@ export function SidebarNavigation() {
               <Link
                 href={`/dashboard/guild/${guildId}${href}`}
                 className={cn(
-                  'flex w-full items-center justify-between rounded-md px-3 py-2 text-sm transition ease-in-out hover:bg-zinc-400/10',
+                  'flex w-full items-center justify-between rounded-md px-3 py-2 text-sm transition ease-in-out hover:bg-zinc-400/20',
                   { 'bg-zinc-400/20': `/${segment || ''}` === href },
                 )}
               >
