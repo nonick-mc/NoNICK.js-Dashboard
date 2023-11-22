@@ -99,7 +99,7 @@ export function Form({ channels, roles, setting }: Props) {
               <Switch
                 classNames={switchClassNames}
                 onChange={field.onChange}
-                defaultChecked={field.value}
+                defaultSelected={field.value}
               >
                 <span>AutoMod Plusを有効にする</span>
               </Switch>
@@ -119,7 +119,7 @@ export function Form({ channels, roles, setting }: Props) {
               <Switch
                 classNames={switchClassNames}
                 onChange={field.onChange}
-                defaultChecked={field.value}
+                defaultSelected={field.value}
                 isDisabled={!watch('enable')}
               >
                 <div className='flex flex-col'>
@@ -138,7 +138,7 @@ export function Form({ channels, roles, setting }: Props) {
               <Switch
                 classNames={switchClassNames}
                 onChange={field.onChange}
-                defaultChecked={field.value}
+                defaultSelected={field.value}
                 isDisabled={!watch('enable')}
               >
                 <div className='flex flex-col'>
@@ -157,7 +157,7 @@ export function Form({ channels, roles, setting }: Props) {
               <Switch
                 classNames={switchClassNames}
                 onChange={field.onChange}
-                defaultChecked={field.value}
+                defaultSelected={field.value}
                 isDisabled={!watch('enable')}
               >
                 <div className='flex flex-col'>
@@ -235,7 +235,7 @@ export function Form({ channels, roles, setting }: Props) {
               <Switch
                 classNames={switchClassNames}
                 onChange={field.onChange}
-                defaultChecked={field.value}
+                defaultSelected={field.value}
                 isDisabled={!watch('enable')}
               >
                 <div className='flex flex-col'>

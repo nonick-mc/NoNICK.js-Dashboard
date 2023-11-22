@@ -102,7 +102,7 @@ export function Form({ channels, setting }: Props) {
               <Switch
                 classNames={switchClassNames}
                 onChange={field.onChange}
-                defaultChecked={field.value}
+                defaultSelected={field.value}
               >
                 <div className='flex flex-col'>
                   <span>タイムアウトログを有効にする</span>
@@ -146,7 +146,7 @@ export function Form({ channels, setting }: Props) {
               <Switch
                 classNames={switchClassNames}
                 onChange={field.onChange}
-                defaultChecked={field.value}
+                defaultSelected={field.value}
               >
                 <div className='flex flex-col'>
                   <span>キックログを有効にする</span>
@@ -190,7 +190,7 @@ export function Form({ channels, setting }: Props) {
               <Switch
                 classNames={switchClassNames}
                 onChange={field.onChange}
-                defaultChecked={field.value}
+                defaultSelected={field.value}
               >
                 <div className='flex flex-col'>
                   <span>BANログを有効にする</span>
@@ -234,7 +234,7 @@ export function Form({ channels, setting }: Props) {
               <Switch
                 classNames={switchClassNames}
                 onChange={field.onChange}
-                defaultChecked={field.value}
+                defaultSelected={field.value}
               >
                 <div className='flex flex-col'>
                   <span>VCログを有効にする</span>
@@ -284,7 +284,7 @@ export function Form({ channels, setting }: Props) {
               <Switch
                 classNames={switchClassNames}
                 onChange={field.onChange}
-                defaultChecked={field.value}
+                defaultSelected={field.value}
               >
                 <div className='flex flex-col'>
                   <span>削除ログを有効にする</span>

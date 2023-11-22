@@ -63,7 +63,7 @@ export function Form({ channels, setting }: Props) {
               <Switch
                 classNames={switchClassNames}
                 onChange={field.onChange}
-                defaultChecked={field.value}
+                defaultSelected={field.value}
               >
                 <span>自動アナウンス公開を有効にする</span>
               </Switch>

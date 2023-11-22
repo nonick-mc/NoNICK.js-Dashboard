@@ -59,7 +59,7 @@ export function Form({ channels }: { channels: APIChannel[] }) {
               <Switch
                 classNames={switchClassNames}
                 onChange={field.onChange}
-                defaultChecked={field.value}
+                defaultSelected={field.value}
                 isDisabled
               >
                 <div className='flex flex-col'>

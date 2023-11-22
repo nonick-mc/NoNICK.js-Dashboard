@@ -103,7 +103,7 @@ export function Form({ channels, roles, setting }: Props) {
               <Switch
                 classNames={switchClassNames}
                 onChange={field.onChange}
-                defaultChecked={field.value}
+                defaultSelected={field.value}
               >
                 <div className='flex flex-col'>
                   <p>メンション通知を有効にする</p>
