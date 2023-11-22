@@ -61,7 +61,6 @@ const dashboardConfig: DashboardConfig = {
           label: '自動アナウンス公開',
           icon: Megaphone,
           href: '/auto-public',
-          badge: '🚧',
         },
         {
           label: 'AutoMod Plus',
