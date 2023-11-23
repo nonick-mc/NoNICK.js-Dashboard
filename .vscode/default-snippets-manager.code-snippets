@@ -1,0 +1,12 @@
+{
+	"meta": {
+		"prefix": "meta",
+		"description": "meta",
+		"scope": "typescriptreact",
+		"body": [
+			"export const metadata: Metadata = {",
+			"  title: '$1',",
+			"};"
+		]
+	}
+}
