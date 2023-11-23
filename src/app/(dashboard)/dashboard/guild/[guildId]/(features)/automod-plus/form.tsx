@@ -191,7 +191,12 @@ export function Form({ channels, roles, setting }: Props) {
                   classNames={{ trigger: 'min-h-unit-12' }}
                   channels={channels}
                   filter={(channel) =>
-                    ![ChannelType.GuildDirectory, ChannelType.GuildCategory].includes(channel.type)
+                    [
+                      ChannelType.GuildText,
+                      ChannelType.GuildVoice,
+                      ChannelType.GuildAnnouncement,
+                      ChannelType.GuildStageVoice,
+                    ].includes(channel.type)
                   }
                   onSelectionChange={(keys) => field.onChange(Array.from(keys))}
                   defaultSelectedKeys={field.value}
