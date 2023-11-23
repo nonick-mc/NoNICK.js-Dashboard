@@ -50,7 +50,6 @@ const dashboardConfig: DashboardConfig = {
           label: 'メッセージURL展開',
           icon: Link,
           href: '/message-expansion',
-          badge: '🚧',
         },
         {
           label: '自動認証レベル変更',
