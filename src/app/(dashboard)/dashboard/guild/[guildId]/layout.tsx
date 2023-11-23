@@ -10,7 +10,7 @@ export default function Layout({
   children: ReactNode;
 }) {
   return (
-    <div className='flex h-full py-3'>
+    <div className='flex h-full'>
       <Sidebar guildId={guildId} />
       <ScrollArea className='flex-1'>
         <div className='flex flex-col gap-4 px-4'>{children}</div>
