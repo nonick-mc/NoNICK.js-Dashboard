@@ -1,7 +1,6 @@
 import Logo from '@/components/logo';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardBody, CardHeader, Link } from '@nextui-org/react';
 import { Metadata } from 'next';
-import Link from 'next/link';
 import { UserAuthForm } from './form';
 
 export const metadata: Metadata = {
@@ -10,39 +9,39 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className='flex h-screen items-center justify-center'>
-      <Card className='w-[400px] space-y-4 lg:p-3'>
-        <CardHeader className='space-y-6'>
-          <Logo width={140} />
+    <div className='container flex h-screen items-center justify-center'>
+      <Card className='w-[400px] space-y-6'>
+        <CardHeader className='flex flex-col items-start gap-6 p-6 pb-0'>
+          <Logo className='pt-3' width={140} />
           <section>
-            <CardTitle className='text-xl'>ログインが必要です</CardTitle>
-            <CardDescription>Discordアカウントを使用して続行</CardDescription>
+            <h1 className='text-xl font-medium'>ログインが必要です</h1>
+            <p className='text-sm text-foreground-500'>Discordアカウントを使用して続行</p>
           </section>
         </CardHeader>
-        <CardContent className='space-y-6'>
+        <CardBody className='flex flex-col gap-6 p-6 pt-0'>
           <UserAuthForm />
-          <div className='text-sm text-muted-foreground'>
+          <p className='text-sm text-foreground-500'>
             ログインすることで、NoNICK.jsの
             <Link
-              href={'https://docs.nonick-js.com/important/teams-of-service/'}
-              className='underline'
-              target='_blank'
-              rel='noreferrer'
+              className='text-sm'
+              href='https://docs.nonick-js.com/important/teams-of-service/'
+              isExternal
+              showAnchorIcon
             >
               利用規約
             </Link>
             および
             <Link
-              href={'https://docs.nonick-js.com/important/privacy-policy/'}
-              className='underline'
-              target='_blank'
-              rel='noreferrer'
+              className='text-sm'
+              href='https://docs.nonick-js.com/important/privacy-policy/'
+              isExternal
+              showAnchorIcon
             >
               プライバシーポリシー
             </Link>
             に同意したとみなされます。
-          </div>
-        </CardContent>
+          </p>
+        </CardBody>
       </Card>
     </div>
   );

@@ -1,18 +1,23 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Form, FormControl, FormField } from '@/components/ui/form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { APIChannel, ChannelType } from 'discord-api-types/v10';
-import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { FormItemLayout } from '../../_components/form';
-import { Switch } from '@/components/ui/switch';
-import { ChannelSelect } from '../../_components/select';
-import { Badge } from '@/components/ui/badge';
-import { Select } from '@radix-ui/react-select';
-import { SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Chip,
+  Select,
+  SelectItem,
+  Switch,
+  Tooltip,
+} from '@nextui-org/react';
+import { APIChannel, ChannelType } from 'discord-api-types/v10';
+import { Controller, useForm } from 'react-hook-form';
+import { CardTitle } from '../../header';
+import { ChannelSelect } from '../../channel-select';
+import { selectClassNames, switchClassNames } from '../../classnames';
 
 const schema = z.object({
   announce: z.discriminatedUnion('enable', [
@@ -28,8 +33,8 @@ const schema = z.object({
   lang: z.string(),
 });
 
-export default function SettingForm({ channels }: { channels: APIChannel[] }) {
-  const form = useForm<z.infer<typeof schema>>({
+export function Form({ channels }: { channels: APIChannel[] }) {
+  const { control } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
       announce: {
@@ -41,77 +46,95 @@ export default function SettingForm({ channels }: { channels: APIChannel[] }) {
   });
 
   return (
-    <Form {...form}>
-      <form className='space-y-6 pb-6'>
-        <Card>
-          <CardHeader>
-            <CardTitle>お知らせ設定</CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <FormField
-              control={form.control}
-              name='announce.enable'
-              render={({ field }) => (
-                <FormItemLayout
-                  title='運営からのお知らせを有効にする'
-                  description='BOTに関する重要情報、アップデート内容'
-                  disabled
-                >
-                  <FormControl>
-                    <Switch onCheckedChange={field.onChange} checked={field.value} disabled />
-                  </FormControl>
-                </FormItemLayout>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='announce.channel'
-              render={({ field }) => (
-                <FormItemLayout title='チャンネル' required disabled>
-                  <ChannelSelect
-                    channels={channels}
-                    filter={(channel) => channel.type === ChannelType.GuildText}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    disabled
-                  />
-                </FormItemLayout>
-              )}
-            />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className='flex items-center gap-2'>
-              言語設定
-              <Badge variant='secondary'>ベータ</Badge>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <FormField
-              control={form.control}
-              name='lang'
-              render={({ field }) => (
-                <FormItemLayout
-                  title='NoNICK.jsの言語'
-                  description='各機能やコマンドで使用される言語'
-                  disabled
-                >
-                  <Select onValueChange={field.onChange} defaultValue={field.value} disabled>
-                    <SelectTrigger className='w-[300px]'>
-                      <SelectValue placeholder='言語を選択' />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value='ja'>日本語 (Japanese)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormItemLayout>
-              )}
-            />
-          </CardContent>
-        </Card>
-        <Button disabled>変更を保存</Button>
-      </form>
-    </Form>
+    <form className='flex flex-col gap-6 pb-6'>
+      <Card>
+        <CardHeader className='p-6'>
+          <CardTitle>お知らせ設定</CardTitle>
+        </CardHeader>
+        <CardBody className='flex flex-col gap-6 p-6 pt-0'>
+          <Controller
+            control={control}
+            name='announce.enable'
+            render={({ field }) => (
+              <Switch
+                classNames={switchClassNames}
+                onChange={field.onChange}
+                defaultSelected={field.value}
+                isDisabled
+              >
+                <div className='flex flex-col'>
+                  <p>運営からのお知らせを有効にする</p>
+                  <p className='text-default-500'>
+                    BOTに関する重要情報、アップデート内容を受け取ります。
+                  </p>
+                </div>
+              </Switch>
+            )}
+          />
+          <Controller
+            control={control}
+            name='announce.channel'
+            render={({ field, fieldState: { error } }) => (
+              <ChannelSelect
+                classNames={selectClassNames}
+                label='チャンネル'
+                labelPlacement='outside-left'
+                channels={channels}
+                filter={(channel) => channel.type === ChannelType.GuildText}
+                onChange={field.onChange}
+                defaultSelectedKeys={field.value ? [field.value] : []}
+                isInvalid={!!error}
+                errorMessage={error?.message}
+                isRequired
+                isDisabled
+              />
+            )}
+          />
+        </CardBody>
+      </Card>
+      <Card>
+        <CardHeader className='gap-3 p-6'>
+          <CardTitle>言語設定</CardTitle>
+          <Tooltip
+            classNames={{ base: 'max-w-[220px]', content: 'text-foreground' }}
+            showArrow={true}
+            content='この機能はベータ版であり、予告なく変更が行われる可能性があります。'
+          >
+            <Chip size='sm' variant='flat' color='primary'>
+              ベータ
+            </Chip>
+          </Tooltip>
+        </CardHeader>
+        <CardBody className='flex flex-col gap-6 p-6 pt-0'>
+          <Controller
+            control={control}
+            name='lang'
+            render={({ field, fieldState: { error } }) => (
+              <Select
+                classNames={selectClassNames}
+                variant='bordered'
+                label='NoNICK.jsの言語'
+                labelPlacement='outside-left'
+                onChange={field.onChange}
+                defaultSelectedKeys={field.value ? [field.value] : []}
+                errorMessage={error?.message}
+                isInvalid={!!error}
+                isRequired
+                isDisabled
+              >
+                <SelectItem key='ja' value='ja'>
+                  日本語 (Japanese)
+                </SelectItem>
+              </Select>
+            )}
+          />
+        </CardBody>
+      </Card>
+      <div>
+        <Button color='primary' isDisabled>
+          変更を保存
+        </Button>
+      </div>
+    </form>
   );
 }

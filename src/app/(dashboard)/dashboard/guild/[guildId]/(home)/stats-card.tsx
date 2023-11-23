@@ -1,13 +1,12 @@
-import { Card } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
-import { Icon } from 'lucide-react';
+import { Card, cn } from '@nextui-org/react';
+import { LucideIcon } from 'lucide-react';
 import React, { FC } from 'react';
 
 type Props = {
   className?: string;
   label: string;
   value: string;
-  icon: Icon;
+  icon: LucideIcon;
 };
 
 export const StatsCard: FC<Props> = ({ className, label, value, icon }) => {

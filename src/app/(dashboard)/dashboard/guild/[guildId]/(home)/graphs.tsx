@@ -5,8 +5,6 @@ import { FC } from 'react';
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const sampleData = [
-  // { date: '6/5', messages: 6504, newbie: 20 },
-  // { date: '6/12', messages: 4641, newbie: 20 },
   { date: '6/19', messages: 32942, newbie: 20 },
   { date: '6/26', messages: 14498, newbie: 20 },
   { date: '7/3', messages: 21932, newbie: 20 },
@@ -47,9 +45,9 @@ export const MessageActivityGraph: FC = () => {
           content={({ active, payload }) => {
             if (active && payload && payload.length) {
               return (
-                <div className='rounded-lg border bg-background px-4 py-2 shadow-sm'>
+                <div className='box-border rounded-lg bg-content1 px-4 py-2 shadow-medium'>
                   <div className='flex flex-col'>
-                    <span className='text-[0.70rem] uppercase text-muted-foreground'>
+                    <span className='text-muted-foreground text-[0.70rem] uppercase'>
                       メッセージ数
                     </span>
                     <span className='font-bold'>{payload[0].value}</span>

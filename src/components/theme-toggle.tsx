@@ -1,18 +1,17 @@
 'use client';
 
-import * as React from 'react';
+import { Button } from '@nextui-org/react';
 import { useTheme } from 'next-themes';
-
-import { Button } from '@/components/ui/button';
 import { MoonIcon, SunIcon } from 'lucide-react';
 
-export const ThemeToggle = () => {
-  const { setTheme, theme } = useTheme();
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
 
   return (
     <Button
-      variant='ghost'
-      size='icon'
+      isIconOnly
+      variant='light'
+      disableRipple
       onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
     >
       <SunIcon
@@ -26,4 +25,4 @@ export const ThemeToggle = () => {
       <span className='sr-only'>Toggle theme</span>
     </Button>
   );
-};
+}

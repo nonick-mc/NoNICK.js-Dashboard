@@ -1,32 +1,33 @@
 'use client';
 
-import * as z from 'zod';
 import { useToast } from '@/components/ui/use-toast';
+import { patchServerSetting } from '@/lib/mongoose/middleware';
+import { nullToUndefinedOrValue } from '@/lib/utils';
 import { IServerSettings } from '@/models/settingModel';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Card, CardBody, CardHeader, Switch } from '@nextui-org/react';
 import { APIChannel, ChannelType } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { nullToUndefinedOrValue } from '@/lib/utils';
-import { patchServerSetting } from '@/lib/mongoose/middleware';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
-import { FormField, FormControl, Form } from '@/components/ui/form';
-import { InfoIcon } from 'lucide-react';
-import { FormItemLayout, SubmitButton } from '../../_components/form';
-import { ChannelSelect } from '../../_components/select';
-import { Switch } from '@/components/ui/switch';
+import { Controller, useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { CardTitle } from '../../header';
+import { selectClassNames, switchClassNames } from '../../classnames';
+import { ChannelSelect } from '../../channel-select';
+import { SubmitButton } from '../../submit-button';
+import { Alert, AlertTitle } from '@/components/ui/alert';
 
 type Props = {
   channels: APIChannel[];
   setting: IServerSettings['log'] | undefined;
 };
 
-const logCategoryOptionsSchema = z.discriminatedUnion('enable', [
+const logOptionSchema = z.discriminatedUnion('enable', [
   z.object({
     enable: z.literal(true),
-    channel: z.string({ required_error: '選択してください' }),
+    channel: z
+      .string({ required_error: '選択してください' })
+      .regex(/^\d{17,20}$/, '無効なSnowFlakeです。'),
   }),
   z.object({
     enable: z.literal(false),
@@ -35,19 +36,19 @@ const logCategoryOptionsSchema = z.discriminatedUnion('enable', [
 ]);
 
 const schema = z.object({
-  timeout: logCategoryOptionsSchema,
-  kick: logCategoryOptionsSchema,
-  ban: logCategoryOptionsSchema,
-  voice: logCategoryOptionsSchema,
-  delete: logCategoryOptionsSchema,
+  timeout: logOptionSchema,
+  kick: logOptionSchema,
+  ban: logOptionSchema,
+  voice: logOptionSchema,
+  delete: logOptionSchema,
 });
 
-export default function SettingForm({ channels, setting }: Props) {
-  const [loading, setLoading] = useState(false);
-  const { guildId }: { guildId: string } = useParams();
+export function Form({ channels, setting }: Props) {
   const { toast } = useToast();
+  const { guildId }: { guildId: string } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof schema>>({
+  const { control, watch, handleSubmit } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
       timeout: {
@@ -73,9 +74,9 @@ export default function SettingForm({ channels, setting }: Props) {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof schema>) {
-    setLoading(true);
-    await patchServerSetting(guildId, 'log', values)
+  function onSubmit(values: z.infer<typeof schema>) {
+    setIsLoading(true);
+    patchServerSetting(guildId, 'log', values)
       .then(() => toast({ title: '設定を保存しました！' }))
       .catch(() =>
         toast({
@@ -84,207 +85,238 @@ export default function SettingForm({ channels, setting }: Props) {
           variant: 'destructive',
         }),
       )
-      .finally(() => setLoading(false));
+      .finally(() => setIsLoading(false));
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6 pb-6'>
-        <Card>
-          <CardHeader>
-            <CardTitle>タイムアウト</CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <FormField
-              control={form.control}
-              name='timeout.enable'
-              render={({ field }) => (
-                <FormItemLayout
-                  title='タイムアウトログを有効にする'
-                  description='メンバーをタイムアウトしたり、タイムアウトを手動で解除したりした際にログを送信します。'
-                >
-                  <FormControl>
-                    <Switch onCheckedChange={field.onChange} checked={field.value} />
-                  </FormControl>
-                </FormItemLayout>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='timeout.channel'
-              render={({ field }) => (
-                <FormItemLayout
-                  title='チャンネル'
-                  disabled={!form.watch('timeout.enable')}
-                  required
-                >
-                  <ChannelSelect
-                    channels={channels}
-                    filter={(channel) => channel.type === ChannelType.GuildText}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    disabled={!form.watch('timeout.enable')}
-                  />
-                </FormItemLayout>
-              )}
-            />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>キック</CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <FormField
-              control={form.control}
-              name='kick.enable'
-              render={({ field }) => (
-                <FormItemLayout
-                  title='キックログを有効にする'
-                  description='メンバーをキックした際にログを送信します。'
-                >
-                  <FormControl>
-                    <Switch onCheckedChange={field.onChange} checked={field.value} />
-                  </FormControl>
-                </FormItemLayout>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='kick.channel'
-              render={({ field }) => (
-                <FormItemLayout title='チャンネル' disabled={!form.watch('kick.enable')} required>
-                  <ChannelSelect
-                    channels={channels}
-                    filter={(channel) => channel.type === ChannelType.GuildText}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    disabled={!form.watch('kick.enable')}
-                  />
-                </FormItemLayout>
-              )}
-            />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>BAN</CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <FormField
-              control={form.control}
-              name='ban.enable'
-              render={({ field }) => (
-                <FormItemLayout
-                  title='BANログを有効にする'
-                  description='メンバーをBANしたり、BANを解除した際にログを送信します。'
-                >
-                  <FormControl>
-                    <Switch onCheckedChange={field.onChange} checked={field.value} />
-                  </FormControl>
-                </FormItemLayout>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='ban.channel'
-              render={({ field }) => (
-                <FormItemLayout title='チャンネル' disabled={!form.watch('ban.enable')} required>
-                  <ChannelSelect
-                    channels={channels}
-                    filter={(channel) => channel.type === ChannelType.GuildText}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    disabled={!form.watch('ban.enable')}
-                  />
-                </FormItemLayout>
-              )}
-            />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>ボイスチャット</CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <FormField
-              control={form.control}
-              name='voice.enable'
-              render={({ field }) => (
-                <FormItemLayout
-                  title='VCログを有効にする'
-                  description='ボイスチャットの入室や退室、移動があった際にログを送信します。'
-                >
-                  <FormControl>
-                    <Switch onCheckedChange={field.onChange} checked={field.value} />
-                  </FormControl>
-                </FormItemLayout>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='voice.channel'
-              render={({ field }) => (
-                <FormItemLayout title='チャンネル' disabled={!form.watch('voice.enable')} required>
-                  <ChannelSelect
-                    channels={channels}
-                    filter={(channel) => channel.type === ChannelType.GuildText}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    disabled={!form.watch('voice.enable')}
-                  />
-                </FormItemLayout>
-              )}
-            />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>メッセージ削除</CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <FormField
-              control={form.control}
-              name='delete.enable'
-              render={({ field }) => (
-                <FormItemLayout
-                  title='削除ログを有効にする'
-                  description='メッセージが削除された際にログを送信します。'
-                >
-                  <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
-                  </FormControl>
-                </FormItemLayout>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='delete.channel'
-              render={({ field }) => (
-                <FormItemLayout title='チャンネル' disabled={!form.watch('delete.enable')} required>
-                  <ChannelSelect
-                    channels={channels}
-                    filter={(channel) => channel.type === ChannelType.GuildText}
-                    defaultValue={field.value}
-                    onValueChange={field.onChange}
-                    disabled={!form.watch('delete.enable')}
-                  />
-                </FormItemLayout>
-              )}
-            />
-            {form.watch('delete.enable') && (
-              <Alert className='items-center' variant='primary'>
-                <InfoIcon size={18} />
-                <AlertTitle>一部のメッセージは削除してもログが送信されません</AlertTitle>
-                <AlertDescription>
-                  仕様上、BOTが送信したメッセージやNoNICK.jsを導入する前に送信されたメッセージには、削除ログは送信されません。
-                </AlertDescription>
-              </Alert>
+    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6 pb-6'>
+      <Card>
+        <CardHeader className='p-6'>
+          <CardTitle>タイムアウト</CardTitle>
+        </CardHeader>
+        <CardBody className='flex flex-col gap-6 p-6 pt-0'>
+          <Controller
+            control={control}
+            name='timeout.enable'
+            render={({ field }) => (
+              <Switch
+                classNames={switchClassNames}
+                onChange={field.onChange}
+                defaultSelected={field.value}
+              >
+                <div className='flex flex-col'>
+                  <span>タイムアウトログを有効にする</span>
+                  <span className='text-default-500'>
+                    メンバーをタイムアウトしたり、タイムアウトを手動で解除したりした際にログを送信します。
+                  </span>
+                </div>
+              </Switch>
             )}
-          </CardContent>
-        </Card>
-        <SubmitButton disabled={loading} />
-      </form>
-    </Form>
+          />
+          <Controller
+            control={control}
+            name='timeout.channel'
+            render={({ field, fieldState: { error } }) => (
+              <ChannelSelect
+                classNames={selectClassNames}
+                label='チャンネル'
+                labelPlacement='outside-left'
+                channels={channels}
+                filter={(channel) => channel.type === ChannelType.GuildText}
+                onChange={field.onChange}
+                defaultSelectedKeys={field.value ? [field.value] : []}
+                isInvalid={!!error}
+                errorMessage={error?.message}
+                isDisabled={!watch('timeout.enable')}
+                isRequired
+              />
+            )}
+          />
+        </CardBody>
+      </Card>
+      <Card>
+        <CardHeader className='p-6'>
+          <CardTitle>キック</CardTitle>
+        </CardHeader>
+        <CardBody className='flex flex-col gap-6 p-6 pt-0'>
+          <Controller
+            control={control}
+            name='kick.enable'
+            render={({ field }) => (
+              <Switch
+                classNames={switchClassNames}
+                onChange={field.onChange}
+                defaultSelected={field.value}
+              >
+                <div className='flex flex-col'>
+                  <span>キックログを有効にする</span>
+                  <span className='text-default-500'>
+                    メンバーをキックした際にログを送信します。
+                  </span>
+                </div>
+              </Switch>
+            )}
+          />
+          <Controller
+            control={control}
+            name='kick.channel'
+            render={({ field, fieldState: { error } }) => (
+              <ChannelSelect
+                classNames={selectClassNames}
+                label='チャンネル'
+                labelPlacement='outside-left'
+                channels={channels}
+                filter={(channel) => channel.type === ChannelType.GuildText}
+                onChange={field.onChange}
+                defaultSelectedKeys={field.value ? [field.value] : []}
+                isInvalid={!!error}
+                errorMessage={error?.message}
+                isDisabled={!watch('kick.enable')}
+                isRequired
+              />
+            )}
+          />
+        </CardBody>
+      </Card>
+      <Card>
+        <CardHeader className='p-6'>
+          <CardTitle>BAN</CardTitle>
+        </CardHeader>
+        <CardBody className='flex flex-col gap-6 p-6 pt-0'>
+          <Controller
+            control={control}
+            name='ban.enable'
+            render={({ field }) => (
+              <Switch
+                classNames={switchClassNames}
+                onChange={field.onChange}
+                defaultSelected={field.value}
+              >
+                <div className='flex flex-col'>
+                  <span>BANログを有効にする</span>
+                  <span className='text-default-500'>
+                    メンバーをBANしたり、BANを解除した際にログを送信します。
+                  </span>
+                </div>
+              </Switch>
+            )}
+          />
+          <Controller
+            control={control}
+            name='ban.channel'
+            render={({ field, fieldState: { error } }) => (
+              <ChannelSelect
+                classNames={selectClassNames}
+                label='チャンネル'
+                labelPlacement='outside-left'
+                channels={channels}
+                filter={(channel) => channel.type === ChannelType.GuildText}
+                onChange={field.onChange}
+                defaultSelectedKeys={field.value ? [field.value] : []}
+                isInvalid={!!error}
+                errorMessage={error?.message}
+                isDisabled={!watch('ban.enable')}
+                isRequired
+              />
+            )}
+          />
+        </CardBody>
+      </Card>
+      <Card>
+        <CardHeader className='p-6'>
+          <CardTitle>ボイスチャット</CardTitle>
+        </CardHeader>
+        <CardBody className='flex flex-col gap-6 p-6 pt-0'>
+          <Controller
+            control={control}
+            name='voice.enable'
+            render={({ field }) => (
+              <Switch
+                classNames={switchClassNames}
+                onChange={field.onChange}
+                defaultSelected={field.value}
+              >
+                <div className='flex flex-col'>
+                  <span>VCログを有効にする</span>
+                  <span className='text-default-500'>
+                    ボイスチャットの入室や退室、移動があった際にログを送信します。
+                  </span>
+                </div>
+              </Switch>
+            )}
+          />
+          <Controller
+            control={control}
+            name='voice.channel'
+            render={({ field, fieldState: { error } }) => (
+              <ChannelSelect
+                classNames={selectClassNames}
+                label='チャンネル'
+                labelPlacement='outside-left'
+                channels={channels}
+                filter={(channel) => channel.type === ChannelType.GuildText}
+                onChange={field.onChange}
+                defaultSelectedKeys={field.value ? [field.value] : []}
+                isInvalid={!!error}
+                errorMessage={error?.message}
+                isDisabled={!watch('voice.enable')}
+                isRequired
+              />
+            )}
+          />
+        </CardBody>
+      </Card>
+      <Card>
+        <CardHeader className='p-6'>
+          <CardTitle>メッセージ削除</CardTitle>
+        </CardHeader>
+        <CardBody className='flex flex-col gap-6 p-6 pt-0'>
+          <Alert variant='primary'>
+            <AlertTitle className='font-normal'>
+              💡
+              仕様上、BOTが送信したメッセージやNoNICK.jsを導入する前に送信されたメッセージには、削除ログは送信されません。
+            </AlertTitle>
+          </Alert>
+          <Controller
+            control={control}
+            name='delete.enable'
+            render={({ field }) => (
+              <Switch
+                classNames={switchClassNames}
+                onChange={field.onChange}
+                defaultSelected={field.value}
+              >
+                <div className='flex flex-col'>
+                  <span>削除ログを有効にする</span>
+                  <span className='text-default-500'>
+                    メッセージが削除された際にログを送信します。
+                  </span>
+                </div>
+              </Switch>
+            )}
+          />
+          <Controller
+            control={control}
+            name='delete.channel'
+            render={({ field, fieldState: { error } }) => (
+              <ChannelSelect
+                classNames={selectClassNames}
+                label='チャンネル'
+                labelPlacement='outside-left'
+                channels={channels}
+                filter={(channel) => channel.type === ChannelType.GuildText}
+                onChange={field.onChange}
+                defaultSelectedKeys={field.value ? [field.value] : []}
+                isInvalid={!!error}
+                errorMessage={error?.message}
+                isDisabled={!watch('delete.enable')}
+                isRequired
+              />
+            )}
+          />
+        </CardBody>
+      </Card>
+      <SubmitButton loading={isLoading} />
+    </form>
   );
 }

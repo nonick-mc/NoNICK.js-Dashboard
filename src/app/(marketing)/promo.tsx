@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react';
+import { Chip } from '@nextui-org/react';
 import Link from 'next/link';
 
 type Props = {
@@ -8,12 +8,10 @@ type Props = {
 
 export function Promo({ label, href }: Props) {
   return (
-    <Link
-      href={href}
-      className='mx-auto flex w-auto items-center gap-2 rounded-full bg-muted/50 px-6 py-2 text-sm shadow-lg transition-all hover:opacity-60'
-    >
-      {label}
-      <ArrowRight size={16} />
+    <Link href={href} passHref>
+      <Chip classNames={{ base: 'text-sm py-4' }} variant='dot' color='primary' size='lg'>
+        {label}
+      </Chip>
     </Link>
   );
 }

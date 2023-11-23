@@ -3,9 +3,8 @@
 import dashboardConfig from '@/config/dashboard';
 import Link from 'next/link';
 import React from 'react';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
 import { useParams, useSelectedLayoutSegments } from 'next/navigation';
+import { Chip, cn } from '@nextui-org/react';
 
 export function SidebarNavigation() {
   const guildId = useParams().guildId;
@@ -25,15 +24,19 @@ export function SidebarNavigation() {
               <Link
                 href={`/dashboard/guild/${guildId}${href}`}
                 className={cn(
-                  'flex w-full items-center justify-between rounded-md px-3 py-2 text-sm transition ease-in-out hover:bg-zinc-500/10',
-                  { 'bg-zinc-500/20': `/${segment || ''}` === href },
+                  'flex w-full items-center justify-between rounded-md px-3 py-2 text-sm transition ease-in-out hover:bg-zinc-400/20',
+                  { 'bg-zinc-400/20': `/${segment || ''}` === href },
                 )}
               >
                 <div className='flex items-center gap-2'>
                   {React.createElement(icon, { size: 15 })}
                   <span>{label}</span>
                 </div>
-                {badge && <Badge variant='secondary'>{badge}</Badge>}
+                {badge && (
+                  <Chip size='sm' classNames={{ base: 'h-auto py-0.5' }}>
+                    {badge}
+                  </Chip>
+                )}
               </Link>
             </li>
           ))}

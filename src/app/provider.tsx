@@ -1,16 +1,22 @@
 'use client';
 
 import { ConsoleWarningProvider } from '@/components/warning';
-import { SessionProvider } from 'next-auth/react';
+import { NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider } from 'next-themes';
+import { SessionProvider } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
 
-export function Provider({ children }: { children: ReactNode }) {
+export function Providers({ children }: { children: ReactNode }) {
+  const router = useRouter();
+
   return (
     <SessionProvider>
-      <ThemeProvider attribute='class' defaultTheme='dark' enableSystem>
-        <ConsoleWarningProvider>{children}</ConsoleWarningProvider>
-      </ThemeProvider>
+      <NextUIProvider navigate={router.push}>
+        <ThemeProvider attribute='class' defaultTheme='dark'>
+          <ConsoleWarningProvider>{children}</ConsoleWarningProvider>
+        </ThemeProvider>
+      </NextUIProvider>
     </SessionProvider>
   );
 }

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
-import { GuildTable } from './table';
 import { cookies } from 'next/headers';
 import { PartialCurrentUserGuildWithBotJoined } from '@/types/discord';
+import { GuildTable } from './guild-table';
 
 export const metadata: Metadata = {
   title: 'サーバー選択',

@@ -26,14 +26,14 @@ export default withAuth(
     if (req.nextUrl.pathname.startsWith('/dashboard/guild')) {
       const result = dashboardUrlPattern.exec(req.nextUrl)?.pathname.groups;
 
-      if (!result?.guildId || !/^\d{16,19}$/.test(result.guildId)) {
+      if (!result?.guildId || !/^\d{17,20}$/.test(result.guildId)) {
         return Response.redirect(new URL('/dashboard', req.url));
       }
 
       const guilds = await getUserGuilds(req).catch(() => undefined);
       const targetGuild = guilds?.find((guild) => guild.id === result.guildId);
 
-      if (!targetGuild?.isBotJoined) {
+      if (!targetGuild?.isBotJoined && process.env.NODE_ENV === 'production') {
         return Response.redirect(new URL('/dashboard', req.url));
       }
     }

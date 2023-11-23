@@ -50,7 +50,6 @@ const dashboardConfig: DashboardConfig = {
           label: 'メッセージURL展開',
           icon: Link,
           href: '/message-expansion',
-          badge: '🚧',
         },
         {
           label: '自動認証レベル変更',
@@ -61,13 +60,11 @@ const dashboardConfig: DashboardConfig = {
           label: '自動アナウンス公開',
           icon: Megaphone,
           href: '/auto-public',
-          badge: '🚧',
         },
         {
           label: 'AutoMod Plus',
           icon: Shield,
           href: '/automod-plus',
-          badge: '🚧',
         },
       ],
     },

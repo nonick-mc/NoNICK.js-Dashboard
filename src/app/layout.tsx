@@ -1,9 +1,8 @@
 import './globals.css';
-import metadataConfig from '@/config/metadata';
+import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
-import { Metadata, Viewport } from 'next';
-import { ReactNode } from 'react';
-import { Provider } from './provider';
+import { Providers } from './provider';
+import metadataConfig from '@/config/metadata';
 import { Toaster } from '@/components/ui/toaster';
 
 const notoSansJP = Noto_Sans_JP({
@@ -35,18 +34,14 @@ export const metadata: Metadata = {
   },
 };
 
-export const viewport: Viewport = {
-  themeColor: '#007af8',
-};
-
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='ja'>
       <body className={notoSansJP.className}>
-        <Provider>
-          <main>{children}</main>
-        </Provider>
-        <Toaster />
+        <Providers>
+          <main className='bg-background text-foreground'>{children}</main>
+          <Toaster />
+        </Providers>
       </body>
     </html>
   );

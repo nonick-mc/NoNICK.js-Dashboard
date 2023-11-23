@@ -10,10 +10,10 @@ export default function Layout({
   children: ReactNode;
 }) {
   return (
-    <div className='container flex h-[calc(100vh_-_80px)] gap-6 py-3'>
+    <div className='flex h-full'>
       <Sidebar guildId={guildId} />
       <ScrollArea className='flex-1'>
-        <div className='flex flex-col gap-4 pr-4'>{children}</div>
+        <div className='flex flex-col gap-4 px-4'>{children}</div>
       </ScrollArea>
     </div>
   );

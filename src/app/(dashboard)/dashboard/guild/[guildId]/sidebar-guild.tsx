@@ -18,7 +18,7 @@ export async function SidebarGuild({ guildId }: { guildId: string }) {
         }
         width={60}
         height={60}
-        alt={`${guild?.name || '不明なサーバー'}のサーバーアイコン`}
+        alt='サーバーアイコン'
       />
       <div className='flex-1'>
         <p className='text-lg font-black'>{guild?.name || '不明なサーバー'}</p>

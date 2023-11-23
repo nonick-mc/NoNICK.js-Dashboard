@@ -18,7 +18,7 @@ export async function GET() {
   });
 
   if (!res.ok) {
-    console.error(res.status);
+    console.error(`/api/dashboard/guilds - ${res.status}`);
     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 

@@ -1,28 +1,21 @@
 'use client';
 
 import * as z from 'zod';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@/components/ui/form';
-import { useToast } from '@/components/ui/use-toast';
 import { IServerSettings } from '@/models/settingModel';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Switch } from '@/components/ui/switch';
-import { ChannelSelect, NumberSelect } from '../../_components/select';
 import { APIChannel, ChannelType, GuildVerificationLevel } from 'discord-api-types/v10';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { cn, nullToUndefinedOrValue, zeroPadding } from '@/lib/utils';
-import { patchServerSetting } from '@/lib/mongoose/middleware';
+import { useToast } from '@/components/ui/use-toast';
 import { useParams } from 'next/navigation';
-import { FormItemLayout, SubmitButton } from '../../_components/form';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { nullToUndefinedOrValue, zeroPadding } from '@/lib/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitButton } from '../../submit-button';
+import { patchServerSetting } from '@/lib/mongoose/middleware';
+import { Card, CardBody, CardHeader, Radio, RadioGroup, Switch, cn } from '@nextui-org/react';
+import { CardTitle } from '../../header';
+import { ChannelSelect } from '../../channel-select';
+import { NumberSelect } from '../../number-select';
+import { selectClassNames } from '../../classnames';
 
 type Props = {
   channels: APIChannel[];
@@ -79,12 +72,12 @@ const schema = z.discriminatedUnion('enable', [
   }),
 ]);
 
-export default function SettingForm({ channels, setting }: Props) {
-  const [loading, setLoading] = useState(false);
-  const { guildId }: { guildId: string } = useParams();
+export function Form({ channels, setting }: Props) {
   const { toast } = useToast();
+  const { guildId }: { guildId: string } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof schema>>({
+  const { control, watch, handleSubmit } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
       enable: !!setting?.enable,
@@ -104,191 +97,180 @@ export default function SettingForm({ channels, setting }: Props) {
   });
 
   async function onSubmit(values: z.infer<typeof schema>) {
-    setLoading(true);
-    await patchServerSetting(guildId, 'changeVerificationLevel', values)
+    setIsLoading(true);
+    patchServerSetting(guildId, 'changeVerificationLevel', values)
       .then(() => toast({ title: '設定を保存しました！' }))
       .catch(() =>
         toast({
-          title: '設定の保存に失敗しました。',
+          title: '設定の保存に失敗しました',
           description: '時間をおいて再試行してください。',
           variant: 'destructive',
         }),
       )
-      .finally(() => setLoading(false));
+      .finally(() => setIsLoading(false));
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6 pb-6'>
-        <Card className='p-6'>
-          <FormField
-            control={form.control}
+    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6 pb-6'>
+      <Card>
+        <CardBody className='p-6'>
+          <Controller
+            control={control}
             name='enable'
             render={({ field }) => (
-              <FormItemLayout title='自動認証レベル変更を有効にする'>
-                <FormControl>
-                  <Switch checked={field.value} onCheckedChange={field.onChange} />
-                </FormControl>
-              </FormItemLayout>
+              <Switch
+                classNames={{
+                  base: 'max-w-none flex-row-reverse justify-between gap-3',
+                  label: 'text-sm',
+                }}
+                onChange={field.onChange}
+                defaultSelected={field.value}
+              >
+                <p>自動認証レベル変更を有効にする</p>
+              </Switch>
             )}
           />
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>全般設定</CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <FormField
-              control={form.control}
+        </CardBody>
+      </Card>
+      <Card>
+        <CardHeader className='p-6'>
+          <CardTitle>全般設定</CardTitle>
+        </CardHeader>
+        <CardBody className='flex flex-col gap-6 p-6 pt-0'>
+          <div className='flex flex-col gap-3'>
+            <Controller
+              control={control}
               name='time.start'
-              render={({ field }) => (
-                <FormItemLayout
-                  title='開始時間'
-                  description='この時間に認証レベルを変更します'
-                  disabled={!form.watch('enable')}
-                  required
-                >
-                  <NumberSelect
-                    length={24}
-                    format={(value) => `${zeroPadding(value, 2)}:00`}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value == null ? undefined : String(field.value)}
-                    disabled={!form.watch('enable')}
-                  />
-                </FormItemLayout>
+              render={({ field, fieldState: { error } }) => (
+                <NumberSelect
+                  classNames={selectClassNames}
+                  label='開始時間'
+                  labelPlacement='outside-left'
+                  length={24}
+                  textFormat={(value) => `${zeroPadding(value, 2)}:00`}
+                  onChange={field.onChange}
+                  defaultSelectedKeys={field.value ? [String(field.value)] : []}
+                  isInvalid={!!error}
+                  errorMessage={error?.message}
+                  isDisabled={!watch('enable')}
+                  isRequired
+                />
               )}
             />
-            <FormField
-              control={form.control}
+            <Controller
+              control={control}
               name='time.end'
-              render={({ field }) => (
-                <FormItemLayout
-                  title='終了時間'
-                  description='この時間にもとの認証レベルに戻します'
-                  disabled={!form.watch('enable')}
-                  required
-                >
-                  <NumberSelect
-                    length={24}
-                    format={(value) => `${zeroPadding(value, 2)}:00`}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value == null ? undefined : String(field.value)}
-                    disabled={!form.watch('enable')}
-                  />
-                </FormItemLayout>
+              render={({ field, fieldState: { error } }) => (
+                <NumberSelect
+                  classNames={selectClassNames}
+                  label='終了時間'
+                  labelPlacement='outside-left'
+                  length={24}
+                  textFormat={(value) => `${zeroPadding(value, 2)}:00`}
+                  onChange={field.onChange}
+                  defaultSelectedKeys={field.value ? [String(field.value)] : []}
+                  isInvalid={!!error}
+                  errorMessage={error?.message}
+                  isDisabled={!watch('enable')}
+                  isRequired
+                />
               )}
             />
-            <FormField
-              control={form.control}
-              name='level.new'
-              render={({ field }) => (
-                <FormItemLayout
-                  title='期間内に設定する認証レベル'
-                  layout='col'
-                  disabled={!form.watch('enable')}
-                  required
+          </div>
+          <Controller
+            control={control}
+            name='level.new'
+            render={({ field }) => (
+              <RadioGroup
+                classNames={{
+                  label: cn('text-sm text-foreground', { 'opacity-disabled': !watch('enable') }),
+                }}
+                label='期間内に設定する認証レベル'
+                onChange={(e) => field.onChange(e.target.value)}
+                defaultValue={`${field.value}`}
+                isDisabled={!watch('enable')}
+                isRequired
+              >
+                <Radio
+                  classNames={{ label: 'text-green-500' }}
+                  value={`${GuildVerificationLevel.Low}`}
+                  description='メール認証がされているアカウントのみ'
                 >
-                  <FormControl>
-                    <RadioGroup
-                      className='px-3'
-                      onValueChange={field.onChange}
-                      defaultValue={String(field.value)}
-                      disabled={!form.watch('enable')}
-                    >
-                      <FormControl>
-                        <FormItem className='flex items-center gap-3 space-y-0'>
-                          <RadioGroupItem value={String(GuildVerificationLevel.Low)} />
-                          <div className={cn({ 'opacity-50': !form.watch('enable') })}>
-                            <FormLabel className='text-green-500'>低</FormLabel>
-                            <FormDescription>メール認証がされているアカウントのみ</FormDescription>
-                          </div>
-                        </FormItem>
-                      </FormControl>
-                      <FormControl>
-                        <FormItem className='flex items-center gap-3 space-y-0'>
-                          <RadioGroupItem value={String(GuildVerificationLevel.Medium)} />
-                          <div className={cn({ 'opacity-50': !form.watch('enable') })}>
-                            <FormLabel className='text-yellow-500'>中</FormLabel>
-                            <FormDescription>
-                              Discordに登録してから5分以上経過したアカウントのみ
-                            </FormDescription>
-                          </div>
-                        </FormItem>
-                      </FormControl>
-                      <FormControl>
-                        <FormItem className='flex items-center gap-3 space-y-0'>
-                          <RadioGroupItem value={String(GuildVerificationLevel.High)} />
-                          <div className={cn({ 'opacity-50': !form.watch('enable') })}>
-                            <FormLabel className='text-orange-500'>高</FormLabel>
-                            <FormDescription>
-                              このサーバーのメンバーとなってから10分以上経過したアカウントのみ
-                            </FormDescription>
-                          </div>
-                        </FormItem>
-                      </FormControl>
-                      <FormControl>
-                        <FormItem className='flex items-center gap-3 space-y-0'>
-                          <RadioGroupItem value={String(GuildVerificationLevel.VeryHigh)} />
-                          <div className={cn({ 'opacity-50': !form.watch('enable') })}>
-                            <FormLabel className='text-red-500'>最高</FormLabel>
-                            <FormDescription>電話認証がされているアカウントのみ</FormDescription>
-                          </div>
-                        </FormItem>
-                      </FormControl>
-                    </RadioGroup>
-                  </FormControl>
-                </FormItemLayout>
-              )}
-            />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>ログ設定</CardTitle>
-          </CardHeader>
-          <CardContent className='space-y-4'>
-            <FormField
-              control={form.control}
-              name='log.enable'
-              render={({ field }) => (
-                <FormItemLayout
-                  title='ログ機能を有効にする'
-                  description='自動変更の開始・終了時にログを送信する'
-                  disabled={!form.watch('enable')}
+                  低
+                </Radio>
+                <Radio
+                  classNames={{ label: 'text-yellow-500' }}
+                  value={`${GuildVerificationLevel.Medium}`}
+                  description='Discordに登録してから5分以上経過したアカウントのみ'
                 >
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                      disabled={!form.watch('enable')}
-                    />
-                  </FormControl>
-                </FormItemLayout>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='log.channel'
-              render={({ field }) => (
-                <FormItemLayout
-                  title='チャンネル'
-                  disabled={!form.watch('enable') || !form.watch('log.enable')}
-                  required
+                  中
+                </Radio>
+                <Radio
+                  classNames={{ label: 'text-orange-500' }}
+                  value={`${GuildVerificationLevel.High}`}
+                  description='このサーバーのメンバーとなってから10分以上経過したアカウントのみ'
                 >
-                  <ChannelSelect
-                    channels={channels}
-                    filter={(channel) => channel.type === ChannelType.GuildText}
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    disabled={!form.watch('enable') || !form.watch('log.enable')}
-                  />
-                </FormItemLayout>
-              )}
-            />
-          </CardContent>
-        </Card>
-        <SubmitButton disabled={loading} />
-      </form>
-    </Form>
+                  高
+                </Radio>
+                <Radio
+                  classNames={{ label: 'text-red-500' }}
+                  value={`${GuildVerificationLevel.VeryHigh}`}
+                  description='電話認証がされているアカウントのみ'
+                >
+                  最高
+                </Radio>
+              </RadioGroup>
+            )}
+          />
+        </CardBody>
+      </Card>
+      <Card>
+        <CardHeader className='p-6'>
+          <CardTitle>ログ設定</CardTitle>
+        </CardHeader>
+        <CardBody className='flex flex-col gap-6 p-6 pt-0'>
+          <Controller
+            control={control}
+            name='log.enable'
+            render={({ field }) => (
+              <Switch
+                classNames={{
+                  base: 'max-w-none flex-row-reverse justify-between gap-3',
+                  label: 'text-sm',
+                }}
+                onChange={field.onChange}
+                defaultSelected={field.value}
+                isDisabled={!watch('enable')}
+              >
+                <div className='flex flex-col'>
+                  <p>ログ機能を有効にする</p>
+                  <p className='text-default-500'>自動変更の開始・終了時にログを送信します。</p>
+                </div>
+              </Switch>
+            )}
+          />
+          <Controller
+            control={control}
+            name='log.channel'
+            render={({ field, fieldState: { error } }) => (
+              <ChannelSelect
+                classNames={selectClassNames}
+                label='チャンネル'
+                labelPlacement='outside-left'
+                channels={channels}
+                filter={(channel) => channel.type === ChannelType.GuildText}
+                onChange={field.onChange}
+                defaultSelectedKeys={field.value ? [field.value] : []}
+                isInvalid={!!error}
+                errorMessage={error?.message}
+                isDisabled={!watch('log.enable') || !watch('enable')}
+                isRequired
+              />
+            )}
+          />
+        </CardBody>
+      </Card>
+      <SubmitButton loading={isLoading} />
+    </form>
   );
 }

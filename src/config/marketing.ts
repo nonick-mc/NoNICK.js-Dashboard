@@ -1,5 +1,5 @@
 import { MarketingConfig } from '@/types/config';
-import { BsDiscord, BsTwitter } from 'react-icons/bs';
+import { SiX, SiDiscord } from '@icons-pack/react-simple-icons';
 
 const marketingConfig: MarketingConfig = {
   promo: {
@@ -15,13 +15,11 @@ const marketingConfig: MarketingConfig = {
   links: [
     {
       href: 'https://twitter.com/nonick_js',
-      icon: BsTwitter,
-      alt: 'Twitter',
+      icon: SiX,
     },
     {
       href: 'https://discord.gg/6YJFzppp3x',
-      icon: BsDiscord,
-      alt: 'Discord',
+      icon: SiDiscord,
     },
   ],
 };

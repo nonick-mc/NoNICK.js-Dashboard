@@ -9,9 +9,9 @@ export async function getServerSetting<T extends keyof IServerSettings>(guildId:
   return (await ServerSettings.findOne({ serverId: guildId }))?.[path];
 }
 
-export async function patchServerSetting<T extends keyof IServerSettings>(
+export async function patchServerSetting(
   guildId: string,
-  path: T,
+  path: Paths<IServerSettings>,
   values: any,
   disableCooldown?: boolean,
 ) {

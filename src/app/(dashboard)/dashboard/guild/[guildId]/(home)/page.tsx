@@ -1,4 +1,3 @@
-import { Card } from '@/components/ui/card';
 import { Snowflake, getDate } from 'discord-snowflake';
 import { Metadata } from 'next';
 import { StatsCard } from './stats-card';
@@ -6,6 +5,7 @@ import { Calendar, InfoIcon, Rocket, Users } from 'lucide-react';
 import { getGuild } from '@/lib/discord';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { MessageActivityGraph } from './graphs';
+import { Card } from '@nextui-org/react';
 
 export const metadata: Metadata = {
   title: 'ダッシュボード',
@@ -49,7 +49,7 @@ export default async function Page({ params: { guildId } }: { params: { guildId:
           </Card>
           <Card className='col-span-5 space-y-3 p-6'>
             <p>運営からのお知らせ</p>
-            <p className='text-center text-sm text-muted-foreground'>
+            <p className='text-muted-foreground text-center text-sm'>
               現在、お知らせはありません。
             </p>
           </Card>

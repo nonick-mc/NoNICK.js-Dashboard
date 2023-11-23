@@ -1,41 +1,35 @@
 'use client';
 
-import { useState } from 'react';
+import { SiDiscord } from '@icons-pack/react-simple-icons';
+import { Button } from '@nextui-org/react';
 import { useSearchParams } from 'next/navigation';
-import { Button, buttonVariants } from '../../../../src/components/ui/button';
-import { BsDiscord } from 'react-icons/bs';
+import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { LoaderIcon } from 'lucide-react';
 
 export function UserAuthForm() {
-  const [isDiscordLoading, setIsDiscordLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
   const searchParams = useSearchParams();
 
   return (
-    <div className='grid grid-rows-1 gap-3'>
+    <div className='flex flex-col gap-3'>
       <Button
-        className='flex items-center gap-2'
-        disabled={isDiscordLoading}
         onClick={() => {
-          setIsDiscordLoading(true);
-          signIn('discord', {
-            callbackUrl: searchParams?.get('from') || '/dashboard',
-          });
+          setIsLoading(true);
+          signIn('discord', { callbackUrl: searchParams?.get('from') || '/dashboard' });
         }}
+        color='primary'
+        startContent={!isLoading && <SiDiscord size={20} />}
+        isLoading={isLoading}
+        fullWidth
+        disableRipple
       >
-        {isDiscordLoading ? (
-          <LoaderIcon className='animate-spin' size={20} />
-        ) : (
-          <BsDiscord size={20} />
-        )}
-        <span>Discordでログイン</span>
+        Discordでログイン
       </Button>
-      <Link
-        href='https://docs.nonick-js.com/nonick-js/how-to-login'
-        className={buttonVariants({ variant: 'outline' })}
-      >
-        ログインについて
+      <Link href='https://docs.nonick-js.com/nonick-js/how-to-login' passHref>
+        <Button variant='flat' fullWidth disableRipple>
+          ログインについて
+        </Button>
       </Link>
     </div>
   );
