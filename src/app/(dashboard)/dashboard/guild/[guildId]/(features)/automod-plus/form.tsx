@@ -181,51 +181,51 @@ export function Form({ channels, roles, setting }: Props) {
               💡 「サーバーの管理」権限を持つユーザーは、常時フィルターから除外されます。
             </AlertTitle>
           </Alert>
-          <div className='flex flex-col gap-3'>
-            <Controller
-              control={control}
-              name='ignore.channels'
-              render={({ field, fieldState: { error } }) => (
-                <ChannelSelect
-                  label='フィルターを適用しないチャンネル'
-                  classNames={{ trigger: 'min-h-unit-12' }}
-                  channels={channels}
-                  filter={(channel) =>
-                    [
-                      ChannelType.GuildText,
-                      ChannelType.GuildVoice,
-                      ChannelType.GuildAnnouncement,
-                      ChannelType.GuildStageVoice,
-                    ].includes(channel.type)
-                  }
-                  onSelectionChange={(keys) => field.onChange(Array.from(keys))}
-                  defaultSelectedKeys={field.value}
-                  errorMessage={error?.message}
-                  isInvalid={!!error}
-                  isDisabled={!watch('enable')}
-                  isMultiline
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name='ignore.roles'
-              render={({ field, fieldState: { error } }) => (
-                <RoleSelect
-                  label='フィルターを適用しないロール'
-                  classNames={{ trigger: 'min-h-unit-12' }}
-                  roles={roles}
-                  filter={(role) => role.id !== guildId}
-                  onSelectionChange={(keys) => field.onChange(Array.from(keys))}
-                  defaultSelectedKeys={field.value}
-                  errorMessage={error?.message}
-                  isInvalid={!!error}
-                  isDisabled={!watch('enable')}
-                  isMultiline
-                />
-              )}
-            />
-          </div>
+          <Controller
+            control={control}
+            name='ignore.channels'
+            render={({ field, fieldState: { error } }) => (
+              <ChannelSelect
+                label='フィルターを適用しないチャンネル'
+                labelPlacement='outside'
+                classNames={{ trigger: 'min-h-unit-12' }}
+                channels={channels}
+                filter={(channel) =>
+                  [
+                    ChannelType.GuildText,
+                    ChannelType.GuildVoice,
+                    ChannelType.GuildAnnouncement,
+                    ChannelType.GuildStageVoice,
+                  ].includes(channel.type)
+                }
+                onSelectionChange={(keys) => field.onChange(Array.from(keys))}
+                defaultSelectedKeys={field.value}
+                errorMessage={error?.message}
+                isInvalid={!!error}
+                isDisabled={!watch('enable')}
+                isMultiline
+              />
+            )}
+          />
+          <Controller
+            control={control}
+            name='ignore.roles'
+            render={({ field, fieldState: { error } }) => (
+              <RoleSelect
+                label='フィルターを適用しないロール'
+                labelPlacement='outside'
+                classNames={{ trigger: 'min-h-unit-12' }}
+                roles={roles}
+                filter={(role) => role.id !== guildId}
+                onSelectionChange={(keys) => field.onChange(Array.from(keys))}
+                defaultSelectedKeys={field.value}
+                errorMessage={error?.message}
+                isInvalid={!!error}
+                isDisabled={!watch('enable')}
+                isMultiline
+              />
+            )}
+          />
         </CardBody>
       </Card>
       <Card>

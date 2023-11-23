@@ -125,6 +125,7 @@ export function Form({ channels, setting }: Props) {
             render={({ field, fieldState: { error } }) => (
               <ChannelSelect
                 label='URL展開を行わないチャンネル'
+                labelPlacement='outside'
                 classNames={{ trigger: 'min-h-unit-12' }}
                 channels={channels}
                 filter={(channel) =>
