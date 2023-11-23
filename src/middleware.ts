@@ -50,6 +50,7 @@ export default withAuth(
 async function getUserGuilds(req: Request) {
   const res = await fetch(new URL('/api/dashboard/guilds', req.url), {
     headers: req.headers,
+    next: { revalidate: 5 },
   });
   if (!res.ok) throw new Error(res.statusText);
   return res.json<PartialCurrentUserGuildWithBotJoined[]>();
