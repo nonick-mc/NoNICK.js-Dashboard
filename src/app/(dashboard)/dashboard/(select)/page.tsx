@@ -15,7 +15,6 @@ async function getUserGuilds() {
         .map(({ name, value }) => `${name}=${value}`)
         .join(';'),
     },
-    next: { revalidate: 5 },
   });
 
   if (!res.ok) throw new Error(res.statusText);
