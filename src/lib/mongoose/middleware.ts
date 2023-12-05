@@ -4,7 +4,10 @@ import ServerSettings, { IServerSettings } from '@/models/settingModel';
 import dbConnect from './connect';
 import { wait } from '../utils';
 
-export async function getServerSetting<T extends keyof IServerSettings>(guildId: string, path: T) {
+export async function getServerSetting<T extends keyof IServerSettings>(
+  guildId: string,
+  path: T,
+) {
   await dbConnect();
   return (await ServerSettings.findOne({ serverId: guildId }))?.[path];
 }

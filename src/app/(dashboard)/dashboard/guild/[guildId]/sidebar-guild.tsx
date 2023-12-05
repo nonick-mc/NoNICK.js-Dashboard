@@ -22,7 +22,10 @@ export async function SidebarGuild({ guildId }: { guildId: string }) {
       />
       <div className='flex-1'>
         <p className='text-lg font-black'>{guild?.name || '不明なサーバー'}</p>
-        <Link href='/dashboard' className='flex items-center gap-1 text-blue-500'>
+        <Link
+          href='/dashboard'
+          className='flex items-center gap-1 text-blue-500'
+        >
           <RefreshCcwIcon size={15} />
           <span className='text-sm'>サーバーを変更</span>
         </Link>

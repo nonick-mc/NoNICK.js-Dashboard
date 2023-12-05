@@ -1,6 +1,12 @@
 'use client';
 
-import { Chip, Select, SelectItem, SelectProps, SelectedItems } from '@nextui-org/react';
+import {
+  Chip,
+  Select,
+  SelectItem,
+  SelectProps,
+  SelectedItems,
+} from '@nextui-org/react';
 import { APIRole } from 'discord-api-types/v10';
 
 export type RoleSelectProps = {
@@ -8,7 +14,12 @@ export type RoleSelectProps = {
   filter?: (role: APIRole) => boolean;
 } & Omit<SelectProps, 'children' | 'renderValue' | 'items' | 'placeholder'>;
 
-export function RoleSelect({ roles, filter, isMultiline, ...props }: RoleSelectProps) {
+export function RoleSelect({
+  roles,
+  filter,
+  isMultiline,
+  ...props
+}: RoleSelectProps) {
   return (
     <Select
       items={roles
@@ -49,7 +60,11 @@ export function RoleSelect({ roles, filter, isMultiline, ...props }: RoleSelectP
             <div className='flex h-[18px] w-[18px] items-center justify-center'>
               <div
                 className='h-2 w-2 rounded-full'
-                style={{ backgroundColor: role.color ? `#${role.color.toString(16)}` : 'GrayText' }}
+                style={{
+                  backgroundColor: role.color
+                    ? `#${role.color.toString(16)}`
+                    : 'GrayText',
+                }}
               />
             </div>
             <span className='text-foreground'>{role.name}</span>

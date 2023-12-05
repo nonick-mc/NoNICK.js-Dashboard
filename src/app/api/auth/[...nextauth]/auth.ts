@@ -20,7 +20,10 @@ export const authOption: NextAuthOptions = {
         token.accessTokenExpires = account.expires_at;
       }
 
-      if (token.accessTokenExpires && Date.now() > token.accessTokenExpires * 1000) {
+      if (
+        token.accessTokenExpires &&
+        Date.now() > token.accessTokenExpires * 1000
+      ) {
         token.error = 'invalid_token';
       }
 

@@ -89,7 +89,10 @@ export function Form({ channels, setting }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6 pb-6'>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='flex flex-col gap-6 pb-6'
+    >
       <Card>
         <CardHeader className='p-6'>
           <CardTitle>タイムアウト</CardTitle>

@@ -16,7 +16,8 @@ export function GuildTable({ guilds }: Props) {
   const [filterValue, setFilterValue] = useState('');
   const filteredGuilds = guilds.filter(
     ({ name, id }) =>
-      name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1 || id.startsWith(filterValue),
+      name.toLowerCase().indexOf(filterValue.toLowerCase()) !== -1 ||
+      id.startsWith(filterValue),
   );
 
   return (
@@ -34,7 +35,9 @@ export function GuildTable({ guilds }: Props) {
           isClearable
         />
         <Link
-          href={`${Discord.Endpoints.API}/oauth2/authorize?${new URLSearchParams({
+          href={`${
+            Discord.Endpoints.API
+          }/oauth2/authorize?${new URLSearchParams({
             client_id: process.env.NEXT_PUBLIC_DISCORD_ID,
             scope: 'bot',
             permissions: `${process.env.NEXT_PUBLIC_DISCORD_PERMISSION}`,
@@ -42,7 +45,11 @@ export function GuildTable({ guilds }: Props) {
             redirect_uri: `${process.env.NEXT_PUBLIC_VERCEL_URL}/dashboard`,
           }).toString()}`}
         >
-          <Button color='primary' className='h-full' startContent={<PlusIcon size={18} />}>
+          <Button
+            color='primary'
+            className='h-full'
+            startContent={<PlusIcon size={18} />}
+          >
             サーバーに導入
           </Button>
         </Link>
@@ -51,7 +58,9 @@ export function GuildTable({ guilds }: Props) {
         <Card className='flex h-[350px] items-center justify-center'>
           <div className='flex flex-col items-center gap-3'>
             <SearchIcon className='text-muted-foreground' size={64} />
-            <p className='text-muted-foreground'>条件に一致するサーバーが見つかりませんでした</p>
+            <p className='text-muted-foreground'>
+              条件に一致するサーバーが見つかりませんでした
+            </p>
           </div>
         </Card>
       ) : (
@@ -65,9 +74,16 @@ export function GuildTable({ guilds }: Props) {
   );
 }
 
-export function GridGuildItem({ guild }: { guild: RESTAPIPartialCurrentUserGuild }) {
+export function GridGuildItem({
+  guild,
+}: { guild: RESTAPIPartialCurrentUserGuild }) {
   return (
-    <Link className='col-span-2' key={guild.id} href={`/dashboard/guild/${guild.id}`} passHref>
+    <Link
+      className='col-span-2'
+      key={guild.id}
+      href={`/dashboard/guild/${guild.id}`}
+      passHref
+    >
       <Card className='overflow-hidden' fullWidth isPressable>
         <CardBody className='items-center justify-center bg-default-100 py-6'>
           <Image

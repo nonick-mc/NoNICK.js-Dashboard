@@ -84,7 +84,9 @@ export function Form({ channels, setting }: Props) {
                 classNames={{ trigger: 'min-h-unit-12' }}
                 label='自動公開するチャンネル'
                 channels={channels}
-                filter={(channel) => channel.type === ChannelType.GuildAnnouncement}
+                filter={(channel) =>
+                  channel.type === ChannelType.GuildAnnouncement
+                }
                 onSelectionChange={(keys) => field.onChange(Array.from(keys))}
                 defaultSelectedKeys={field.value}
                 isInvalid={!!error}

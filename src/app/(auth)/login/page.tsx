@@ -15,7 +15,9 @@ export default function Page() {
           <Logo className='pt-3' width={140} />
           <section>
             <h1 className='text-xl font-medium'>ログインが必要です</h1>
-            <p className='text-sm text-foreground-500'>Discordアカウントを使用して続行</p>
+            <p className='text-sm text-foreground-500'>
+              Discordアカウントを使用して続行
+            </p>
           </section>
         </CardHeader>
         <CardBody className='flex flex-col gap-6 p-6 pt-0'>

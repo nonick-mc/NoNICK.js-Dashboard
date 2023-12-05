@@ -8,7 +8,9 @@ import { Chip, cn } from '@nextui-org/react';
 
 export function SidebarNavigation() {
   const guildId = useParams().guildId;
-  const segment = useSelectedLayoutSegments().find((seg) => !/^\(.*\)$/.test(seg));
+  const segment = useSelectedLayoutSegments().find(
+    (seg) => !/^\(.*\)$/.test(seg),
+  );
 
   return (
     <>

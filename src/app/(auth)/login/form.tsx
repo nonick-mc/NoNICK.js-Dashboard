@@ -16,7 +16,9 @@ export function UserAuthForm() {
       <Button
         onClick={() => {
           setIsLoading(true);
-          signIn('discord', { callbackUrl: searchParams?.get('from') || '/dashboard' });
+          signIn('discord', {
+            callbackUrl: searchParams?.get('from') || '/dashboard',
+          });
         }}
         color='primary'
         startContent={!isLoading && <SiDiscord size={20} />}

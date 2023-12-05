@@ -61,7 +61,8 @@ const ServerSettings = new Schema<IServerSettings>({
           embeds: [
             {
               title: 'WELCOME',
-              description: '![user] **(![userTag])** さん、**![serverName]**へようこそ！',
+              description:
+                '![user] **(![userTag])** さん、**![serverName]**へようこそ！',
               color: 0x57f287,
             },
           ],
@@ -156,4 +157,7 @@ const ServerSettings = new Schema<IServerSettings>({
 
 export default models?.ServerSettings
   ? (models.ServerSettings as Model<IServerSettings>)
-  : model<IServerSettings, Model<IServerSettings>>('ServerSettings', ServerSettings);
+  : model<IServerSettings, Model<IServerSettings>>(
+      'ServerSettings',
+      ServerSettings,
+    );

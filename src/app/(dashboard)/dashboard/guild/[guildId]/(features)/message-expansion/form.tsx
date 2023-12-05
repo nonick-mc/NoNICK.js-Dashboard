@@ -10,7 +10,15 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { patchServerSetting } from '@/lib/mongoose/middleware';
 import { SubmitButton } from '../../submit-button';
-import { Card, CardBody, CardHeader, Checkbox, CheckboxGroup, Switch, cn } from '@nextui-org/react';
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Checkbox,
+  CheckboxGroup,
+  Switch,
+  cn,
+} from '@nextui-org/react';
 import { switchClassNames } from '../../classnames';
 import { CardTitle } from '../../header';
 import { ChannelSelect } from '../../channel-select';
@@ -89,7 +97,9 @@ export function Form({ channels, setting }: Props) {
               <CheckboxGroup
                 classNames={{
                   wrapper: 'gap-3',
-                  label: cn('text-sm text-foreground', { 'opacity-disabled': !watch('enable') }),
+                  label: cn('text-sm text-foreground', {
+                    'opacity-disabled': !watch('enable'),
+                  }),
                 }}
                 label='URL展開を行わないチャンネルの種類'
                 defaultValue={field.value.map((v) => `${v}`)}
@@ -110,10 +120,16 @@ export function Form({ channels, setting }: Props) {
                 >
                   ステージチャンネル
                 </Checkbox>
-                <Checkbox classNames={{ label: 'text-sm' }} value={`${ChannelType.PublicThread}`}>
+                <Checkbox
+                  classNames={{ label: 'text-sm' }}
+                  value={`${ChannelType.PublicThread}`}
+                >
                   公開スレッド
                 </Checkbox>
-                <Checkbox classNames={{ label: 'text-sm' }} value={`${ChannelType.PrivateThread}`}>
+                <Checkbox
+                  classNames={{ label: 'text-sm' }}
+                  value={`${ChannelType.PrivateThread}`}
+                >
                   プライベートスレッド
                 </Checkbox>
               </CheckboxGroup>

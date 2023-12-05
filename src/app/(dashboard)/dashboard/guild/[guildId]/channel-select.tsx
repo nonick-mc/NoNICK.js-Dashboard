@@ -1,6 +1,12 @@
 'use client';
 
-import { Chip, Select, SelectItem, SelectProps, SelectedItems } from '@nextui-org/react';
+import {
+  Chip,
+  Select,
+  SelectItem,
+  SelectProps,
+  SelectedItems,
+} from '@nextui-org/react';
 import { APIChannel, ChannelType } from 'discord-api-types/v10';
 import {
   HashIcon,
@@ -32,7 +38,12 @@ const channelTypeEmojis = new Map<number, LucideIcon>([
   [ChannelType.PrivateThread, MessageCircleIcon],
 ]);
 
-export function ChannelSelect({ channels, filter, isMultiline, ...props }: ChannelSelectProps) {
+export function ChannelSelect({
+  channels,
+  filter,
+  isMultiline,
+  ...props
+}: ChannelSelectProps) {
   return (
     <Select
       items={channels.filter((channel) => (filter ? filter(channel) : true))}
@@ -47,10 +58,13 @@ export function ChannelSelect({ channels, filter, isMultiline, ...props }: Chann
               <Chip key={item.key}>{item.data?.name}</Chip>
             ) : (
               <div className='flex items-center gap-1' key={item.key}>
-                {createElement(channelTypeEmojis.get(item.data?.type!) || HashIcon, {
-                  size: 18,
-                  className: 'text-default-500',
-                })}
+                {createElement(
+                  channelTypeEmojis.get(item.data?.type!) || HashIcon,
+                  {
+                    size: 18,
+                    className: 'text-default-500',
+                  },
+                )}
                 <span className='text-foreground'>{item.data?.name}</span>
               </div>
             ),
@@ -60,7 +74,11 @@ export function ChannelSelect({ channels, filter, isMultiline, ...props }: Chann
       {...props}
     >
       {(channel) => (
-        <SelectItem key={channel.id} value={channel.id} textValue={channel.name ?? undefined}>
+        <SelectItem
+          key={channel.id}
+          value={channel.id}
+          textValue={channel.name ?? undefined}
+        >
           <div className='flex items-center gap-2'>
             {createElement(channelTypeEmojis.get(channel.type) || HashIcon, {
               size: 18,

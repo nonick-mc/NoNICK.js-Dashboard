@@ -8,12 +8,17 @@ export const metadata: Metadata = {
   title: '設定',
 };
 
-export default async function Page({ params: { guildId } }: { params: { guildId: string } }) {
+export default async function Page({
+  params: { guildId },
+}: { params: { guildId: string } }) {
   const channels = await getChannels(guildId);
 
   return (
     <>
-      <Header title='設定' description='このサーバーでのNoNICK.jsの全般設定を変更します。' />
+      <Header
+        title='設定'
+        description='このサーバーでのNoNICK.jsの全般設定を変更します。'
+      />
       <Alert variant='primary'>
         <AlertTitle>💡 この設定はv5.0から行えるようになります。</AlertTitle>
       </Alert>

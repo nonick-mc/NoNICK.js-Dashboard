@@ -11,7 +11,9 @@ export const metadata: Metadata = {
   title: 'ダッシュボード',
 };
 
-export default async function Page({ params: { guildId } }: { params: { guildId: string } }) {
+export default async function Page({
+  params: { guildId },
+}: { params: { guildId: string } }) {
   const guild = await getGuild(guildId, true);
   const createAt = getDate(guildId as Snowflake);
 

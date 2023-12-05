@@ -6,7 +6,12 @@ type Props = {
   textFormat?: (value: number) => string;
 } & Omit<SelectProps, 'children'>;
 
-export function NumberSelect({ length, textFormat, placeholder, ...props }: Props) {
+export function NumberSelect({
+  length,
+  textFormat,
+  placeholder,
+  ...props
+}: Props) {
   return (
     <Select variant='bordered' placeholder={placeholder || '選択'} {...props}>
       {Array(length)

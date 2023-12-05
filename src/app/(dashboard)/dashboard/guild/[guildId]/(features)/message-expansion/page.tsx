@@ -8,7 +8,9 @@ export const metadata: Metadata = {
   title: 'メッセージURL展開',
 };
 
-export default async function Page({ params: { guildId } }: { params: { guildId: string } }) {
+export default async function Page({
+  params: { guildId },
+}: { params: { guildId: string } }) {
   const channels = await getChannels(guildId);
   const setting = await getServerSetting(guildId, 'message');
 
@@ -20,7 +22,11 @@ export default async function Page({ params: { guildId } }: { params: { guildId:
       />
       <Form
         channels={channels}
-        setting={setting?.expansion ? JSON.parse(JSON.stringify(setting.expansion)) : undefined}
+        setting={
+          setting?.expansion
+            ? JSON.parse(JSON.stringify(setting.expansion))
+            : undefined
+        }
       />
     </>
   );

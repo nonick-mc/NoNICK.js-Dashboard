@@ -8,13 +8,18 @@ export const metadata: Metadata = {
   title: 'イベントログ',
 };
 
-export default async function Page({ params: { guildId } }: { params: { guildId: string } }) {
+export default async function Page({
+  params: { guildId },
+}: { params: { guildId: string } }) {
   const channels = await getChannels(guildId);
   const setting = await getServerSetting(guildId, 'log');
 
   return (
     <>
-      <Header title='イベントログ' description='サーバー内での特定アクションのログを送信します。' />
+      <Header
+        title='イベントログ'
+        description='サーバー内での特定アクションのログを送信します。'
+      />
       <Form
         channels={channels}
         setting={setting ? JSON.parse(JSON.stringify(setting)) : undefined}

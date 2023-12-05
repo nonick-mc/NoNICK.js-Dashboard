@@ -8,14 +8,17 @@ export const metadata: Metadata = {
 };
 
 async function getUserGuilds() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_VERCEL_URL}/api/dashboard/guilds`, {
-    headers: {
-      Cookie: cookies()
-        .getAll()
-        .map(({ name, value }) => `${name}=${value}`)
-        .join(';'),
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/dashboard/guilds`,
+    {
+      headers: {
+        Cookie: cookies()
+          .getAll()
+          .map(({ name, value }) => `${name}=${value}`)
+          .join(';'),
+      },
     },
-  });
+  );
 
   if (!res.ok) throw new Error(res.statusText);
   return res.json<PartialCurrentUserGuildWithBotJoined[]>();

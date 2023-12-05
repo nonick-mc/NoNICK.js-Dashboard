@@ -2,7 +2,14 @@
 
 import { formatNumber } from '@/lib/utils';
 import { FC } from 'react';
-import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import {
+  Area,
+  AreaChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
 
 const sampleData = [
   { date: '6/19', messages: 32942, newbie: 20 },
@@ -32,7 +39,13 @@ export const MessageActivityGraph: FC = () => {
             <stop offset='95%' stopColor='#82ca9d' stopOpacity={0} />
           </linearGradient>
         </defs>
-        <XAxis height={20} dataKey='date' fontSize={12} tickLine={false} axisLine={false} />
+        <XAxis
+          height={20}
+          dataKey='date'
+          fontSize={12}
+          tickLine={false}
+          axisLine={false}
+        />
         <YAxis
           width={30}
           fontSize={12}
