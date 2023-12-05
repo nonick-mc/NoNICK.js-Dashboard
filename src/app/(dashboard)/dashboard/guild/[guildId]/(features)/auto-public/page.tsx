@@ -8,7 +8,9 @@ export const metadata: Metadata = {
   title: '自動アナウンス公開',
 };
 
-export default async function Page({ params: { guildId } }: { params: { guildId: string } }) {
+export default async function Page({
+  params: { guildId },
+}: { params: { guildId: string } }) {
   const channels = await getChannels(guildId);
   const setting = await getServerSetting(guildId, 'autoPublic');
 

@@ -24,7 +24,11 @@ export function Nav() {
               href={v.href}
               className={cn(
                 'text-sm font-medium text-default-500 transition-colors hover:text-foreground/80',
-                { 'text-primary hover:text-primary': v.href.startsWith(`/${segment}`) },
+                {
+                  'text-primary hover:text-primary': v.href.startsWith(
+                    `/${segment}`,
+                  ),
+                },
               )}
             >
               {v.title}
@@ -35,7 +39,13 @@ export function Nav() {
       <div className='flex gap-3'>
         <div className='flex'>
           {marketingConfig.links.map((v, index) => (
-            <Link key={index} href={v.href} target='_blank' rel='noreferrer' passHref>
+            <Link
+              key={index}
+              href={v.href}
+              target='_blank'
+              rel='noreferrer'
+              passHref
+            >
               <Button variant='light' isIconOnly disableRipple>
                 {createElement(v.icon, { size: 20 })}
               </Button>

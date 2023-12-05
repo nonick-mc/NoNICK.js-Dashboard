@@ -9,7 +9,12 @@ type Props = {
 export function Promo({ label, href }: Props) {
   return (
     <Link href={href} passHref>
-      <Chip classNames={{ base: 'text-sm py-4' }} variant='dot' color='primary' size='lg'>
+      <Chip
+        classNames={{ base: 'text-sm py-4' }}
+        variant='dot'
+        color='primary'
+        size='lg'
+      >
         {label}
       </Chip>
     </Link>

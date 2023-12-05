@@ -8,7 +8,9 @@ export const metadata: Metadata = {
   title: 'AutoMod Plus',
 };
 
-export default async function Page({ params: { guildId } }: { params: { guildId: string } }) {
+export default async function Page({
+  params: { guildId },
+}: { params: { guildId: string } }) {
   const channels = await getChannels(guildId);
   const roles = await getRoles(guildId);
   const setting = await getServerSetting(guildId, 'autoMod');

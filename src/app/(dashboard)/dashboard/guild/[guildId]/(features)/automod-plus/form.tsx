@@ -89,7 +89,10 @@ export function Form({ channels, roles, setting }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6 pb-6'>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='flex flex-col gap-6 pb-6'
+    >
       <Card>
         <CardBody className='p-6'>
           <Controller
@@ -176,9 +179,13 @@ export function Form({ channels, roles, setting }: Props) {
           <CardTitle>例外設定</CardTitle>
         </CardHeader>
         <CardBody className='flex flex-col gap-6 p-6 pt-0'>
-          <Alert className={cn({ 'opacity-disabled': !watch('enable') })} variant='primary'>
+          <Alert
+            className={cn({ 'opacity-disabled': !watch('enable') })}
+            variant='primary'
+          >
             <AlertTitle className='text-sm font-normal'>
-              💡 「サーバーの管理」権限を持つユーザーは、常時フィルターから除外されます。
+              💡
+              「サーバーの管理」権限を持つユーザーは、常時フィルターから除外されます。
             </AlertTitle>
           </Alert>
           <Controller

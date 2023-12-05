@@ -1,6 +1,9 @@
 import { ReactNode } from 'react';
 
-export function Header({ title, description }: { title: string; description: string }) {
+export function Header({
+  title,
+  description,
+}: { title: string; description: string }) {
   return (
     <div className='grid items-start gap-1'>
       <h1 className='text-3xl font-black'>{title}</h1>
@@ -10,5 +13,9 @@ export function Header({ title, description }: { title: string; description: str
 }
 
 export function CardTitle({ children }: { children: ReactNode }) {
-  return <h3 className='text-lg font-semibold leading-none tracking-tight'>{children}</h3>;
+  return (
+    <h3 className='text-lg font-semibold leading-none tracking-tight'>
+      {children}
+    </h3>
+  );
 }

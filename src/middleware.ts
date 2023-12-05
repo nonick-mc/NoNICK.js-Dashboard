@@ -20,7 +20,9 @@ export default withAuth(
     if (!isAuth || !token.accessToken) {
       let from = req.nextUrl.pathname;
       if (req.nextUrl.search) from += req.nextUrl.search;
-      return Response.redirect(new URL(`/login?from=${encodeURIComponent(from)}`, req.url));
+      return Response.redirect(
+        new URL(`/login?from=${encodeURIComponent(from)}`, req.url),
+      );
     }
 
     if (req.nextUrl.pathname.startsWith('/dashboard/guild')) {

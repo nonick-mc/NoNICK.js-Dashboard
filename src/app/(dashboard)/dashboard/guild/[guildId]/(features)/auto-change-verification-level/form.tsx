@@ -2,7 +2,11 @@
 
 import * as z from 'zod';
 import { IServerSettings } from '@/models/settingModel';
-import { APIChannel, ChannelType, GuildVerificationLevel } from 'discord-api-types/v10';
+import {
+  APIChannel,
+  ChannelType,
+  GuildVerificationLevel,
+} from 'discord-api-types/v10';
 import { useToast } from '@/components/ui/use-toast';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
@@ -11,7 +15,15 @@ import { nullToUndefinedOrValue, zeroPadding } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitButton } from '../../submit-button';
 import { patchServerSetting } from '@/lib/mongoose/middleware';
-import { Card, CardBody, CardHeader, Radio, RadioGroup, Switch, cn } from '@nextui-org/react';
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Radio,
+  RadioGroup,
+  Switch,
+  cn,
+} from '@nextui-org/react';
 import { CardTitle } from '../../header';
 import { ChannelSelect } from '../../channel-select';
 import { NumberSelect } from '../../number-select';
@@ -27,7 +39,10 @@ const schema = z.discriminatedUnion('enable', [
     enable: z.literal(true),
     level: z.object({
       old: z.number().min(1).max(4).optional(),
-      new: z.coerce.number({ invalid_type_error: '選択してください' }).min(1).max(4),
+      new: z.coerce
+        .number({ invalid_type_error: '選択してください' })
+        .min(1)
+        .max(4),
     }),
     log: z.discriminatedUnion('enable', [
       z.object({
@@ -87,7 +102,9 @@ export function Form({ channels, setting }: Props) {
       },
       level: {
         old: setting?.level.old,
-        new: nullToUndefinedOrValue(setting?.level.new) || GuildVerificationLevel.Low,
+        new:
+          nullToUndefinedOrValue(setting?.level.new) ||
+          GuildVerificationLevel.Low,
       },
       log: {
         enable: !!setting?.log.enable,
@@ -111,7 +128,10 @@ export function Form({ channels, setting }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6 pb-6'>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className='flex flex-col gap-6 pb-6'
+    >
       <Card>
         <CardBody className='p-6'>
           <Controller
@@ -183,7 +203,9 @@ export function Form({ channels, setting }: Props) {
             render={({ field }) => (
               <RadioGroup
                 classNames={{
-                  label: cn('text-sm text-foreground', { 'opacity-disabled': !watch('enable') }),
+                  label: cn('text-sm text-foreground', {
+                    'opacity-disabled': !watch('enable'),
+                  }),
                 }}
                 label='期間内に設定する認証レベル'
                 onChange={(e) => field.onChange(e.target.value)}
@@ -244,7 +266,9 @@ export function Form({ channels, setting }: Props) {
               >
                 <div className='flex flex-col'>
                   <p>ログ機能を有効にする</p>
-                  <p className='text-default-500'>自動変更の開始・終了時にログを送信します。</p>
+                  <p className='text-default-500'>
+                    自動変更の開始・終了時にログを送信します。
+                  </p>
                 </div>
               </Switch>
             )}
