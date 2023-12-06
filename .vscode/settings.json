@@ -1,8 +1,10 @@
 {
-  "cSpell.words": [
-    "nextui",
-    "tailwindcss",
-    "webp"
-  ],
-  "svg.preview.background": "editor"
+  "cSpell.words": ["nextui", "tailwindcss", "webp"],
+  "svg.preview.background": "editor",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.codeActionsOnSave": {
+    "quickfix.biome": true,
+    "source.organizeImports.biome": true
+  }
 }
