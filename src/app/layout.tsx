@@ -1,9 +1,9 @@
-import './globals.css';
+import { Toaster } from '@/components/ui/toaster';
+import metadataConfig from '@/config/metadata';
 import type { Metadata } from 'next';
 import { Noto_Sans_JP } from 'next/font/google';
+import './globals.css';
 import { Providers } from './provider';
-import metadataConfig from '@/config/metadata';
-import { Toaster } from '@/components/ui/toaster';
 
 const notoSansJP = Noto_Sans_JP({
   subsets: ['latin'],
