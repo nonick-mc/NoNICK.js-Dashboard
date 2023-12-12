@@ -1,8 +1,7 @@
 import Logo from '@/components/logo';
 import { ThemeToggle } from '@/components/theme-toggle';
-import { Chip } from '@nextui-org/react';
 import Link from 'next/link';
-import { UserDropDown } from './user-dropdown';
+import { UserDropDown } from '../user-dropdown';
 
 export function Nav() {
   return (
@@ -11,12 +10,9 @@ export function Nav() {
         <Link href='/dashboard' aria-label='nonick.js'>
           <Logo width={120} />
         </Link>
-        <Chip classNames={{ base: 'px-2 font-bold' }} variant='flat' size='sm'>
-          Beta
-        </Chip>
       </div>
       <div className='flex items-center gap-3'>
-        <ThemeToggle />
+        {/* <ThemeToggle /> */}
         <UserDropDown />
       </div>
     </div>
