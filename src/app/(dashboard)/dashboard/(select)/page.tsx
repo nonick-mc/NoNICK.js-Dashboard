@@ -1,6 +1,6 @@
+import { PartialCurrentUserGuildWithBotJoined } from '@/types/discord';
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
-import { PartialCurrentUserGuildWithBotJoined } from '@/types/discord';
 import { GuildTable } from './guild-table';
 
 export const metadata: Metadata = {

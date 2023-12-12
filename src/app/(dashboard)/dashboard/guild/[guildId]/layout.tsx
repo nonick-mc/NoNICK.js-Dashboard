@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { ReactNode } from 'react';
 import { Sidebar } from './sidebar';
 
 export default function Layout({
@@ -10,7 +10,7 @@ export default function Layout({
   children: ReactNode;
 }) {
   return (
-    <div className='flex h-full'>
+    <div className='flex h-[calc(100dvh_-_80px)]'>
       <Sidebar guildId={guildId} />
       <ScrollArea className='flex-1'>
         <div className='flex flex-col gap-4 px-4'>{children}</div>

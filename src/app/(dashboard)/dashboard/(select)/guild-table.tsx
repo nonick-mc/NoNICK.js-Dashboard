@@ -22,7 +22,7 @@ export function GuildTable({ guilds }: Props) {
 
   return (
     <div className='space-y-6'>
-      <div className='flex justify-stretch gap-3'>
+      <div className='flex flex-col sm:flex-row sm:justify-stretch gap-3'>
         <Input
           classNames={{
             base: 'flex-1',
@@ -35,6 +35,7 @@ export function GuildTable({ guilds }: Props) {
           isClearable
         />
         <Link
+          className='w-full sm:w-auto'
           href={`${
             Discord.Endpoints.API
           }/oauth2/authorize?${new URLSearchParams({
@@ -44,10 +45,11 @@ export function GuildTable({ guilds }: Props) {
             response_type: 'code',
             redirect_uri: `${process.env.NEXT_PUBLIC_VERCEL_URL}/dashboard`,
           }).toString()}`}
+          passHref
         >
           <Button
             color='primary'
-            className='h-full'
+            className='sm:h-full w-full sm:w-auto'
             startContent={<PlusIcon size={18} />}
           >
             サーバーに導入
@@ -55,7 +57,7 @@ export function GuildTable({ guilds }: Props) {
         </Link>
       </div>
       {!filteredGuilds.length ? (
-        <Card className='flex h-[350px] items-center justify-center'>
+        <Card className='flex h-[400px] items-center justify-center'>
           <div className='flex flex-col items-center gap-3'>
             <SearchIcon className='text-muted-foreground' size={64} />
             <p className='text-muted-foreground'>
@@ -64,7 +66,7 @@ export function GuildTable({ guilds }: Props) {
           </div>
         </Card>
       ) : (
-        <div className='grid grid-cols-10 gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6'>
           {filteredGuilds.map((g) => (
             <GridGuildItem key={g.id} guild={g} />
           ))}
@@ -79,7 +81,6 @@ export function GridGuildItem({
 }: { guild: RESTAPIPartialCurrentUserGuild }) {
   return (
     <Link
-      className='col-span-2'
       key={guild.id}
       href={`/dashboard/guild/${guild.id}`}
       passHref
