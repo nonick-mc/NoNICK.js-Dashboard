@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className='container flex h-screen items-center justify-center'>
+    <div className='container flex h-[100dvh] items-center justify-center'>
       <Card className='w-[400px] space-y-6'>
         <CardHeader className='flex flex-col items-start gap-6 p-6 pb-0'>
           <Logo className='pt-3' width={140} />
