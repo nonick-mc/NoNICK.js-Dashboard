@@ -32,7 +32,6 @@ export function GuildTable({ guilds }: Props) {
           placeholder='名前またはサーバーIDで検索'
           startContent={<SearchIcon className='text-foreground/50' size={20} />}
           onValueChange={(e) => setFilterValue(e.toLowerCase())}
-          isClearable
         />
         <Link
           className='w-full sm:w-auto'
@@ -57,11 +56,12 @@ export function GuildTable({ guilds }: Props) {
         </Link>
       </div>
       {!filteredGuilds.length ? (
-        <Card className='flex h-[400px] items-center justify-center'>
+        <Card className='flex h-[400px] items-center justify-center p-6'>
           <div className='flex flex-col items-center gap-3'>
             <SearchIcon className='text-muted-foreground' size={64} />
-            <p className='text-muted-foreground'>
-              条件に一致するサーバーが見つかりませんでした
+            <p className='text-muted-foreground text-center'>
+              条件に一致するサーバーが
+              <span className='inline-block'>見つかりませんでした</span>
             </p>
           </div>
         </Card>
@@ -80,11 +80,7 @@ export function GridGuildItem({
   guild,
 }: { guild: RESTAPIPartialCurrentUserGuild }) {
   return (
-    <Link
-      key={guild.id}
-      href={`/dashboard/guild/${guild.id}`}
-      passHref
-    >
+    <Link key={guild.id} href={`/dashboard/guild/${guild.id}`} passHref>
       <Card className='overflow-hidden' fullWidth isPressable>
         <CardBody className='items-center justify-center bg-default-100 py-6'>
           <Image
