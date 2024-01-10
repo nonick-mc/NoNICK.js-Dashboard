@@ -2,11 +2,14 @@
 
 import { NextUIProvider } from '@nextui-org/react';
 import { ThemeProvider } from 'next-themes';
+import { useRouter } from 'next/navigation';
 import { ReactNode } from 'react';
 
 export function Providers({ children }: { children: ReactNode }) {
+  const router = useRouter();
+
   return (
-    <NextUIProvider>
+    <NextUIProvider navigate={router.push}>
       <ThemeProvider attribute='class' defaultTheme='dark'>
         {children}
       </ThemeProvider>
