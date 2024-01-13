@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["nextui", "tailwindcss", "webp"],
+  "cSpell.words": ["nextauth", "nextui", "RESTAPI", "tailwindcss", "webp"],
   "svg.preview.background": "editor",
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "biomejs.biome",
