@@ -16,9 +16,7 @@ export default function Layout({ params: { guildId }, children }: Props) {
       <NavBar />
       <div className='container flex h-[calc(100dvh_-_80px)]'>
         <Sidebar />
-        <ScrollArea>
-          <div className='flex flex-col gap-4 px-4'>{children}</div>
-        </ScrollArea>
+        <ScrollArea className='flex-1 px-4'>{children}</ScrollArea>
       </div>
     </>
   );

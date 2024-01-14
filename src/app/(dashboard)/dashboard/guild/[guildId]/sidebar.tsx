@@ -7,8 +7,8 @@ export async function Sidebar() {
   const mutualGuilds = await getMutualGuilds();
 
   return (
-    <ScrollArea className='w-[280px]'>
-      <div className='flex flex-col gap-6'>
+    <ScrollArea className='w-[300px]'>
+      <div className='flex flex-col gap-6 pr-6'>
         <SidebarGuildSelect mutualGuilds={mutualGuilds} />
         <SidebarNavigation />
       </div>
