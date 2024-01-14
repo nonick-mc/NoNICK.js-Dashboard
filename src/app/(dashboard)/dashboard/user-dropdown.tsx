@@ -1,6 +1,7 @@
 'use client';
 
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
+import { TailwindCSS } from '@/lib/constants';
 import { nullToUndefined } from '@/lib/utils';
 import { Avatar } from '@nextui-org/avatar';
 import { Button } from '@nextui-org/button';
@@ -20,7 +21,7 @@ import { useMediaQuery } from 'usehooks-ts';
 
 export function UserDropdown() {
   const { data: session } = useSession();
-  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isDesktop = useMediaQuery(TailwindCSS.Responsive.sm);
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
