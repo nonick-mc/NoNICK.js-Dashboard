@@ -20,7 +20,7 @@ export function SidebarGuildSelect({ mutualGuilds }: Props) {
       defaultSelectedKeys={[guildId]}
       items={mutualGuilds}
       size='md'
-      variant='bordered'
+      variant='faded'
       aria-label='サーバー選択'
       renderValue={(items: SelectedItems<RESTAPIPartialCurrentUserGuild>) => (
         <>
