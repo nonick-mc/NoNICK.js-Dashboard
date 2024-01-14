@@ -7,7 +7,7 @@ import {
   Settings,
   ShieldCheck,
   Sledgehammer,
-  SquareShareLine,
+  SquareForward,
   UsersGroupRounded,
   Widget5,
 } from 'solar-icon-set';
@@ -40,7 +40,6 @@ const dashboardConfig: DashboardConfig = {
           label: '入退室メッセージ',
           icon: UsersGroupRounded,
           href: '/join-and-leave-message',
-          badge: '🚧',
         },
         {
           label: 'サーバー内通報',
@@ -64,7 +63,7 @@ const dashboardConfig: DashboardConfig = {
         },
         {
           label: '自動アナウンス公開',
-          icon: SquareShareLine,
+          icon: SquareForward,
           href: '/auto-public',
         },
         {
