@@ -18,7 +18,9 @@ export function NavBar() {
           Dashboard
         </Chip>
       </div>
-      <UserDropdown />
+      <div className='flex gap-3 items-center'>
+        <UserDropdown />
+      </div>
     </div>
   );
 }
