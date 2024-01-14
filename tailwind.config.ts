@@ -28,7 +28,6 @@ const config: Config = {
   plugins: [
     nextui({
       addCommonColors: false,
-      defaultTheme: 'dark',
     }),
   ],
 };

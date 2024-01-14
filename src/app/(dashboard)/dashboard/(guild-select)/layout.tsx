@@ -5,7 +5,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <NavBar />
-      <div className='container'>
+      <div className='container mt-3'>
         <section className='flex flex-col gap-1'>
           <h1 className='text-3xl sm:text-4xl font-black'>サーバー選択</h1>
           <p className='text-default-500'>
