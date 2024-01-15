@@ -14,9 +14,13 @@ export default function Layout({ params: { guildId }, children }: Props) {
   return (
     <>
       <NavBar />
-      <div className='container flex h-[calc(100dvh_-_80px)] pb-6'>
+      <div className='max-sm:px-0 container justify-center flex h-[calc(100dvh_-_80px)]'>
         <Sidebar />
-        <ScrollArea className='flex-1 px-4'>{children}</ScrollArea>
+        <ScrollArea className='flex-1 '>
+          <div className='flex flex-col gap-4 max-sm:px-8 sm:px-4'>
+            {children}
+          </div>
+        </ScrollArea>
       </div>
     </>
   );

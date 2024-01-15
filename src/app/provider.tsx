@@ -4,11 +4,19 @@ import { ConsoleWarningProvider } from '@/components/warning';
 import { NextUIProvider } from '@nextui-org/react';
 import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
-import { useRouter } from 'next/navigation';
-import { ReactNode } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import * as NProgress from 'nprogress';
+import { ReactNode, useEffect } from 'react';
 
 export function Providers({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  useEffect(() => {
+    NProgress.done();
+  }, [pathname, searchParams]);
 
   return (
     <SessionProvider>

@@ -6,7 +6,7 @@ import { UserDropdown } from '../../user-dropdown';
 
 export function NavBar() {
   return (
-    <div className='container flex h-20 items-center justify-between gap-4 sm:gap-0'>
+    <div className='container flex h-20 items-center justify-between gap-4 sm:gap-0 bg-transparent'>
       <div className='flex items-center gap-3'>
         <Link href='/dashboard' aria-label='nonick.js' passHref>
           <Logo width={120} />

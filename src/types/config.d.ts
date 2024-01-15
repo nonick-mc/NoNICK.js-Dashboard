@@ -1,5 +1,6 @@
-type href = `${'http' | 'https'}:/${string}` | `/${string}`;
-type SolarIcon = (allProps) => JSX.Element;
+import { SolarIcon } from './solar-icon';
+
+export type href = `${'http' | 'https'}:/${string}` | `/${string}`;
 
 export type MetadataConfig = {
   name: string;

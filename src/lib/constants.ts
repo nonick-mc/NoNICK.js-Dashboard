@@ -8,10 +8,14 @@ export namespace Discord {
     Administrator: 0x08,
     ManageGuild: 0x20,
   } as const;
+
+  export const Regex = {
+    Snowflake: /^\d{17,20}$/,
+  } as const;
 }
 
 export namespace TailwindCSS {
-  export const Responsive = {
+  export const MediaQuery = {
     sm: '(min-width: 640px)',
     md: '(min-width: 768px)',
     lg: '(min-width: 1024px)',

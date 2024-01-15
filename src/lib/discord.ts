@@ -1,7 +1,9 @@
 import {
   APIChannel,
   APIGuild,
+  APIGuildChannel,
   APIRole,
+  ChannelType,
   RESTAPIPartialCurrentUserGuild,
 } from 'discord-api-types/v10';
 import { Discord } from './constants';
@@ -36,7 +38,9 @@ export async function getChannels(guildId: string) {
     },
   );
   if (!res.ok) throw new Error(res.statusText);
-  return await res.json<APIChannel[]>();
+  return await res.json<
+    APIGuildChannel<Exclude<ChannelType, 'DM' | 'GroupDM'>>[]
+  >();
 }
 
 export async function getRoles(guildId: string) {

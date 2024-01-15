@@ -4,10 +4,10 @@ import {
   Flag,
   LinkRound,
   ListCheck,
+  Mailbox,
   Settings,
   ShieldCheck,
   Sledgehammer,
-  SquareForward,
   UsersGroupRounded,
   Widget5,
 } from 'solar-icon-set';
@@ -63,7 +63,7 @@ const dashboardConfig: DashboardConfig = {
         },
         {
           label: '自動アナウンス公開',
-          icon: SquareForward,
+          icon: Mailbox,
           href: '/auto-public',
         },
         {

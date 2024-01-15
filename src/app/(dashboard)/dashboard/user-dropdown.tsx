@@ -16,12 +16,12 @@ import { Spinner } from '@nextui-org/spinner';
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useMediaQuery } from 'react-responsive';
 import { Logout2, Server2 } from 'solar-icon-set';
-import { useMediaQuery } from 'usehooks-ts';
 
 export function UserDropdown() {
   const { data: session } = useSession();
-  const isDesktop = useMediaQuery(TailwindCSS.Responsive.sm);
+  const isTablet = useMediaQuery({ query: TailwindCSS.MediaQuery.sm });
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -31,7 +31,7 @@ export function UserDropdown() {
 
   if (!mounted) return <Spinner classNames={{ base: 'size-8' }} size='sm' />;
 
-  if (isDesktop)
+  if (isTablet)
     return (
       <Dropdown isOpen={open} onOpenChange={setOpen}>
         <DropdownTrigger className='cursor-pointer'>

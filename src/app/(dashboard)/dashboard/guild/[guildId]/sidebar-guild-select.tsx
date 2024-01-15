@@ -1,17 +1,18 @@
 'use client';
 
+import { usePRouter } from '@/hooks/use-prouter';
 import { Discord } from '@/lib/constants';
 import { Avatar } from '@nextui-org/react';
 import { Select, SelectItem, SelectedItems } from '@nextui-org/select';
 import { RESTAPIPartialCurrentUserGuild } from 'discord-api-types/v10';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 
 type Props = {
   mutualGuilds: RESTAPIPartialCurrentUserGuild[];
 };
 
 export function SidebarGuildSelect({ mutualGuilds }: Props) {
-  const router = useRouter();
+  const router = usePRouter();
   const guildId = useParams().guildId as string;
 
   return (
@@ -20,7 +21,7 @@ export function SidebarGuildSelect({ mutualGuilds }: Props) {
       defaultSelectedKeys={[guildId]}
       items={mutualGuilds}
       size='md'
-      variant='faded'
+      variant='bordered'
       aria-label='サーバー選択'
       renderValue={(items: SelectedItems<RESTAPIPartialCurrentUserGuild>) => (
         <>

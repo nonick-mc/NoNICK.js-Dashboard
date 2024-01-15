@@ -1,5 +1,6 @@
 import { nextui } from '@nextui-org/react';
 import type { Config } from 'tailwindcss';
+import tailwindAnimate from 'tailwindcss-animate';
 
 const config: Config = {
   content: [
@@ -29,6 +30,7 @@ const config: Config = {
     nextui({
       addCommonColors: false,
     }),
+    tailwindAnimate,
   ],
 };
 export default config;
