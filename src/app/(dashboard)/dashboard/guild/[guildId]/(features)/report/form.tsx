@@ -42,7 +42,7 @@ export const schema = z.object({
 type Props = {
   channels: APIGuildChannel<Exclude<ChannelType, 'DM' | 'GroupDM'>>[];
   roles: APIRole[];
-  setting: ModerateSettingSchema['report'] | undefined;
+  setting?: ModerateSettingSchema['report'];
 };
 
 export default function Form({ channels, roles, setting }: Props) {
@@ -51,25 +51,18 @@ export default function Form({ channels, roles, setting }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const isTablet = useMediaQuery({ query: TailwindCSS.MediaQuery.md });
 
-  const {
-    control,
-    watch,
-    handleSubmit,
-    formState: { isDirty },
-  } = useForm<z.infer<typeof schema>>({
+  const { control, watch, handleSubmit } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      channel: setting?.channel,
-      includeModerator: setting?.includeModerator ?? false,
-      progressButton: setting?.progressButton ?? true,
+    defaultValues: setting ?? {
+      channel: undefined,
+      includeModerator: false,
+      progressButton: true,
       mention: {
-        enable: setting?.mention?.enable ?? false,
-        role: setting?.mention?.role,
+        enable: false,
+        role: undefined,
       },
     },
   });
-
-  useFormGuard(isDirty);
 
   async function onSubmit(values: z.infer<typeof schema>) {
     setIsLoading(true);
@@ -179,7 +172,7 @@ export default function Form({ channels, roles, setting }: Props) {
           )}
         />
       </FormCard>
-      <SubmitButton isLoading={isLoading} isDisabled={!isDirty} />
+      <SubmitButton isLoading={isLoading} />
     </form>
   );
 }
