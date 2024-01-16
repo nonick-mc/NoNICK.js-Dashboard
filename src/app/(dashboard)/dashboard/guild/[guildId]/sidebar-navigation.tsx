@@ -16,7 +16,7 @@ export function SidebarNavigation() {
     <div className='flex flex-col gap-6'>
       {dashboardConfig.sidebar.map(({ label, items }, index) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-        <ul key={index} className='flex flex-col gap-2'>
+        <ul key={index} className='flex flex-col gap-1'>
           {label && (
             <li>
               <p className='pb-2 font-extrabold'>{label}</p>
