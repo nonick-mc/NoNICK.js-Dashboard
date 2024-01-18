@@ -3,9 +3,10 @@
 import { useToast } from '@/components/ui/use-toast';
 import { ModerateSettingSchema } from '@/database/models';
 import { Discord, TailwindCSS } from '@/lib/constants';
+import { GuildChannel } from '@/types/discord';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Switch } from '@nextui-org/switch';
-import { APIGuildChannel, APIRole, ChannelType } from 'discord-api-types/v10';
+import { APIRole, ChannelType } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
 import { Controller, useForm } from 'react-hook-form';
 import { useMediaQuery } from 'react-responsive';
@@ -38,7 +39,7 @@ const schema = z.object({
 });
 
 type Props = {
-  channels: APIGuildChannel<Exclude<ChannelType, 'DM' | 'GroupDM'>>[];
+  channels: GuildChannel[];
   roles: APIRole[];
   setting?: ModerateSettingSchema['report'];
 };

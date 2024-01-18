@@ -1,3 +1,4 @@
+import { GuildChannel } from '@/types/discord';
 import {
   APIChannel,
   APIGuild,
@@ -38,9 +39,7 @@ export async function getChannels(guildId: string) {
     },
   );
   if (!res.ok) throw new Error(res.statusText);
-  return await res.json<
-    APIGuildChannel<Exclude<ChannelType, 'DM' | 'GroupDM'>>[]
-  >();
+  return await res.json<GuildChannel[]>();
 }
 
 export async function getRoles(guildId: string) {

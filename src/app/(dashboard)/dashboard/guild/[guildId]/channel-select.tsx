@@ -1,5 +1,6 @@
 'use client';
 
+import { GuildChannel } from '@/types/discord';
 import { SolarIcon } from '@/types/solar-icon';
 import { Chip } from '@nextui-org/chip';
 import {
@@ -8,7 +9,7 @@ import {
   SelectProps,
   SelectedItems,
 } from '@nextui-org/select';
-import { APIGuildChannel, ChannelType } from 'discord-api-types/v10';
+import { ChannelType } from 'discord-api-types/v10';
 import { createElement } from 'react';
 import {
   ChatRound,
@@ -34,7 +35,6 @@ const channelTypeIcons = new Map<ChannelType, SolarIcon>([
   [ChannelType.PrivateThread, HashtagChat],
 ]);
 
-type GuildChannel = APIGuildChannel<Exclude<ChannelType, 'DM' | 'GroupDM'>>;
 type Props = {
   channels: GuildChannel[];
   types?: ChannelType[];
