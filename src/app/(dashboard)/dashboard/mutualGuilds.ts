@@ -4,7 +4,7 @@ import { authOption } from '@/app/api/auth/[...nextauth]/auth';
 import { ServerData } from '@/database/models';
 import { Discord } from '@/lib/constants';
 import { getUserGuilds, hasPermission } from '@/lib/discord';
-import { dbConnect } from '@/lib/mongoose';
+import { dbConnect } from '@/lib/mongoose/connect';
 import { RESTAPIPartialCurrentUserGuild } from 'discord-api-types/v10';
 import { getServerSession } from 'next-auth';
 
