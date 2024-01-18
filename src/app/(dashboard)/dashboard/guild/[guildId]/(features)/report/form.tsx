@@ -2,16 +2,15 @@
 
 import { useToast } from '@/components/ui/use-toast';
 import { ModerateSettingSchema } from '@/database/models';
-import { useFormGuard } from '@/hooks/use-form-guard';
 import { Discord, TailwindCSS } from '@/lib/constants';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Switch } from '@nextui-org/switch';
 import { APIGuildChannel, APIRole, ChannelType } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useMediaQuery } from 'react-responsive';
 import * as z from 'zod';
+import { updateSetting } from '../../actions';
 import { ChannelSelect } from '../../channel-select';
 import {
   FormCard,
@@ -21,7 +20,6 @@ import {
   SwitchLabel,
 } from '../../form-utils';
 import { RoleSelect } from '../../role-select';
-import { updateServerSetting } from './action';
 
 export const schema = z.object({
   channel: z.string().regex(Discord.Regex.Snowflake, '無効なチャンネルIDです'),
@@ -48,35 +46,31 @@ type Props = {
 export default function Form({ channels, roles, setting }: Props) {
   const { toast } = useToast();
   const guildId = useParams().guildId as string;
-  const [isLoading, setIsLoading] = useState(false);
   const isTablet = useMediaQuery({ query: TailwindCSS.MediaQuery.md });
 
-  const { control, watch, handleSubmit } = useForm<z.infer<typeof schema>>({
+  const { control, watch, handleSubmit, formState } = useForm<
+    z.infer<typeof schema>
+  >({
     resolver: zodResolver(schema),
     defaultValues: setting ?? {
-      channel: undefined,
+      channel: '',
       includeModerator: false,
       progressButton: true,
       mention: {
         enable: false,
-        role: undefined,
+        role: '',
       },
     },
   });
 
   async function onSubmit(values: z.infer<typeof schema>) {
-    setIsLoading(true);
-    const res = await updateServerSetting.bind(null, guildId)(values);
-    setIsLoading(false);
-
-    if (res.isSuccess)
-      toast({ title: '設定を保存しました！', variant: 'success' });
-    else
-      toast({
-        title: '設定の保存に失敗しました',
-        description: '時間をおいて再試行してください。',
-        variant: 'destructive',
-      });
+    const res = await updateSetting.bind(
+      null,
+      'moderate',
+      'report',
+      guildId,
+    )(values);
+    toast(res);
   }
 
   return (
@@ -172,7 +166,7 @@ export default function Form({ channels, roles, setting }: Props) {
           )}
         />
       </FormCard>
-      <SubmitButton isLoading={isLoading} />
+      <SubmitButton isLoading={formState.isSubmitting} />
     </form>
   );
 }

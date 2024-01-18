@@ -3,8 +3,12 @@ import { getChannels, getRoles } from '@/lib/discord';
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { Header } from '../../header';
+import LoadingPage from '../../loading';
 
-const Form = dynamic(() => import('./form'), { ssr: false });
+const Form = dynamic(() => import('./form'), {
+  ssr: false,
+  loading: () => <LoadingPage />,
+});
 
 export const metadata: Metadata = {
   title: 'サーバー内通報',
