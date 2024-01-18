@@ -21,7 +21,7 @@ import {
 } from '../../form-utils';
 import { RoleSelect } from '../../role-select';
 
-export const schema = z.object({
+const schema = z.object({
   channel: z.string().regex(Discord.Regex.Snowflake, '無効なチャンネルIDです'),
   includeModerator: z.boolean(),
   progressButton: z.boolean(),
