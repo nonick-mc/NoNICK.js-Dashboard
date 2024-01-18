@@ -13,7 +13,7 @@ export function SidebarNavigation() {
   );
 
   return (
-    <div className='flex flex-col gap-6'>
+    <div className='flex flex-col gap-4'>
       {dashboardConfig.sidebar.map(({ label, items }, index) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
         <ul key={index} className='flex flex-col gap-1'>
