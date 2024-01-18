@@ -18,6 +18,7 @@ export const authOption: NextAuthOptions = {
       if (account) {
         token.accessToken = account.access_token;
         token.accessTokenExpires = account.expires_at;
+        token.userId = account.providerAccountId;
       }
 
       if (
@@ -32,6 +33,7 @@ export const authOption: NextAuthOptions = {
     session: async ({ session, token }) => {
       session.accessToken = token.accessToken;
       session.error = token.error;
+      session.userId = token.userId;
       return session;
     },
   },

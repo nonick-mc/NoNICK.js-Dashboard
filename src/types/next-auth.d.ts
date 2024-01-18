@@ -5,6 +5,7 @@ declare module 'next-auth' {
   interface Session {
     accessToken?: string;
     error?: 'invalid_token';
+    userId?: string;
   }
 }
 
@@ -12,6 +13,7 @@ declare module 'next-auth/jwt' {
   interface JWT {
     accessToken?: string;
     accessTokenExpires?: number;
+    userId?: string;
     error?: 'invalid_token';
   }
 }
