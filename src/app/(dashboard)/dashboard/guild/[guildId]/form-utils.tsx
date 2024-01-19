@@ -71,8 +71,8 @@ export const FormSwitchClassNames = {
 };
 
 export const FormSelectClassNames = {
-  Multiple: { trigger: 'min-h-unit-12' },
-  Single: {
+  multiple: { trigger: 'min-h-unit-12' },
+  single: {
     base: 'md:items-center md:justify-between',
     mainWrapper: 'md:max-w-xs',
   },

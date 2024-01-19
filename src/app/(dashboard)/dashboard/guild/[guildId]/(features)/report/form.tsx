@@ -15,7 +15,6 @@ import { updateSetting } from '../../actions';
 import { ChannelSelect } from '../../channel-select';
 import {
   FormCard,
-  FormSelectClassNames,
   FormSwitchClassNames,
   SubmitButton,
   SwitchLabel,
@@ -82,7 +81,6 @@ export default function Form({ channels, roles, setting }: Props) {
           name='channel'
           render={({ field, fieldState: { error } }) => (
             <ChannelSelect
-              classNames={FormSelectClassNames.Single}
               label='通報を受け取るチャンネル'
               labelPlacement={isTablet ? 'outside-left' : 'outside'}
               channels={channels}
@@ -152,7 +150,6 @@ export default function Form({ channels, roles, setting }: Props) {
           name='mention.role'
           render={({ field, fieldState: { error } }) => (
             <RoleSelect
-              classNames={FormSelectClassNames.Single}
               label='メンションするロール'
               labelPlacement={isTablet ? 'outside-left' : 'outside'}
               roles={roles}
