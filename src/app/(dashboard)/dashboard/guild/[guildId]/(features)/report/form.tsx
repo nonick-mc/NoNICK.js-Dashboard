@@ -48,7 +48,7 @@ export default function Form({ channels, roles, setting }: Props) {
   const guildId = useParams().guildId as string;
   const isTablet = useMediaQuery({ query: TailwindCSS.MediaQuery.md });
 
-  const { control, watch, handleSubmit, formState } = useForm<
+  const { control, watch, handleSubmit, formState, reset } = useForm<
     z.infer<typeof schema>
   >({
     resolver: zodResolver(schema),
@@ -70,7 +70,8 @@ export default function Form({ channels, roles, setting }: Props) {
       'report',
       guildId,
     )(values);
-    toast(res);
+    toast(res.message);
+    if (res.isSuccess) reset(values);
   }
 
   return (
@@ -164,7 +165,10 @@ export default function Form({ channels, roles, setting }: Props) {
           )}
         />
       </FormCard>
-      <SubmitButton isLoading={formState.isSubmitting} />
+      <SubmitButton
+        isLoading={formState.isSubmitting}
+        isDisabled={!formState.isDirty}
+      />
     </form>
   );
 }

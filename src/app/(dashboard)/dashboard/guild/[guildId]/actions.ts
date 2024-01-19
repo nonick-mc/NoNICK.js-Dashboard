@@ -23,6 +23,11 @@ const models = {
   moderate: ModerateSetting,
 } as const;
 
+type updateSettingResult = {
+  message: Omit<ToasterToast, 'id'>;
+  isSuccess: boolean;
+};
+
 // ServerActionとして使う際はフォームの値以外をbind関数で固定するため、あえて型推論を緩和している
 
 export async function updateSetting(
@@ -30,7 +35,7 @@ export async function updateSetting(
   type: string,
   guildId: string,
   values: unknown,
-): Promise<Omit<ToasterToast, 'id'>> {
+): Promise<updateSettingResult> {
   try {
     await dbConnect();
 
@@ -50,15 +55,21 @@ export async function updateSetting(
     await wait(1000); // Cooldown
 
     return {
-      title: '設定を保存しました！',
-      variant: 'success',
+      isSuccess: true,
+      message: {
+        title: '設定を保存しました！',
+        variant: 'success',
+      },
     };
   } catch (error) {
     console.error(error);
     return {
-      title: '設定の保存に失敗しました',
-      description: '時間をおいて再試行してください。',
-      variant: 'destructive',
+      isSuccess: false,
+      message: {
+        title: '設定の保存に失敗しました',
+        description: '時間をおいて再試行してください。',
+        variant: 'destructive',
+      },
     };
   }
 }

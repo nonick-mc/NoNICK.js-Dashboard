@@ -14,7 +14,6 @@ import { updateSetting } from '../../actions';
 import { ChannelSelect } from '../../channel-select';
 import {
   FormCard,
-  FormSelectClassNames,
   FormSwitchClassNames,
   SubmitButton,
   SwitchLabel,
@@ -36,7 +35,7 @@ export default function Form({ channels, setting }: Props) {
   const { toast } = useToast();
   const guildId = useParams().guildId as string;
 
-  const { control, watch, handleSubmit, formState } = useForm<
+  const { control, watch, handleSubmit, reset, formState } = useForm<
     z.infer<typeof schema>
   >({
     resolver: zodResolver(schema),
@@ -53,7 +52,8 @@ export default function Form({ channels, setting }: Props) {
       'publishAnnounce',
       guildId,
     )(values);
-    toast(res);
+    toast(res.message);
+    if (res.isSuccess) return reset(values);
   }
 
   return (
@@ -93,7 +93,10 @@ export default function Form({ channels, setting }: Props) {
           )}
         />
       </FormCard>
-      <SubmitButton isLoading={formState.isSubmitting} />
+      <SubmitButton
+        isLoading={formState.isSubmitting}
+        isDisabled={!formState.isDirty}
+      />
     </form>
   );
 }
