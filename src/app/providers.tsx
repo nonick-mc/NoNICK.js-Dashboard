@@ -6,7 +6,7 @@ import { SessionProvider } from 'next-auth/react';
 import { ThemeProvider } from 'next-themes';
 import { useRouter } from 'next/navigation';
 import { ReactNode, Suspense } from 'react';
-import { RouteProvider } from './progress-provider';
+import { RouteProvider } from '../components/nprogress';
 
 export function Providers({ children }: { children: ReactNode }) {
   const router = useRouter();
