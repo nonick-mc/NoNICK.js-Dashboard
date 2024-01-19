@@ -2,13 +2,14 @@
 
 import { useToast } from '@/components/ui/use-toast';
 import { AutomationSettingSchema } from '@/database/models';
+import { useFormGuard } from '@/hooks/use-form-guard';
 import { Discord } from '@/lib/constants';
 import { GuildChannel } from '@/types/discord';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Switch } from '@nextui-org/switch';
 import { ChannelType } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { updateSetting } from '../../actions';
 import { ChannelSelect } from '../../channel-select';
@@ -35,9 +36,7 @@ export default function Form({ channels, setting }: Props) {
   const { toast } = useToast();
   const guildId = useParams().guildId as string;
 
-  const { control, watch, handleSubmit, reset, formState } = useForm<
-    z.infer<typeof schema>
-  >({
+  const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: setting ?? {
       enable: false,
@@ -53,50 +52,54 @@ export default function Form({ channels, setting }: Props) {
       guildId,
     )(values);
     toast(res.message);
-    if (res.isSuccess) return reset(values);
+    if (res.isSuccess) return form.reset(values);
   }
 
+  useFormGuard(form.formState.isDirty);
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-6'>
-      <FormCard>
-        <Controller
-          control={control}
-          name='enable'
-          render={({ field }) => (
-            <Switch
-              classNames={FormSwitchClassNames}
-              onChange={field.onChange}
-              defaultSelected={field.value}
-            >
-              <SwitchLabel title='自動アナウンス公開を有効にする' />
-            </Switch>
-          )}
-        />
-      </FormCard>
-      <FormCard title='チャンネル設定'>
-        <Controller
-          control={control}
-          name='channels'
-          render={({ field, fieldState: { error } }) => (
-            <ChannelSelect
-              label='自動公開するチャンネル'
-              labelPlacement='outside'
-              selectionMode='multiple'
-              channels={channels}
-              types={[ChannelType.GuildAnnouncement]}
-              onSelectionChange={(keys) => field.onChange(Array.from(keys))}
-              defaultSelectedKeys={field.value}
-              errorMessage={error?.message}
-              isInvalid={!!error}
-              isDisabled={!watch('enable')}
-            />
-          )}
-        />
-      </FormCard>
-      <SubmitButton
-        isLoading={formState.isSubmitting}
-        isDisabled={!formState.isDirty}
-      />
-    </form>
+    <FormProvider {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className='flex flex-col gap-6'
+      >
+        <FormCard>
+          <Controller
+            control={form.control}
+            name='enable'
+            render={({ field }) => (
+              <Switch
+                classNames={FormSwitchClassNames}
+                onChange={field.onChange}
+                defaultSelected={field.value}
+              >
+                <SwitchLabel title='自動アナウンス公開を有効にする' />
+              </Switch>
+            )}
+          />
+        </FormCard>
+        <FormCard title='チャンネル設定'>
+          <Controller
+            control={form.control}
+            name='channels'
+            render={({ field, fieldState: { error } }) => (
+              <ChannelSelect
+                label='自動公開するチャンネル'
+                labelPlacement='outside'
+                selectionMode='multiple'
+                channels={channels}
+                types={[ChannelType.GuildAnnouncement]}
+                onSelectionChange={(keys) => field.onChange(Array.from(keys))}
+                defaultSelectedKeys={field.value}
+                errorMessage={error?.message}
+                isInvalid={!!error}
+                isDisabled={!form.watch('enable')}
+              />
+            )}
+          />
+        </FormCard>
+        <SubmitButton />
+      </form>
+    </FormProvider>
   );
 }

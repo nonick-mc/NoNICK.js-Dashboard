@@ -4,6 +4,7 @@ import { Button } from '@nextui-org/button';
 import { Card, CardBody, CardHeader } from '@nextui-org/card';
 import { cn } from '@nextui-org/react';
 import { ReactNode } from 'react';
+import { useFormContext } from 'react-hook-form';
 
 export function CardTitle({ children }: { children: ReactNode }) {
   return (
@@ -47,17 +48,16 @@ export function SwitchLabel({
   );
 }
 
-export function SubmitButton({
-  isLoading,
-  isDisabled,
-}: { isLoading?: boolean; isDisabled?: boolean }) {
+export function SubmitButton() {
+  const { formState, reset } = useFormContext();
+
   return (
-    <div className='w-full pb-12'>
+    <div className='flex items-center gap-3 w-full pb-12'>
       <Button
         color='primary'
         type='submit'
-        isLoading={isLoading}
-        isDisabled={isDisabled}
+        isLoading={formState.isSubmitting}
+        isDisabled={!formState.isDirty}
       >
         変更を保存
       </Button>
