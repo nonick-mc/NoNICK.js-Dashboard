@@ -6,7 +6,6 @@ import { Avatar } from '@nextui-org/react';
 import { Select, SelectItem, SelectedItems } from '@nextui-org/select';
 import { RESTAPIPartialCurrentUserGuild } from 'discord-api-types/v10';
 import { useParams } from 'next/navigation';
-import { Key } from 'react';
 
 type Props = {
   mutualGuilds: RESTAPIPartialCurrentUserGuild[];
@@ -20,7 +19,7 @@ export function SidebarGuildSelect({ mutualGuilds }: Props) {
     return (
       <div className='flex flex-wrap items-center'>
         {items.map((item) => (
-          <SingleSelectItem guild={item.data} key={item.data?.id} />
+          <SingleSelectItem guild={item.data} key={item.key} />
         ))}
       </div>
     );
@@ -48,10 +47,9 @@ export function SidebarGuildSelect({ mutualGuilds }: Props) {
 
 function SingleSelectItem({
   guild,
-  key,
-}: { guild?: RESTAPIPartialCurrentUserGuild | null; key?: Key }) {
+}: { guild?: RESTAPIPartialCurrentUserGuild | null }) {
   return (
-    <div className='flex items-center gap-3 text-foreground' key={key}>
+    <div className='flex items-center gap-3 text-foreground'>
       <Avatar
         src={
           guild?.icon
