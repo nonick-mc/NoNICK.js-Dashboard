@@ -13,13 +13,13 @@ export function SidebarNavigation() {
   );
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col'>
       {dashboardConfig.sidebar.map(({ label, items }, index) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
         <ul key={index} className='flex flex-col gap-1'>
           {label && (
             <li>
-              <p className='pb-2 font-extrabold'>{label}</p>
+              <p className='py-[9px] font-extrabold'>{label}</p>
             </li>
           )}
           {items.map(({ href, label, badge, icon }, index) => (
