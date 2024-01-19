@@ -76,8 +76,9 @@ export function ChannelSelect({
       items={sortedChannels}
       variant='bordered'
       placeholder='チャンネルを選択'
-      selectionMode={selectionMode}
       renderValue={renderValue}
+      selectionMode={selectionMode}
+      isMultiline={selectionMode === 'multiple'}
       {...props}
     >
       {(channel) => (
@@ -93,7 +94,7 @@ export function ChannelSelect({
   );
 }
 
-export function SingleSelectItem({
+function SingleSelectItem({
   channel,
   key,
 }: { channel?: GuildChannel | null; key?: Key }) {
@@ -109,7 +110,7 @@ export function SingleSelectItem({
   );
 }
 
-export function MultipleSelectItem({
+function MultipleSelectItem({
   channel,
   key,
 }: { channel?: GuildChannel | null; key?: Key }) {

@@ -51,8 +51,9 @@ export function RoleSelect({
       items={sortedRoles}
       variant='bordered'
       placeholder='ロールを選択'
-      selectionMode={selectionMode ?? 'single'}
       renderValue={renderValue}
+      selectionMode={selectionMode}
+      isMultiline={selectionMode === 'multiple'}
       {...props}
     >
       {(role) => (
@@ -64,10 +65,7 @@ export function RoleSelect({
   );
 }
 
-export function SingleSelectItem({
-  role,
-  key,
-}: { role?: APIRole | null; key?: Key }) {
+function SingleSelectItem({ role, key }: { role?: APIRole | null; key?: Key }) {
   return (
     <div className='flex items-center gap-2' key={key}>
       <div className='flex size-[18px] items-center justify-center'>
@@ -85,7 +83,7 @@ export function SingleSelectItem({
   );
 }
 
-export function MultipleSelectItem({
+function MultipleSelectItem({
   role,
   key,
 }: { role?: APIRole | null; key?: Key }) {
