@@ -1,5 +1,6 @@
 import { ModerateSetting } from '@/database/models';
 import { getChannels, getRoles } from '@/lib/discord';
+import { convertPlainObject } from '@/lib/utils';
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
 import { Header } from '../../header';
@@ -30,11 +31,7 @@ export default async function Page({
       <Form
         channels={channels}
         roles={roles}
-        setting={
-          setting?.report
-            ? JSON.parse(JSON.stringify(setting.report))
-            : undefined
-        }
+        setting={convertPlainObject(setting?.report)}
       />
     </>
   );
