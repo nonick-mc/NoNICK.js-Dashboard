@@ -2,6 +2,7 @@ import Logo from '@/components/logo';
 import { Card, CardBody, CardHeader } from '@nextui-org/card';
 import { Link } from '@nextui-org/link';
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 import { UserAuthForm } from './form';
 
 export const metadata: Metadata = {
@@ -22,7 +23,9 @@ export default function Page() {
           </section>
         </CardHeader>
         <CardBody className='flex flex-col gap-6 p-6 pt-0'>
-          <UserAuthForm />
+          <Suspense>
+            <UserAuthForm />
+          </Suspense>
           <p className='text-sm text-foreground-500'>
             ログインすることで、NoNICK.jsの
             <Link
