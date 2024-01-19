@@ -3,6 +3,7 @@ const withPWA = require('next-pwa')({
   register: true,
   skipWaiting: true,
   disable: process.env.NODE_ENV === 'development',
+  maximumFileSizeToCacheInBytes: 1024 * 1024 * 10,
 });
 
 /** @type {import('next').NextConfig} */
