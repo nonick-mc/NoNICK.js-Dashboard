@@ -49,6 +49,7 @@ export function ChannelSelect({
   classNames,
   channels,
   types,
+  isRequired,
   selectionMode = 'single',
   ...props
 }: Props) {
@@ -79,6 +80,8 @@ export function ChannelSelect({
       renderValue={renderValue}
       selectionMode={selectionMode}
       isMultiline={selectionMode === 'multiple'}
+      isRequired={isRequired}
+      disallowEmptySelection={isRequired}
       {...props}
     >
       {(channel) => (
@@ -94,12 +97,9 @@ export function ChannelSelect({
   );
 }
 
-function SingleSelectItem({
-  channel,
-  key,
-}: { channel?: GuildChannel | null; key?: Key }) {
+function SingleSelectItem({ channel }: { channel?: GuildChannel | null }) {
   return (
-    <div className='flex items-center gap-2 text-default-500' key={key}>
+    <div className='flex items-center gap-2 text-default-500'>
       {/* biome-ignore lint/style/noNonNullAssertion: <explanation> */}
       {createElement(channelTypeIcons.get(channel?.type!) || Hashtag, {
         size: 18,
@@ -110,9 +110,6 @@ function SingleSelectItem({
   );
 }
 
-function MultipleSelectItem({
-  channel,
-  key,
-}: { channel?: GuildChannel | null; key?: Key }) {
-  return <Chip key={key}>{channel?.name}</Chip>;
+function MultipleSelectItem({ channel }: { channel?: GuildChannel | null }) {
+  return <Chip>{channel?.name}</Chip>;
 }

@@ -8,7 +8,6 @@ import {
   SelectedItems,
 } from '@nextui-org/select';
 import { APIRole } from 'discord-api-types/v10';
-import { Key } from 'react';
 import { FormSelectClassNames } from './form-utils';
 
 export type Props = {
@@ -24,6 +23,7 @@ export function RoleSelect({
   classNames,
   roles,
   filter,
+  isRequired,
   selectionMode = 'single',
   ...props
 }: Props) {
@@ -54,6 +54,8 @@ export function RoleSelect({
       renderValue={renderValue}
       selectionMode={selectionMode}
       isMultiline={selectionMode === 'multiple'}
+      isRequired={isRequired}
+      disallowEmptySelection={isRequired}
       {...props}
     >
       {(role) => (
@@ -65,9 +67,9 @@ export function RoleSelect({
   );
 }
 
-function SingleSelectItem({ role, key }: { role?: APIRole | null; key?: Key }) {
+function SingleSelectItem({ role }: { role?: APIRole | null }) {
   return (
-    <div className='flex items-center gap-2' key={key}>
+    <div className='flex items-center gap-2'>
       <div className='flex size-[18px] items-center justify-center'>
         <div
           className='h-2 w-2 rounded-full'
@@ -83,9 +85,6 @@ function SingleSelectItem({ role, key }: { role?: APIRole | null; key?: Key }) {
   );
 }
 
-function MultipleSelectItem({
-  role,
-  key,
-}: { role?: APIRole | null; key?: Key }) {
-  return <Chip key={key}>{role?.name}</Chip>;
+function MultipleSelectItem({ role }: { role?: APIRole | null }) {
+  return <Chip>{role?.name}</Chip>;
 }
