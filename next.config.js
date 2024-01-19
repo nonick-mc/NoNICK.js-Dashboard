@@ -17,6 +17,11 @@ const nextConfig = withPWA({
       },
     ],
   },
+  logging: {
+    fetches: {
+      fullUrl: process.env.NODE_ENV === 'development',
+    },
+  },
 });
 
 module.exports = nextConfig;
