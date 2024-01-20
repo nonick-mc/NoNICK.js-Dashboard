@@ -1,10 +1,7 @@
 import { GuildChannel } from '@/types/discord';
 import {
-  APIChannel,
   APIGuild,
-  APIGuildChannel,
   APIRole,
-  ChannelType,
   RESTAPIPartialCurrentUserGuild,
 } from 'discord-api-types/v10';
 import { Discord } from './constants';
@@ -35,7 +32,7 @@ export async function getChannels(guildId: string) {
     `${Discord.Endpoints.API}/guilds/${guildId}/channels`,
     {
       headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` },
-      next: { revalidate: 10 },
+      cache: 'no-store',
     },
   );
   if (!res.ok) throw new Error(res.statusText);
@@ -45,7 +42,7 @@ export async function getChannels(guildId: string) {
 export async function getRoles(guildId: string) {
   const res = await fetch(`${Discord.Endpoints.API}/guilds/${guildId}/roles`, {
     headers: { Authorization: `Bot ${process.env.DISCORD_TOKEN}` },
-    next: { revalidate: 10 },
+    cache: 'no-store',
   });
   if (!res.ok) throw new Error(res.statusText);
   return await res.json<APIRole[]>();
