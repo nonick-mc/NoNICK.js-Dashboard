@@ -39,11 +39,9 @@ export default function Form({ channels, setting }: Props) {
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      enable: setting?.enable ?? false,
-      channels: setting?.channels
-        ? intersect(setting.channels, channels, (a, b) => a === b.id)
-        : [],
+    defaultValues: setting ?? {
+      enable: false,
+      channels: [],
     },
   });
 
@@ -93,7 +91,11 @@ export default function Form({ channels, setting }: Props) {
                 channels={channels}
                 types={[ChannelType.GuildAnnouncement]}
                 onSelectionChange={(keys) => field.onChange(Array.from(keys))}
-                defaultSelectedKeys={field.value}
+                defaultSelectedKeys={intersect(
+                  field.value,
+                  channels,
+                  (a, b) => a === b.id,
+                )}
                 errorMessage={error?.message}
                 isInvalid={!!error}
                 isDisabled={!form.watch('enable')}
