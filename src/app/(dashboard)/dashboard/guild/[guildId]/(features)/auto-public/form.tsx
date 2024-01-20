@@ -4,6 +4,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { AutomationSettingSchema } from '@/database/models';
 import { useFormGuard } from '@/hooks/use-form-guard';
 import { Discord } from '@/lib/constants';
+import { intersect } from '@/lib/utils';
 import { GuildChannel } from '@/types/discord';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Switch } from '@nextui-org/switch';
@@ -38,9 +39,11 @@ export default function Form({ channels, setting }: Props) {
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
-    defaultValues: setting ?? {
-      enable: false,
-      channels: [],
+    defaultValues: {
+      enable: setting?.enable ?? false,
+      channels: setting?.channels
+        ? intersect(setting.channels, channels, (a, b) => a === b.id)
+        : [],
     },
   });
 
