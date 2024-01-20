@@ -2,6 +2,7 @@ import { DashboardConfig } from '@/types/config';
 import {
   ClipboardList,
   Flag,
+  HashtagChat,
   LinkRound,
   ListCheck,
   Mailbox,
@@ -65,6 +66,12 @@ const dashboardConfig: DashboardConfig = {
           label: '自動アナウンス公開',
           icon: Mailbox,
           href: '/auto-public',
+        },
+        {
+          label: '自動スレッド作成',
+          icon: HashtagChat,
+          href: '/auto-create-thread',
+          badge: 'New',
         },
         {
           label: 'AutoMod Plus',
