@@ -1,5 +1,7 @@
 'use client';
 
+// FIXME: Error: <svg> attribute width: Expected length, "inherit".
+
 import dashboardConfig from '@/config/dashboard';
 import { Chip, cn } from '@nextui-org/react';
 import Link from 'next/link';
