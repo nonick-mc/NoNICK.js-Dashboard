@@ -14,6 +14,7 @@ import { dbConnect } from '@/lib/mongoose/connect';
 import { wait } from '@/lib/utils';
 import { Model } from 'mongoose';
 import { getServerSession } from 'next-auth';
+import { revalidatePath } from 'next/cache';
 
 const models = {
   automation: AutomationSetting,
@@ -53,6 +54,7 @@ export async function updateSetting(
 
     await addAuditLog(guildId, type, res?.[type], values);
     await wait(1000); // Cooldown
+    revalidatePath('/'); // Page Cacheを削除して、次回アクセス時にデータベースの値を再読み込みさせる
 
     return {
       isSuccess: true,
