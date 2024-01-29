@@ -1,9 +1,15 @@
 import { AutomationSetting } from '@/database/models';
 import { getChannels } from '@/lib/discord';
-import { convertPlainObject } from '@/lib/utils';
 import { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { Header } from '../../header';
-import Form from './form';
+import LoadingPage from '../../loading';
+import { convertPlainObject } from '../../utils';
+
+const Form = dynamic(() => import('./form'), {
+  ssr: false,
+  loading: () => <LoadingPage />,
+});
 
 export const metadata: Metadata = {
   title: '自動認証レベル変更',

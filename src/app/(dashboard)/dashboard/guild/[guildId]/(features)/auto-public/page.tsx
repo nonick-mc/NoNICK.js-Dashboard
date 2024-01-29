@@ -1,9 +1,9 @@
 import { AutomationSetting } from '@/database/models';
 import { getChannels } from '@/lib/discord';
-import { convertPlainObject } from '@/lib/utils';
 import dynamic from 'next/dynamic';
 import { Header } from '../../header';
 import LoadingPage from '../../loading';
+import { convertPlainObject } from '../../utils';
 
 const Form = dynamic(() => import('./form'), {
   ssr: false,
