@@ -44,9 +44,9 @@ export default function Form(props: Props) {
 
   const form = useForm<z.infer<typeof publishAnnounceZodSchema>>({
     resolver: zodResolver(publishAnnounceZodSchema),
-    defaultValues: props.setting ?? {
-      enable: false,
-      channels: [],
+    defaultValues: {
+      enable: !!props.setting?.enable,
+      channels: props.setting?.channels ?? [],
     },
   });
 
