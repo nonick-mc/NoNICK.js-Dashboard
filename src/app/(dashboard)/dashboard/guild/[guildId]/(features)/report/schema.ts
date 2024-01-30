@@ -12,7 +12,7 @@ export const ReportZodSchema = z.object({
     }),
     z.object({
       enable: z.literal(false),
-      role: z.string().optional(),
+      role: z.string().nullable(),
     }),
   ]),
 });

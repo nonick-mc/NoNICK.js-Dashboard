@@ -28,6 +28,7 @@ import {
   SwitchLabel,
 } from '../../form-utils';
 import { RoleSelect } from '../../role-select';
+import { wrapValueInArray } from '../../utils';
 import { ReportZodSchema } from './schema';
 
 type Props = {
@@ -48,13 +49,13 @@ export default function Form(props: Props) {
 
   const form = useForm<z.infer<typeof ReportZodSchema>>({
     resolver: zodResolver(ReportZodSchema),
-    defaultValues: props.setting ?? {
-      channel: '',
-      includeModerator: false,
-      progressButton: true,
-      mention: {
+    defaultValues: {
+      channel: props.setting?.channel ?? '',
+      includeModerator: props.setting?.includeModerator ?? false,
+      progressButton: props.setting?.progressButton ?? true,
+      mention: props.setting?.mention ?? {
         enable: false,
-        role: '',
+        role: null,
       },
     },
   });
@@ -106,7 +107,7 @@ function RequireSetting() {
             channels={channels}
             types={[ChannelType.GuildText]}
             onChange={field.onChange}
-            defaultSelectedKeys={field.value ? [field.value] : []}
+            defaultSelectedKeys={wrapValueInArray(field.value)}
             isInvalid={!!error}
             errorMessage={error?.message}
             isRequired
@@ -193,7 +194,7 @@ function NotificationSetting() {
             roles={roles}
             filter={(role) => !role.managed}
             onChange={field.onChange}
-            defaultSelectedKeys={field.value ? [field.value] : []}
+            defaultSelectedKeys={wrapValueInArray(field.value)}
             isInvalid={!!error}
             errorMessage={error?.message}
             isDisabled={!mention?.enable}
