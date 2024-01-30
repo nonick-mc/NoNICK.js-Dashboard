@@ -49,7 +49,7 @@ export function SwitchLabel({
 }
 
 export function SubmitButton() {
-  const { formState, reset } = useFormContext();
+  const { formState } = useFormContext();
 
   return (
     <div className='flex items-center gap-3 w-full pb-12'>
