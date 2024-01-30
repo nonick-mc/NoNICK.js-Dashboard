@@ -39,6 +39,8 @@ export async function updateSetting(
 ): Promise<updateSettingResult> {
   try {
     await dbConnect();
+    if (!(await ServerData.findOne({ serverId: guildId })))
+      throw new Error('Invalid guildId');
 
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
     const targetModel = models[target] as unknown as Model<any>;
