@@ -46,15 +46,16 @@ export async function updateSetting(
     const targetModel = models[target] as unknown as Model<any>;
     if (!targetModel) throw new Error('Invalid target model');
 
-    const res = await targetModel
-      .findOneAndUpdate(
+    const before = await targetModel.findOne({ serverId: guildId });
+    await targetModel
+      .updateOne(
         { serverId: guildId },
         { $set: { [type]: values } },
-        { upsert: true, new: false },
+        { upsert: true },
       )
       .exec();
 
-    await addAuditLog(guildId, type, res?.[type], values);
+    await addAuditLog(guildId, type, before?.[type], values);
     await wait(1000); // Cooldown
     revalidatePath('/'); // Page Cacheを削除して、次回アクセス時にデータベースの値を再読み込みさせる
 
